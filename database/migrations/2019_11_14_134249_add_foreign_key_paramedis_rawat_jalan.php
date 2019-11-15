@@ -14,7 +14,7 @@ class AddForeignKeyParamedisRawatJalan extends Migration
     public function up()
     {
         Schema::table('paramedis_rawat_jalan', function (Blueprint $table) {
-            $table->foreign('id_transaksi_medis_rawat_jalan')->references('id')->on('transaksi_tindakan_medis_jalan')->onDelete('cascade');
+            $table->foreign('id_transaksi_tindakan_medis_jalan')->references('id')->on('transaksi_tindakan_medis_jalan')->onDelete('cascade');
             $table->foreign('id_dokter')->references('id')->on('dokter')->onDelete('cascade');
             $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
 

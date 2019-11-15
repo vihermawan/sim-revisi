@@ -12,9 +12,4 @@ class Role extends Model
     {
         return $this->belongsTo(Users::class, 'id_role');
     }
-
-    public function pasien()
-    {
-        return $this->belongsTo(Pasien::class, 'id_role');
-    }
 }
