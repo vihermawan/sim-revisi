@@ -15,7 +15,7 @@ class CreateParamedisRawatInapTable extends Migration
     {
         Schema::create('paramedis_rawat_inap', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_transaksi_medis_rawat_inap')->unsigned();
+            $table->bigInteger('id_transaksi_tindakan_medis_inap')->unsigned();
             $table->bigInteger('id_dokter')->unsigned();
             $table->bigInteger('id_pasien')->unsigned();
             $table->timestamps();
