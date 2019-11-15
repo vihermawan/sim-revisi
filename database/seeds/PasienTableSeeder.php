@@ -14,6 +14,7 @@ class PasienTableSeeder extends Seeder
         DB::table('pasien')->insert([
             'nama_pasien' => 'Eby',
             'jenis_kelamin' => 'L',
+            'no_identitas' => '192929101',
             'alamat' => 'Jakarta',
             'desa' => 'Kemang',
             'kecamatan' => 'Mampang Prapatan',
@@ -27,11 +28,13 @@ class PasienTableSeeder extends Seeder
             'tempat_lahir' => 'Jakarta',
             'tanggal_lahir' => '11-10-1999',
             'umur' => '20',
-        ]);
+            'nama_wali' => 'Bapak Antono'
+        ]); 
 
         DB::table('pasien')->insert([
             'nama_pasien' => 'Angel',
             'jenis_kelamin' => 'P',
+            'no_identitas' => '192929101',
             'alamat' => 'Jakarta',
             'desa' => 'Kemang',
             'kecamatan' => 'Mampang Prapatan',
@@ -45,6 +48,7 @@ class PasienTableSeeder extends Seeder
             'tempat_lahir' => 'Jakarta',
             'tanggal_lahir' => '21-12-1999',
             'umur' => '19',
+            'nama_wali' => 'Bapak Antonio'
         ]);
     }
 }

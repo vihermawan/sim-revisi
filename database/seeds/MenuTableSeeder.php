@@ -24,19 +24,19 @@ class MenuTableSeeder extends Seeder
             'url' => '/pendaftaran',
             'icon' => 'icon-pencil5',
         ]);
+        
+        DB::table('menu')->insert([
+            'parent_id' => 0,
+            'nama_menu' => 'Informasi',
+            'url' => '#',
+            'icon' => 'icon-help',
+        ]);
 
         DB::table('menu')->insert([
             'parent_id' => 0,
             'nama_menu' => 'Pasien',
             'url' => '/pasien',
-            'icon' => 'icon-pencil5',
-        ]);
-
-        DB::table('menu')->insert([
-            'parent_id' => 0,
-            'nama_menu' => 'Rawat Inap',
-            'url' => '#',
-            'icon' => ' icon-bed2',
+            'icon' => 'icon-user',
         ]);
 
         DB::table('menu')->insert([
@@ -48,9 +48,9 @@ class MenuTableSeeder extends Seeder
 
         DB::table('menu')->insert([
             'parent_id' => 0,
-            'nama_menu' => 'Informasi',
+            'nama_menu' => 'Rawat Inap',
             'url' => '#',
-            'icon' => 'icon-coins',
+            'icon' => 'icon-bed2',
         ]);
 
         DB::table('menu')->insert([
@@ -68,65 +68,94 @@ class MenuTableSeeder extends Seeder
         ]);
 
         DB::table('menu')->insert([
-            'parent_id' => 4,
-            'nama_menu' => 'Pasien Rawat',
-            'url' => '/pasien-rawat',
-            'icon' => 'icon-enter3 ',
+            'parent_id' => 3,
+            'nama_menu' => 'Jadwal Praktek',
+            'url' => '/jadwal-praktek',
+            'icon' => '',
         ]);
 
         DB::table('menu')->insert([
-            'parent_id' => 4,
-            'nama_menu' => 'Pasien Keluar',
-            'url' => '/pasien-keluar',
-            'icon' => 'icon-exit3',
+            'parent_id' => 3,
+            'nama_menu' => 'Pasien Rawat Inap',
+            'url' => '/pasien-rawat-inap',
+            'icon' => '',
         ]);
 
         DB::table('menu')->insert([
-            'parent_id' => 4,
-            'nama_menu' => 'Ruang',
-            'url' => '/ruang',
-            'icon' => 'icon-map',
-        ]);
-
-        DB::table('menu')->insert([
-            'parent_id' => 4,
-            'nama_menu' => 'Pemeriksaan Harian',
-            'url' => '/pemeriksaan-harian',
-            'icon' => 'icon-select2',
-        ]);
-
-        DB::table('menu')->insert([
-            'parent_id' => 5,
-            'nama_menu' => 'Pasien',
-            'url' => '/rawat-jalan/pasien',
+            'parent_id' => 3,
+            'nama_menu' => 'Informasi Ruang',
+            'url' => '/informasi-ruang',
             'icon' => '',
         ]);
 
         DB::table('menu')->insert([
             'parent_id' => 5,
-            'nama_menu' => 'Tindakan',
-            'url' => '/rawat-jalan/tindakan',
+            'nama_menu' => 'Pendaftaran Pasien',
+            'url' => '/daftar-rawat-jalan',
+            'icon' => '',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 5,
+            'nama_menu' => 'Transaksi Rawat Jalan',
+            'url' => '/transaksi-rawat-jalan',
+            'icon' => '',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 5,
+            'nama_menu' => 'Rekam Medis',
+            'url' => '/rekam-medis-rawat-jalan',
+            'icon' => '',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 5,
+            'nama_menu' => 'Tindakan Medis',
+            'url' => '/tindakan-medis-rawat-jalan',
+            'icon' => '',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 6,
+            'nama_menu' => 'Transaksi Rawat Inap',
+            'url' => '/transaksi-rawat-inap',
+            'icon' => '',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 6,
+            'nama_menu' => 'Rekam Medis',
+            'url' => '/rekam-medis-rawat-inap',
+            'icon' => '',
+        ]);
+
+        
+        DB::table('menu')->insert([
+            'parent_id' => 6,
+            'nama_menu' => 'Tindakan Medis',
+            'url' => '/tindakan-medis-rawat-jalan',
             'icon' => '',
         ]);
 
         DB::table('menu')->insert([
             'parent_id' => 7,
-            'nama_menu' => 'Penyakit',
-            'url' => '/penyakit',
+            'nama_menu' => 'Daftar ICD',
+            'url' => '/daftar-icd',
             'icon' => 'icon-snowflake ',
         ]);
 
         DB::table('menu')->insert([
             'parent_id' => 7,
-            'nama_menu' => 'Obat',
-            'url' => '/obat',
+            'nama_menu' => 'Tindakan',
+            'url' => '/data-tindakan',
             'icon' => 'icon-aid-kit',
         ]);
 
         DB::table('menu')->insert([
             'parent_id' => 7,
-            'nama_menu' => 'Resep',
-            'url' => '/resep',
+            'nama_menu' => 'Perawat',
+            'url' => '/perawat',
             'icon' => 'icon-clipboard3 ',
         ]);
 

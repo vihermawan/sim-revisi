@@ -14,24 +14,28 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call([
             RoleTableSeeder::class,
+            MenuTableSeeder::class,
+            UserAksesTableSeeder::class,
             UsersTableSeeder::class,
-            ObatTableSeeder::class,
-            KelasTableSeeder::class,
-            PenyakitTableSeeder::class,
+           
+            DiagnosaTableSeeder::class,
+          
+            TindakanTableSeeder::class,
+            RuangTableSeeder::class,
+            PasienTableSeeder::class,
+           
+            IcdTableSeeder::class,
+            DiagnosaTableSeeder::class,
             PoliTableSeeder::class,
             RolePembayaranTableSeeder::class,
-            RuangTableSeeder::class,
-            TindakanTableSeeder::class,
-            PasienTableSeeder::class,
-            DaftarTableSeeder::class,
-            ResepTableSeeder::class,
-            PemeriksaanHarianTableSeeder::class,
-            PemeriksaanTableSeeder::class,
-            RawatJalanTableSeeder::class,
-            RawatInapTableSeeder::class,
-            TransaksiPoliTableSeeder::class,
-            TransaksiInapTableSeeder::class,
-            MenuTableSeeder::class,
+            DokterTableSeeder::class,
+            PerawatTableSeeder::class,
+            DaftarRawatJalanTableSeeder::class,
+            DaftarRawatInapTableSeeder::class,
+            TransaksiRawatJalanTableSeeder::class,
+            TransaksiRawatInapTableSeeder::class,
+            RekamMedisTableSeeder::class,
+            
         ]);
     }
 }

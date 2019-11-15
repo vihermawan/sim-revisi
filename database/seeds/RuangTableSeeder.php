@@ -12,19 +12,16 @@ class RuangTableSeeder extends Seeder
     public function run()
     {
         DB::table('ruang')->insert([
-            'id_kelas' => 1,
-            'nama_ruang' => 'mawar',
+            'nama_ruang' => 'Mawar',
             'status_ruang' => 1,
         ]);
 
         DB::table('ruang')->insert([
-            'id_kelas' => 2,
-            'nama_ruang' => 'senin',
+            'nama_ruang' => 'Melati',
             'status_ruang' => 1,
         ]);
 
         DB::table('ruang')->insert([
-            'id_kelas' => 3,
             'nama_ruang' => 'mawar',
             'status_ruang' => 0,
         ]);

@@ -17,7 +17,7 @@ class CreateUserAksesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('id_role')->unsigned();
             $table->bigInteger('id_menu')->unsigned();
-            $table->string('aksi')->nullable();
+            $table->string('aksi_menu')->nullable();
             $table->bigInteger('status_menu');
             $table->timestamps();
         });
