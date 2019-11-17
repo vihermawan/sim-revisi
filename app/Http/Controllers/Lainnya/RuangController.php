@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Lainnya;
 
-use App\Penyakit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\FunctionHelper;
+use App\Ruang;
 use Yajra\Datatables\Datatables;
-class PenyakitController extends Controller
+use App\Helpers\FunctionHelper;
+class RuangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +16,19 @@ class PenyakitController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function penyakitJSON() {
-        $penyakits = DB::table('penyakit')
-        ->select('penyakit.*','penyakit.id as id_penyakit')
-        ->get();
+    public function ruangJSON() {
+        $ruangs = DB::table('ruang')
+        ->join('kelas','ruang.id_kelas','=','kelas.id')
+        ->select('ruang.*','ruang.id as id_ruang','kelas.*', 'kelas.id as id_kelas')
+        ->get();  
 
         $data = [];
-        foreach($penyakits as $penyakit) {
+        foreach($ruangs as $ruang) {
             $data[] = [
-                'id' => $penyakit-> id_penyakit,
-                'nama_penyakit' => $penyakit -> nama_penyakit,
-                'jenis_penyakit' => $penyakit -> jenis_penyakit
+                'id' => $ruang->id_ruang,
+                'nama_ruang' => $ruang->nama_ruang,
+                'nama_kelas' => $ruang->nama_kelas,
+                'status_ruang' => $ruang->status_ruang
             ];
         }
         return Datatables::of($data)
@@ -39,8 +41,8 @@ class PenyakitController extends Controller
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" id="'.$data['id'].'" class="dropdown-item edit-penyakit-data " data-toggle="modal" data-target="#edit-modal"><i class="icon-file-excel"></i>Edit</a>
-                            <a href="#" id="'.$data['id'].'" class="dropdown-item delete-penyakit-data" data-toggle="modal" data-target="#delete-modal"><i class="icon-file-word"></i>Delete</a>
+                            <a href="#" id="'.$data['id'].'" class="dropdown-item edit-ruangan-data " data-toggle="modal" data-target="#edit-modal"><i class="icon-file-excel"></i>Edit</a>
+                            <a href="#" id="'.$data['id'].'" class="dropdown-item delete-ruang-data" data-toggle="modal" data-target="#delete-modal"><i class="icon-file-word"></i>Delete</a>
                         </div>
                     </div>
                 </div>
@@ -52,13 +54,14 @@ class PenyakitController extends Controller
     }
 
     public function index()
-    {
+    {   
         $menus = FunctionHelper::callMenu();
-        $penyakit = DB::table('penyakit')
-        ->select('penyakit.*','penyakit.id as id_penyakit')
-        ->get();
 
-        return view('lainnya.penyakit', ['penyakit' => $penyakit, 'menus' => $menus]);
+        $kelass = DB::table('kelas')
+        ->select('kelas.*', 'kelas.id as id_kelas')
+        ->get();  
+
+        return view('rawatinap.ruang',['kelas' => $kelass, 'menus' => $menus]);
     }
 
     /**
@@ -68,7 +71,7 @@ class PenyakitController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -77,14 +80,13 @@ class PenyakitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        $penyakit = new Penyakit();
-        $penyakit ->nama_penyakit = $request->formData[0]["value"];
-        $penyakit ->jenis_penyakit = $request->formData[1]["value"];
-        $penyakit->save();
-
-
+        $ruang = new Ruang;
+        $ruang->nama_ruang      = $req->formData[0]["value"];
+        $ruang->id_kelas        = $req->formData[1]["value"];
+        $ruang->status_ruang    = $req->formData[2]["value"];
+        $ruang->save();
     }
 
     /**
@@ -116,12 +118,12 @@ class PenyakitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateData(Request $req)
     {
-        $penyakit = Penyakit::find($request->id);
-        $penyakit->nama_penyakit =  $request->formData[0]["value"];
-        $penyakit->jenis_penyakit =  $request->formData[1]["value"];
-        $penyakit->save();
+        $ruang = Ruang::find($req->id);
+        $ruang->id_kelas =  $req->formData[0]["value"];
+        $ruang->status_ruang =  $req->formData[1]["value"];
+        $ruang->save();
     }
 
     /**
@@ -132,8 +134,8 @@ class PenyakitController extends Controller
      */
     public function destroy(Request $req)
     {
-        if( $req->ajax()) {
-            return Penyakit::destroy($req-> id);
-        }
+        if ($req->ajax()) {
+            return Ruang::destroy($req->id);
+         }
     }
 }

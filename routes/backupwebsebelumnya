@@ -26,64 +26,13 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('pendaftaran-json', 'Pendaftaran\PendaftaranController@pendaftaranJSON')->name('pendaftaran.dataJSON');
   Route::get('deletePendaftaran', 'Pendaftaran\PendaftaranController@destroy')->name('pendaftaran.delete');
 
-  // modul informasi
-
-  //sub-modul informasi ruang
-  Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index');
-
-  //sub-modul jadwal praktek
-  Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
-
-  //sub-modul pasien inap
-  Route::get('pasien-rawat-inap', 'Informasi\PasienInapController@index');
-
   // modul pasien
   Route::get('pasien', 'Pasien\PasienController@index');
   Route::get('pasien-json', 'Pasien\PasienController@pasienJSON')->name('pasien.dataJSON');
   Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
 
-
-   //modul rawat jalan
-
-   //sub-modul pendaftaran pasien
-   Route::get('daftar-rawat-jalan', 'RawatJalan\PendaftaranPasienController@index');
-   //sub-modul rekam medis pasien
-   Route::get('rekam-medis-rawat-jalan', 'RawatJalan\RekamMedisController@index');
-   //sub-modul tindakan medis pasien
-   Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
-   //sub modul transaksi medis pasien
-   Route::get('transaksi-rawat-jalan', 'RawatJalan\TransaksiRawatController@index');
-
-   Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');
-   Route::get('rawat-jalan/pasien-search', 'RawatJalan\PasienController@pasienSearch')->name('rawatJalan.pasienSearch');
-   Route::get('rawat-jalan/data-json', 'RawatJalan\PasienController@dataJSON')->name('rawatJalan.dataJSON');
-   Route::post('rawat-jalan/add-data', 'RawatJalan\PasienController@store')->name('rawatJalan.addData');
-   Route::post('rawat-jalan/edit-data', 'RawatJalan\PasienController@UpdateData')->name('rawatJalan.editData');
-   Route::get('rawat-jalan/delete', 'RawatJalan\PasienController@destroy')->name('rawatJalan.delete');
- 
-   // sub-modul tindakan
-   Route::get('rawat-jalan/tindakan', 'RawatJalan\TindakanController@index');
-   Route::get('rawat-jalan/tindakan-json', 'RawatJalan\TindakanController@dataJSON')->name('tindakan.dataJSON');
-   Route::get('rawat-jalan/tindakan/delete', 'RawatJalan\TindakanController@destroy')->name('tindakan.delete');
-   Route::post('rawat-jalan/tindakan/edit', 'RawatJalan\TindakanController@updateData')->name('tindakan.editData');
-   Route::post('rawat-jalan/tindakan/add', 'RawatJalan\TindakanController@store')->name('tindakan.addData');
-
-
-
-
-
-  //modul rawat inap
-
-  //sub-modul rekam medis pasien
-  Route::get('rekam-medis-rawat-inap', 'RawatInap\RekamMedisgitController@index');
-  //sub-modul tindakan medis pasien
-  Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
-  //sub modul transaksi medis pasien
-  Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index');
-
-
-  
+  // modul rawat inap
   Route::get('pasien-rawat-json', 'RawatInap\PasienRawatController@pasienRawatJSON')->name('pasienRawat.dataJSON');
   Route::get('pasien-rawat', 'RawatInap\PasienRawatController@index');
   Route::get('pasien-rawat/autocomplete', 'RawatInap\PasienRawatController@autoComplete')->name('pasienRawat.autoComplete');
@@ -99,7 +48,31 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   Route::get('pemeriksaan-harian', 'RawatInap\PemeriksaanHarianController@index');
 
- 
+  // modul rawat jalan
+  Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');
+  Route::get('rawat-jalan/pasien-search', 'RawatJalan\PasienController@pasienSearch')->name('rawatJalan.pasienSearch');
+  Route::get('rawat-jalan/data-json', 'RawatJalan\PasienController@dataJSON')->name('rawatJalan.dataJSON');
+  Route::post('rawat-jalan/add-data', 'RawatJalan\PasienController@store')->name('rawatJalan.addData');
+  Route::post('rawat-jalan/edit-data', 'RawatJalan\PasienController@UpdateData')->name('rawatJalan.editData');
+  Route::get('rawat-jalan/delete', 'RawatJalan\PasienController@destroy')->name('rawatJalan.delete');
+
+  // tindakan 
+  Route::get('rawat-jalan/tindakan', 'RawatJalan\TindakanController@index');
+  Route::get('rawat-jalan/tindakan-json', 'RawatJalan\TindakanController@dataJSON')->name('tindakan.dataJSON');
+  Route::get('rawat-jalan/tindakan/delete', 'RawatJalan\TindakanController@destroy')->name('tindakan.delete');
+  Route::post('rawat-jalan/tindakan/edit', 'RawatJalan\TindakanController@updateData')->name('tindakan.editData');
+  Route::post('rawat-jalan/tindakan/add', 'RawatJalan\TindakanController@store')->name('tindakan.addData');
+  // modul keuangan
+  Route::get('transaksi-inap', 'Keuangan\TransaksiInapController@index');
+  Route::get('transaksi-inap-json', 'Keuangan\TransaksiInapController@transaksiJSON')->name('transaksiinap.dataJSON');
+  Route::post('edit-transaksi-inap', 'Keuangan\TransaksiInapController@updateData')->name('keuangan.editTransaksiInap');
+  Route::get('deleteTransaksiInap', 'Keuangan\TransaksiInapController@destroy')->name('transaksiinap.delete');
+
+  Route::get('transaksi-jalan', 'Keuangan\TransaksiJalanController@index');
+  Route::post('add-transaksi-jalan', 'Keuangan\TransaksiJalanController@store')->name('transaksi.addTransaksiJalan');
+  Route::get('transaksi-jalan-json', 'Keuangan\TransaksiJalanController@transaksiJSON')->name('transaksijalan.dataJSON');
+  Route::post('edit-transaksi-jalan', 'Keuangan\TransaksiJalanController@updateData')->name('keuangan.editTransaksiJalan');
+  Route::get('deleteTransaksiJalan', 'Keuangan\TransaksiJalanController@destroy')->name('transaksijalan.delete');
   
   // modul lainnya
   Route::get('penyakit', 'Lainnya\PenyakitController@index');
@@ -112,23 +85,20 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   // Route::post('penyakit', 'Lainnya\PenyakitController@store');
 
-  // Route::get('obat', 'Lainnya\ObatController@index');
-  // Route::post('add-obat', 'Lainnya\ObatController@store')->name('obat.addObat');
-  // Route::get('obat-json', 'Lainnya\ObatController@obatJSON')->name('obat.dataJSON');
-  // Route::get('deleteObat', 'Lainnya\ObatController@destroy')->name('obat.delete');
-  // Route::post('edit-obat', 'Lainnya\ObatController@update')->name('obat.editObat');
+  Route::get('obat', 'Lainnya\ObatController@index');
+  Route::post('add-obat', 'Lainnya\ObatController@store')->name('obat.addObat');
+  Route::get('obat-json', 'Lainnya\ObatController@obatJSON')->name('obat.dataJSON');
+  Route::get('deleteObat', 'Lainnya\ObatController@destroy')->name('obat.delete');
+  Route::post('edit-obat', 'Lainnya\ObatController@update')->name('obat.editObat');
   
   
 
-  // Route::get('resep', 'Lainnya\ResepController@index');
-  // Route::post('add-resep', 'Lainnya\ResepController@store')->name('resep.addResep');
-  // Route::get('resep-json', 'Lainnya\ResepController@resepJSON')->name('resep.dataJSON');
-  // Route::get('deleteResep', 'Lainnya\ResepController@destroy')->name('resep.delete');
-  // Route::post('edit-resep', 'Lainnya\ResepController@update')->name('resep.editResep');
+  Route::get('resep', 'Lainnya\ResepController@index');
+  Route::post('add-resep', 'Lainnya\ResepController@store')->name('resep.addResep');
+  Route::get('resep-json', 'Lainnya\ResepController@resepJSON')->name('resep.dataJSON');
+  Route::get('deleteResep', 'Lainnya\ResepController@destroy')->name('resep.delete');
+  Route::post('edit-resep', 'Lainnya\ResepController@update')->name('resep.editResep');
   
-
-
-
 
   // modul setting
   Route::get('role', 'Setting\RoleController@index');
