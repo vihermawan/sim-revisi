@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\RawatInap;
+namespace App\Http\Controllers\Informasi;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\RawatInap;
 use App\Helpers\FunctionHelper;
-class PasienKeluarController extends Controller
+use App\Http\Controllers\Controller;
+
+class PasienInapController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,18 +14,9 @@ class PasienKeluarController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $menus = FunctionHelper::callMenu();
-
-        $pasienkeluar = DB::table('rawat_inap')
-            ->join('pasien','rawat_inap.id_pasien','=','pasien.id')
-            ->join('users','rawat_inap.id_user', '=', 'users.id')
-            ->join('ruang','rawat_inap.id_ruang','=','ruang.id')
-            ->join('kelas','ruang.id_kelas','=','kelas.id')
-            ->join('pemeriksaan_harian','rawat_inap.id_pemeriksaanharian','=','pemeriksaan_harian.id')
-            ->select('pasien.*','ruang.*','pemeriksaan_harian.*','users.*','rawat_inap.*','kelas.*')
-            ->get();     
-        return view('rawatinap.pasienkeluar',['pasienkeluar' => $pasienkeluar, 'menus' => $menus]);
+        return view('informasi.pasienrawatinap', ['menus' => $menus]);
     }
 
     /**
