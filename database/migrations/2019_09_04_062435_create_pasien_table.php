@@ -26,7 +26,8 @@ class CreatePasienTable extends Migration
             $table->string('status');
             $table->string('agama');
             $table->string('umur');
-            $table->string('tanggal_lahir');
+            $table->date('tanggal_lahir');
+            $table->date('tanggal_kunjungan');
             $table->string('golongan_darah');
             $table->string('pendidikan');
             $table->string('tempat_lahir');

@@ -21,34 +21,26 @@ class PendaftaranController extends Controller
      */
 
     public function pendaftaranJSON() {
-        $daftar = DB::table('daftar')
-                       ->join('poli','daftar.id_poli','=','poli.id')
-                       ->join('role_pembayaran','daftar.id_role_pembayaran', '=', 'role_pembayaran.id')
-                       ->join('pasien','daftar.id_pasien','=','pasien.id')
-                       ->join('users','daftar.id_user','=','users.id')
-                       ->select('daftar.id as id_daftar','poli.*','role_pembayaran.*','pasien.*','daftar.*','users.*')
-                       ->get();  
+        $pasien = DB::table('pasien')
+                ->select('pasien.*')
+                ->get();  
 
         $data = [];
-        foreach($daftar as $pendaftaran) {
+        foreach($pasien as $pasiens) {
             $data[] = [
-                'id' => $pendaftaran->id_daftar,
-                'tanggal_kunjungan' => $pendaftaran->tanggal_kunjungan,
-                'nama_pasien' => $pendaftaran->nama_pasien,
-                'nama_poli' => $pendaftaran->nama_poli,
-                'jenis_kelamin' => $pendaftaran->jenis_kelamin,
-                'id_role_pembayaran' => $pendaftaran->id_role_pembayaran,
-                'nama_user' => $pendaftaran->nama_user
+                'id' => $pasiens->id,
+                'nama_pasien' => $pasiens->nama_pasien,
+                'no_identitas' => $pasiens->no_identitas,
+                'tanggal_kunjungan' => $pasiens->tanggal_kunjungan,
+                'alamat' => $pasiens->alamat,
             ];
         }
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-                <div class="list-icons">
-                    <a href="#" id="'.$data['id'].'" class="dropdown-item edit-data-pendaftaran" data-toggle="modal" data-target="#edit-modal"><button type="button" class="btn btn-primary"> <i class="icon-pencil5 mr-2"></i> Edit </button></a>
-                    <a href="#" id="'.$data['id'].'" class="dropdown-item delete-modal" data-toggle="modal" data-target="#delete-modal"><button type="button" class="btn btn-danger"> <i class="icon-trash mr-2"></i> Delete </button></i></a>
-                </div>
-            ';
+            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pendaftaran" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+            <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
+        ';
         })
         ->rawColumns(['action'])
         ->addIndexColumn()
@@ -59,14 +51,11 @@ class PendaftaranController extends Controller
     {
         $menus = FunctionHelper::callMenu();
 
-        $daftar = DB::table('daftar')
-                       ->join('poli','daftar.id_poli','=','poli.id')
-                       ->join('role_pembayaran','daftar.id_role_pembayaran', '=', 'role_pembayaran.id')
-                       ->join('pasien','daftar.id_pasien','=','pasien.id')
-                       ->select('daftar.id as id_daftar','poli.*','role_pembayaran.*','pasien.*')
-                       ->get();
+        $pasien = DB::table('pasien')
+                ->select('pasien.*')
+                ->get();  
                         
-        return view('pendaftaran.pendaftaran',['daftar' => $daftar, 'menus' => $menus]);
+        return view('pendaftaran.pendaftaran',['pasien' => $pasien, 'menus' => $menus]);
         // return $daftar;
     }
 
@@ -91,6 +80,7 @@ class PendaftaranController extends Controller
 
         $pasien = new Pasien;
         $pasien->nama_pasien        = $req->formData[0]["value"];
+        $pasien->no_identitas        = $req->formData[0]["value"];
         $pasien->jenis_kelamin      = $req->formData[1]["value"];
         $pasien->alamat             = $req->formData[2]["value"];
         $pasien->provinsi           = $req->formData[3]["value"];
@@ -107,18 +97,6 @@ class PendaftaranController extends Controller
         $pasien->agama              = $req->formData[14]["value"];
       
         $pasien->save();
-
-        $e = DB::table('pasien')->get();
-        foreach($e as $data){
-            $daftar = new Daftar();
-            $daftar->id_pasien = $data->id;          
-        }
-        $daftar->tanggal_kunjungan  = $req->formData[15]["value"];
-        $daftar->id_poli            = $req->formData[16]["value"];
-        $daftar->id_role_pembayaran = $req->formData[17]["value"];
-        $daftar->id_user            = $req->formData[18]["value"];
-       
-        $daftar->save();
         return $req;
     }
 
