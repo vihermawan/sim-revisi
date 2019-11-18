@@ -12,7 +12,6 @@
 
     <div class="card-header">
         <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Pasien Baru</button>
-        <button type="button" class="btn bg-primary btn-labeled btn-labeled-left" data-toggle="modal" data-target="#modal_theme_primary"><b><i class="icon-reading"></i></b> Tambah Pendaftaran Baru</button>
     </div>
 
 
@@ -20,12 +19,11 @@
 		<thead>
 			<tr>
                 <th>No</th>
-				<th>Tanggal Kunjungan</th>
+                <th>No RM</th>
 				<th>Nama Pasien</th>
-				<th>Poli</th>
-				<th>Asuransi</th>
-                <th>Jenis Kelamin</th>
-                <th>Petugas</th>
+				<th>Tanggal Kunjungan</th>
+				<th>No Identitas</th>
+				<th>Tanggal Lahir</th>
 				<th class="text-center">Actions</th>
 			</tr>
 		</thead>
@@ -511,42 +509,30 @@
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 7 ] }
+                    { className: "text-center", "targets": [ 4 ] }
                 ],
                ajax: '{!! route('pendaftaran.dataJSON') !!}',
                columns: [
                   { name: 'id', data: 'DT_RowIndex' },
                   {
-                     name: 'tanggal_kunjungan',
-                     data: 'tanggal_kunjungan',
+                     name: 'id',
+                     data: 'id',
                   },
                   {
                      name: 'nama_pasien',
                      data: 'nama_pasien',
                   },
                   {
-                     name: 'nama_poli',
-                     data: 'nama_poli',
+                     name: 'tanggal_kunjungan',
+                     data: 'tanggal_kunjungan',
                   },
                   {
-                     name: 'role_pembayaran',
-                     data: 'role_pembayaran',
-                    
-                     render: function(data){
-                        return data == 1 ? 'BPJS' : 'Reguler';
-                     }
+                     name: 'no_identitas',
+                     data: 'no_identitas',
                   },
                   {
-                     name: 'jenis_kelamin',
-                     data: 'jenis_kelamin',
-                     
-                     render: function(data){
-                        return data == 'L' ? 'Laki-Laki' : 'Perempuan';
-                     }
-                  },
-                  {
-                     name: 'nama_user',
-                     data: 'nama_user',
+                     name: 'tanggal_kunjungan',
+                     data: 'tanggal_kunjungan',
                   },
                   {
                      name: 'action',

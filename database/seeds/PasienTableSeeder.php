@@ -26,7 +26,8 @@ class PasienTableSeeder extends Seeder
             'status' => 'menikah',
             'pekerjaan' => 'teller',
             'tempat_lahir' => 'Jakarta',
-            'tanggal_lahir' => '11-10-1999',
+            'tanggal_lahir' => '1999-11-10',
+            'tanggal_kunjungan' => '2010-11-10',
             'umur' => '20',
             'nama_wali' => 'Bapak Antono'
         ]); 
@@ -46,7 +47,8 @@ class PasienTableSeeder extends Seeder
             'pendidikan' => 'Sarjana',
             'pekerjaan' => 'Direktur',
             'tempat_lahir' => 'Jakarta',
-            'tanggal_lahir' => '21-12-1999',
+            'tanggal_lahir' => '1999-01-12',
+            'tanggal_kunjungan' => '2010-11-10',
             'umur' => '19',
             'nama_wali' => 'Bapak Antonio'
         ]);
