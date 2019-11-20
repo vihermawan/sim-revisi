@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pendaftaran;
 
 use Illuminate\Http\Request;
 use App\Pasien;
-use App\Daftar;
 use App\RolePembayaran;
 use Redirect;
 use Yajra\Datatables\Datatables;
@@ -54,8 +53,23 @@ class PendaftaranController extends Controller
         $pasien = DB::table('pasien')
                 ->select('pasien.*')
                 ->get();  
-                        
-        return view('pendaftaran.pendaftaran',['pasien' => $pasien, 'menus' => $menus]);
+        
+        $maxID = 0;
+
+        foreach($pasien as $data){
+            $id_baru = substr($data->id,3);
+                if($id_baru>$maxID){
+                    $maxID=$id_baru;
+            }
+        }
+
+        foreach($pasien as $datas){
+            $maxID+=1;
+            $kode = str_pad('P',4,"0");
+            $id_pasien = $kode.$maxID;
+        }
+
+        return view('pendaftaran.pendaftaran',['pasien' => $pasien, 'menus' => $menus, 'datas' => $datas]);
         // return $daftar;
     }
 

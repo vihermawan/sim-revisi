@@ -29,7 +29,7 @@
 </div>
 
  <!--Modal edit ruangan -->
- @foreach($pasien as $data)
+@foreach($pasien as $data)
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -202,6 +202,138 @@
 @endforeach
 <!--End Modal edit ruangan--> 
 
+ <!--Modal edit ruangan -->
+<div id="rekam-medis" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title">Detail Pasien</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-xl-12">
+                    <div class="page-header-content header-elements-inline">
+                        <div class="page-title">
+                            <h3>
+                                <span class="font-weight-semibold">Nama Pasien : </span>
+                            </h3>
+                            <h5>
+                                <span class="font-weight-semibold">No RM : </span>
+                            </h5>
+                            <h5>
+                                <span class="font-weight-semibold">Umur : </span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="nav nav-tabs nav-tabs-top nav-justified">
+                                        <li class="nav-item"><a href="#top-justified-tab1" class="nav-link active" data-toggle="tab">Transaksi Medis</a></li>
+                                        <li class="nav-item"><a href="#top-justified-tab2" class="nav-link" data-toggle="tab">Rekam Medis</a></li>
+                                        <li class="nav-item"><a href="#top-justified-tab3" class="nav-link" data-toggle="tab">Tindakan Medis</a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="top-justified-tab1">
+                                            <table class="table datatable-basic">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tanggal</th>
+                                                        <th>Jenis</th>
+                                                        <th>Poli</th>
+                                                        <th>Kamar</th>
+                                                        <th>Tanggal Pulang</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Maxwell</td>
+                                                        <td>Maben</td>
+                                                        <td>Regional Representative</td>
+                                                        <td>25 Feb 1988</td>
+                                                        <td>Regional Representative</td>
+                                                        <td><span class="badge badge-danger">Suspended</span></td>                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="top-justified-tab2">
+                                            <table class="table datatable-basic">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tanggal</th>
+                                                        <th>Dokter</th>
+                                                        <th>ICD</th>
+                                                        <th>Diagnosa</th>
+                                                        <th>Anamesa</th>
+                                                        <th>P.Fisik</th>
+                                                        <th>P.Penunjang</th>
+                                                        <th>Jenis</th>
+                                                        <th>Poli</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Maxwell</td>
+                                                        <td>Maben</td>
+                                                        <td>Regional Representative</td>
+                                                        <td>25 Feb 1988</td>
+                                                        <td>Regional Representative</td>
+                                                        <td>25 Feb 1988</td>
+                                                        <td>Regional Representative</td>
+                                                        <td><span class="badge badge-danger">Suspended</span></td>                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="top-justified-tab3">
+                                           <table class="table datatable-basic">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tanggal</th>
+                                                        <th>Dokter</th>
+                                                        <th>Tindakan</th>
+                                                        <th>Data</th>
+                                                        <th>ICD9-CM</th>
+                                                        <th>Jenis Rawat</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Maxwell</td>
+                                                        <td>Maben</td>
+                                                        <td>Regional Representative</td>
+                                                        <td>25 Feb 1988</td>
+                                                        <td>Regional Representative</td>
+                                                        <td>25 Feb 1988</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                <button type="button" class="btn bg-success edit-data">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal edit ruangan--> 
+
+
 
 <!--Modal delete -->
 <div id="delete-modal" class="modal fade" tabindex="-2">
@@ -293,6 +425,11 @@
        
     });
 
+     // delete ruangan
+     $(document).on('click', '.rekam-medis-modal', function(){
+       var id = $(this).attr("id");
+       $('.rekam-medis').attr("id", id);
+    });
     
 
      //GET ALL DATA
