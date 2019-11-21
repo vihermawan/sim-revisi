@@ -50,26 +50,21 @@ class PendaftaranController extends Controller
     {
         $menus = FunctionHelper::callMenu();
 
-        $pasien = DB::table('pasien')
-                ->select('pasien.*')
-                ->get();  
+        // $pasien = DB::table('pasien')
+        //         ->select('pasien.*')
+        //         ->get()->count();  
         
-        $maxID = 0;
+        $pasien = DB::table('pasien')->count();  
+        $idbaru = $pasien+1;
+        $kode = str_pad('0',7,"0");
+        $id_pasien = $kode.$idbaru;
 
-        foreach($pasien as $data){
-            $id_baru = substr($data->id,3);
-                if($id_baru>$maxID){
-                    $maxID=$id_baru;
-            }
-        }
+        // return $id_pasien;
 
-        foreach($pasien as $datas){
-            $maxID+=1;
-            $kode = str_pad('P',4,"0");
-            $id_pasien = $kode.$maxID;
-        }
+      
 
-        return view('pendaftaran.pendaftaran',['pasien' => $pasien, 'menus' => $menus, 'datas' => $datas]);
+
+        return view('pendaftaran.pendaftaran',['pasien' => $pasien, 'menus' => $menus, 'id_pasien' => $id_pasien]);
         // return $daftar;
     }
 
@@ -92,25 +87,26 @@ class PendaftaranController extends Controller
     public function store(Request $req)
     {
 
-        $pasien = new Pasien;
-        $pasien->nama_pasien        = $req->formData[0]["value"];
-        $pasien->no_identitas        = $req->formData[0]["value"];
-        $pasien->jenis_kelamin      = $req->formData[1]["value"];
-        $pasien->alamat             = $req->formData[2]["value"];
-        $pasien->provinsi           = $req->formData[3]["value"];
-        $pasien->kabupaten          = $req->formData[4]["value"];
-        $pasien->kecamatan          = $req->formData[5]["value"];
-        $pasien->desa               = $req->formData[6]["value"];
-        $pasien->golongan_darah     = $req->formData[7]["value"];
-        $pasien->status             = $req->formData[8]["value"];
-        $pasien->tempat_lahir       = $req->formData[9]["value"];
-        $pasien->umur               = $req->formData[10]["value"];
-        $pasien->tanggal_lahir      = $req->formData[11]["value"];
-        $pasien->pekerjaan          = $req->formData[12]["value"];
-        $pasien->pendidikan         = $req->formData[13]["value"];
-        $pasien->agama              = $req->formData[14]["value"];
+        // $pasien = new Pasien;
+        // $pasien->nama_pasien        = $req->formData[0]["value"];
+        // $pasien->no_identitas       = $req->formData[1]["value"];
+        // $pasien->jenis_kelamin      = $req->formData[2]["value"];
+        // $pasien->alamat             = $req->formData[3]["value"];
+        // $pasien->provinsi           = $req->formData[4]["value"];
+        // $pasien->kabupaten          = $req->formData[5]["value"];
+        // $pasien->kecamatan          = $req->formData[6]["value"];
+        // $pasien->desa               = $req->formData[7]["value"];
+        // $pasien->golongan_darah     = $req->formData[8]["value"];
+        // $pasien->status             = $req->formData[9]["value"];
+        // $pasien->tempat_lahir       = $req->formData[10]["value"];
+        // $pasien->umur               = $req->formData[11]["value"];
+        // $pasien->tanggal_lahir      = $req->formData[12]["value"];
+        // $pasien->pekerjaan          = $req->formData[13]["value"];
+        // $pasien->pendidikan         = $req->formData[14]["value"];
+        // $pasien->agama              = $req->formData[15]["value"];
+        // $pasien->nama_wali          = $req->formData[16]["value"];
       
-        $pasien->save();
+        // $pasien->save();
         return $req;
     }
 

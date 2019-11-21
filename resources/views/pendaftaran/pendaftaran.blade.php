@@ -55,7 +55,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Nomor Rumah Sakit :</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Nama Pasien" id="nama_pasien" name="nama_pasien">
+                                            <input type="text" class="form-control" disabled placeholder="Masukkan Nama Pasien" id="nama_pasien" name="nama_pasien" value="{{$id_pasien}}">
                                         </div>
                                     </div>
 
@@ -110,34 +110,42 @@
                             </div>
                             <div class="col-md-4">
                                 <fieldset>
-                                <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label">Propinsi:</label>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label">Provinsi:</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Provinsi" id="provinsi" name="provinsi">
+                                            <select class="form-control select" data-fouc  name="propinsi" id="propinsi">
+                                                <option>Pilih Provinsi</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Kabupaten:</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Kabupaten" id="kabupaten" name="kabupaten">
+                                            <select class="form-control select" data-fouc  name="kabupaten" id="kabupaten">
+                                                <option>Pilih Kabupaten</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label">Kecamatan:</label>
+                                        <label class="col-lg-4 col-form-label">Kecematan:</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Kecamatan" id="kecamatan" name="kecamatan">
+                                            <select class="form-control select" data-fouc  name="kecamatan" id="kecamatan">
+                                                <option>Pilih Kecematan</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Desa:</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Desa" id="desa" name="desa">
+                                            <select class="form-control select" data-fouc  name="kelurahan" id="kelurahan">
+                                                <option>Pilih Desa</option>
+                                            </select>
                                         </div>
                                     </div>
-
 
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Golongan Darah:</label>
@@ -499,6 +507,117 @@
         return local.toJSON().slice(0,10);
     });
     document.getElementById('tanggal_kunjungan').value = new Date().toDateInputValue();
+
+    $(function() {
+            $( "#tanggal_lahir" ).datepicker();
+        });
+ 
+        window.onload=function(){
+            $('#tanggal_lahir').on('change', function() {
+                var dob = new Date(this.value);
+                var today = new Date();
+                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+                $('#umur').value(age);
+            });
+    }
+</script>
+
+<script>
+    var return_first = function() {
+          var tmp = null;
+          $.ajax({
+              'async': false,
+              'type': "get",
+              'global': false,
+              'dataType': 'json',
+              'url': 'https://x.rajaapi.com/poe',
+              'success': function(data) {
+                  tmp = data.token;
+              }
+          });
+          return tmp;
+      }();
+  $(document).ready(function() {
+      $.ajax({
+          url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/provinsi',
+          type: 'GET',
+          dataType: 'json',
+          success: function(json) {
+              if (json.code == 200) {
+                  for (i = 0; i < Object.keys(json.data).length; i++) {
+                      $('#propinsi').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+                  }
+              } else {
+                  $('#kabupaten').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+              }
+          }
+      });
+      $("#propinsi").change(function() {
+          var propinsi = $("#propinsi").val();
+          $.ajax({
+              url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kabupaten',
+              data: "idpropinsi=" + propinsi,
+              type: 'GET',
+              cache: false,
+              dataType: 'json',
+              success: function(json) {
+                  $("#kabupaten").html('');
+                  if (json.code == 200) {
+                      for (i = 0; i < Object.keys(json.data).length; i++) {
+                          $('#kabupaten').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+                      }
+                      $('#kecamatan').html($('<option>').text('-- Pilih Kecamatan --').attr('value', '-- Pilih Kecamatan --'));
+                      $('#kelurahan').html($('<option>').text('-- Pilih Kelurahan --').attr('value', '-- Pilih Kelurahan --'));
+
+                  } else {
+                      $('#kabupaten').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+                  }
+              }
+          });
+      });
+      $("#kabupaten").change(function() {
+          var kabupaten = $("#kabupaten").val();
+          $.ajax({
+              url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kecamatan',
+              data: "idkabupaten=" + kabupaten + "&idpropinsi=" + propinsi,
+              type: 'GET',
+              cache: false,
+              dataType: 'json',
+              success: function(json) {
+                  $("#kecamatan").html('');
+                  if (json.code == 200) {
+                      for (i = 0; i < Object.keys(json.data).length; i++) {
+                          $('#kecamatan').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+                      }
+                      $('#kelurahan').html($('<option>').text('-- Pilih Kelurahan --').attr('value', '-- Pilih Kelurahan --'));
+                      
+                  } else {
+                      $('#kecamatan').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+                  }
+              }
+          });
+      });
+      $("#kecamatan").change(function() {
+          var kecamatan = $("#kecamatan").val();
+          $.ajax({
+              url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kelurahan',
+              data: "idkabupaten=" + kabupaten + "&idpropinsi=" + propinsi + "&idkecamatan=" + kecamatan,
+              type: 'GET',
+              dataType: 'json',
+              cache: false,
+              success: function(json) {
+                  $("#kelurahan").html('');
+                  if (json.code == 200) {
+                      for (i = 0; i < Object.keys(json.data).length; i++) {
+                          $('#kelurahan').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+                      }
+                  } else {
+                      $('#kelurahan').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+                  }
+              }
+          });
+      });
+  });
 </script>
 
 @endpush

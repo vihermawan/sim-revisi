@@ -19,10 +19,10 @@ class CreatePasienTable extends Migration
             $table->string('no_identitas');
             $table->string('jenis_kelamin');
             $table->string('alamat');
-            $table->string('desa');
+            $table->string('kelurahan');
             $table->string('kecamatan');
             $table->string('kabupaten');
-            $table->string('provinsi');
+            $table->string('propinsi');
             $table->string('status');
             $table->string('agama');
             $table->string('umur');
