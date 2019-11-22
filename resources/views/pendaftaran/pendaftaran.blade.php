@@ -55,7 +55,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Nomor Rumah Sakit :</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" disabled placeholder="Masukkan Nama Pasien" id="nama_pasien" name="nama_pasien" value="{{$id_pasien}}">
+                                            <input type="text" class="form-control" placeholder="Masukkan Nama Pasien" id="id" name="id" value="{{$id_pasien}}">
                                         </div>
                                     </div>
 
@@ -103,7 +103,7 @@
                                      <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Tanggal Kunjungan :</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" disabled placeholder="Masukkan Nama Pasien" id="tanggal_kunjungan" name="tanggal_kunjungan">
+                                            <input type="text" class="form-control"  placeholder="Masukkan Nama Pasien" id="tanggal_kunjungan" name="tanggal_kunjungan">
                                         </div>
                                     </div> 
                                 </fieldset>
@@ -250,7 +250,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Nama Wali :</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" placeholder="Masukkan Nama Pasien" id="nama_pasien" name="nama_pasien">
+                                            <input type="text" class="form-control" placeholder="Masukkan Nama Wali" id="nama_wali" name="nama_wali">
                                         </div>
                                     </div>
                                     <!-- <div class="form-group row">
@@ -471,8 +471,8 @@
                columns: [
                   { name: 'id', data: 'DT_RowIndex' },
                   {
-                     name: 'id',
-                     data: 'id',
+                     name: 'no_rm',
+                     data: 'no_rm',
                   },
                   {
                      name: 'nama_pasien',
@@ -508,18 +508,18 @@
     });
     document.getElementById('tanggal_kunjungan').value = new Date().toDateInputValue();
 
-    $(function() {
-            $( "#tanggal_lahir" ).datepicker();
-        });
+    // $(function() {
+    //         $( "#tanggal_lahir" ).datepicker();
+    //     });
  
-        window.onload=function(){
-            $('#tanggal_lahir').on('change', function() {
-                var dob = new Date(this.value);
-                var today = new Date();
-                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-                $('#umur').value(age);
-            });
-    }
+    //     window.onload=function(){
+    //         $('#tanggal_lahir').on('change', function() {
+    //             var dob = new Date(this.value);
+    //             var today = new Date();
+    //             var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+    //             $('#umur').value(age);
+    //         });
+    //}
 </script>
 
 <script>
