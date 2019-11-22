@@ -50,7 +50,12 @@ class PasienController extends Controller
         $menus = FunctionHelper::callMenu();
 
         $pasien = Pasien::orderBy('id', 'asc')->get();
-        return view('pasien.pasien', ['pasien' => $pasien, 'menus' => $menus]);
+
+        $pasiens = DB::table('pasien')
+                ->select('pasien.*')
+                ->get();
+                
+        return view('pasien.pasien', ['pasien' => $pasien, 'menus' => $menus, 'pasiens' => $pasiens]);
     }
 
     /**
