@@ -99,19 +99,31 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   Route::get('pemeriksaan-harian', 'RawatInap\PemeriksaanHarianController@index');
 
- 
+  //dokter
+  Route::get('dokter', 'Lainnya\DokterController@index');
+  Route::post('add-dokter', 'Lainnya\DokterController@store')->name('dokter.addDokter');
+  Route::get('dokter-json', 'Lainnya\DokterController@dokterJSON')->name('dokter.dataJSON');
+  Route::post('edit-dokter', 'Lainnya\DokterController@update')->name('dokter.editDokter');
+  Route::get('deleteDokter', 'Lainnya\DokterController@destroy')->name('dokter.delete');
+  
+  //perawat
+  Route::get('perawat', 'Lainnya\PerawatController@index');
+  Route::post('add-perawat', 'Lainnya\PerawatController@store')->name('perawat.addPerawat');
+  Route::get('perawat-json', 'Lainnya\PerawatController@perawatJSON')->name('perawat.dataJSON');
+  Route::post('edit-perawat', 'Lainnya\PerawatController@update')->name('perawat.editPerawat');
+  Route::get('deletePerawat', 'Lainnya\PerawatController@destroy')->name('perawat.delete');
   
   // modul lainnya
-  Route::get('penyakit', 'Lainnya\PenyakitController@index');
-  Route::post('add-penyakit', 'Lainnya\PenyakitController@store')->name('penyakit.addPenyakit');
-  Route::get('penyakit-json', 'Lainnya\PenyakitController@penyakitJSON')->name('penyakit.dataJSON');
-  Route::get('deletePenyakit', 'Lainnya\PenyakitController@destroy')->name('penyakit.delete');
-  Route::post('edit-penyakit', 'Lainnya\PenyakitController@update')->name('penyakit.editPenyakit');
+  Route::get('daftar-icd', 'Lainnya\IcdController@index');
+  Route::post('add-icd', 'Lainnya\IcdController@store')->name('icd.addIcd');
+  Route::get('icd-json', 'Lainnya\IcdController@icdJSON')->name('icd.dataJSON');
+  Route::get('deleteIcd', 'Lainnya\IcdController@destroy')->name('icd.delete');
+  Route::post('edit-icd', 'Lainnya\IcdController@update')->name('icd.editIcd');
 
   // Route::get('penyakit', 'Lainnya\PenyakitController@index');
 
   // Route::post('penyakit', 'Lainnya\PenyakitController@store');
-
+ 
   // Route::get('obat', 'Lainnya\ObatController@index');
   // Route::post('add-obat', 'Lainnya\ObatController@store')->name('obat.addObat');
   // Route::get('obat-json', 'Lainnya\ObatController@obatJSON')->name('obat.dataJSON');
