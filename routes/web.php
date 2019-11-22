@@ -120,6 +120,13 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('deleteIcd', 'Lainnya\IcdController@destroy')->name('icd.delete');
   Route::post('edit-icd', 'Lainnya\IcdController@update')->name('icd.editIcd');
 
+  //tindakan
+  Route::get('data-tindakan', 'Lainnya\TindakanMasterController@index');
+  Route::post('add-tindakan', 'Lainnya\TindakanMasterController@store')->name('tindakan.addTindakan');
+  Route::get('tindakan-json', 'Lainnya\TindakanMasterController@tindakanJSON')->name('tindakan.dataJSON');
+  Route::get('deleteTindakan', 'Lainnya\TindakanMasterController@destroy')->name('tindakan.delete');
+  Route::post('edit-tindakan', 'Lainnya\TindakanMasterController@update')->name('tindakan.editTindakan');
+
   // Route::get('penyakit', 'Lainnya\PenyakitController@index');
 
   // Route::post('penyakit', 'Lainnya\PenyakitController@store');
