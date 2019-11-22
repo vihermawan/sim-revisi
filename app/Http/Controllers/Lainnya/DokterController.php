@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Lainnya;
-
 use Illuminate\Http\Request;
 use App\Dokter;
-use App\Perawat;
+use App\Poli;
 use Redirect;
 use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\FunctionHelper;
 
-class PerawatController extends Controller
+class DokterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,42 +18,43 @@ class PerawatController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function perawatJSON()
-    {
-        $perawats = DB::table('perawat')
-        ->join('dokter', 'perawat.id_dokter','=','dokter.id')
-        ->select('perawat.*','perawat.id as id_perawat','dokter.*','dokter.id as id_dokter')
-        ->get();  
+    public function dokterJSON() {
+        $dokters = DB::table('dokter')
+                ->join('poli', 'dokter.id_poli','=','poli.id')
+                ->select('dokter.*','dokter.id as id_dokter','poli.*','poli.id as id_poli')
+                ->get();  
 
         $data = [];
-        foreach($perawats as $perawat) {
+        foreach($dokters as $dokter) {
             $data[] = [
-                'id' => $perawat->id_perawat,
-                'nama_perawat' => $perawat->nama_perawat,
-                'nama_dokter' => $perawat->nama_dokter,
+                'id' => $dokter->id_dokter,
+                'nama_dokter' => $dokter->nama_dokter,
+                'waktu_buka' => $dokter->waktu_buka,
+                'nama_poli' => $dokter->nama_poli,
+                'hari_buka' => $dokter->hari_buka,
             ];
         }
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-perawat" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-dokter" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
             <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
         ';
         })
         ->rawColumns(['action'])
         ->addIndexColumn()
         ->make(true);
-    } 
+    }
 
     public function index()
     {
-        $perawats = DB::table('perawat')
-        ->join('dokter', 'perawat.id_dokter','=','dokter.id')
-        ->select('perawat.*','perawat.id as id_perawat','dokter.*','dokter.id as id_dokter')
-        ->get();  
+        $dokters = DB::table('dokter')
+        ->join('poli', 'dokter.id_poli','=','poli.id')
+        ->select('dokter.*','dokter.id as id_dokter','poli.*','poli.id as id_poli')
+        ->get();
 
         $menus = FunctionHelper::callMenu();
-        return view('lainnya.perawat', ['menus' => $menus, 'perawats' => $perawats]);
+        return view('lainnya.dokter', ['menus' => $menus, 'dokters' => $dokters]);
     }
 
     /**
@@ -75,11 +75,13 @@ class PerawatController extends Controller
      */
     public function store(Request $req)
     {
-        $perawat = new Perawat;
-        $perawat->nama_perawat = $req->formData[0]["value"];
-        $perawat->id_dokter = $req->formData[1]["value"];
-        $perawat->save();
-        return $req;
+            $dokter = new Dokter;
+            $dokter->nama_dokter = $req->formData[0]["value"];
+            $dokter->waktu_buka = $req->formData[1]["value"];
+            $dokter->id_poli = $req->formData[2]["value"];
+            $dokter->hari_buka = $req->formData[3]["value"];
+            $dokter->save();
+            return $req;
     }
 
     /**
@@ -113,10 +115,12 @@ class PerawatController extends Controller
      */
     public function update(Request $req)
     {
-        $perawat = Perawat::find($req->id);
-        $perawat->nama_perawat =  $req->formData[0]["value"];
-        $perawat->nama_dokter =  $req->formData[1]["value"];
-        $perawat->save();
+        $dokter = Dokter::find($req->id);
+        $dokter->nama_dokter =  $req->formData[0]["value"];
+        $dokter->waktu_buka =  $req->formData[1]["value"];
+        $dokter->nama_poli =  $req->formData[2]["value"];
+        $dokter->hari_buka =  $req->formData[3]["value"];
+        $dokter->save();
     }
 
     /**
@@ -128,7 +132,7 @@ class PerawatController extends Controller
     public function destroy(Request $req)
     {
         if ($req->ajax()) {
-            return Perawat::destroy($req->id);
+            return Dokter::destroy($req->id);
          }
     }
 }

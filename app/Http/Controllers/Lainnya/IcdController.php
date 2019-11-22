@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Lainnya;
 
-use App\Penyakit;
+use App\Icd;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -16,49 +16,38 @@ class IcdController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function penyakitJSON() {
-        $penyakits = DB::table('penyakit')
-        ->select('penyakit.*','penyakit.id as id_penyakit')
+    public function icdJSON() {
+        $icds = DB::table('icd')
+        ->select('icd.*','icd.id as id_icd')
         ->get();
 
         $data = [];
-        foreach($penyakits as $penyakit) {
+        foreach($icds as $icd) {
             $data[] = [
-                'id' => $penyakit-> id_penyakit,
-                'nama_penyakit' => $penyakit -> nama_penyakit,
-                'jenis_penyakit' => $penyakit -> jenis_penyakit
+                'id' => $icd-> id_icd,
+                'nama_icd' => $icd -> nama_icd
             ];
         }
-        return Datatables::of($data)
-        ->addColumn('action', function ($data){
-            return'
-                <div class="list-icons">
-                    <div class="dropdown">
-                        <a href="#" class="list-icons-item" data-toggle="dropdown">
-                            <i class="icon-menu9"></i>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" id="'.$data['id'].'" class="dropdown-item edit-penyakit-data " data-toggle="modal" data-target="#edit-modal"><i class="icon-file-excel"></i>Edit</a>
-                            <a href="#" id="'.$data['id'].'" class="dropdown-item delete-penyakit-data" data-toggle="modal" data-target="#delete-modal"><i class="icon-file-word"></i>Delete</a>
-                        </div>
-                    </div>
-                </div>
-            ';
-        })
-        ->rawColumns(['action'])
-        ->addIndexColumn()
-        ->make(true);
-    }
+    return Datatables::of($data)
+    ->addColumn('action', function ($data){
+        return'
+        <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-icd-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+        <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-icd-data" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
+    ';
+    })
+    ->rawColumns(['action'])
+    ->addIndexColumn()
+    ->make(true);
+} 
 
     public function index()
     {
         $menus = FunctionHelper::callMenu();
-        $penyakit = DB::table('penyakit')
-        ->select('penyakit.*','penyakit.id as id_penyakit')
+        $icd = DB::table('icd')
+        ->select('icd.*','icd.id as id_icd')
         ->get();
 
-        return view('lainnya.penyakit', ['penyakit' => $penyakit, 'menus' => $menus]);
+        return view('lainnya.icd', ['icd' => $icd, 'menus' => $menus]);
     }
 
     /**
@@ -79,10 +68,9 @@ class IcdController extends Controller
      */
     public function store(Request $request)
     {
-        $penyakit = new Penyakit();
-        $penyakit ->nama_penyakit = $request->formData[0]["value"];
-        $penyakit ->jenis_penyakit = $request->formData[1]["value"];
-        $penyakit->save();
+        $icd = new Icd();
+        $icd ->nama_icd = $request->formData[0]["value"];
+        $icd->save();
 
 
     }
@@ -118,10 +106,9 @@ class IcdController extends Controller
      */
     public function update(Request $request)
     {
-        $penyakit = Penyakit::find($request->id);
-        $penyakit->nama_penyakit =  $request->formData[0]["value"];
-        $penyakit->jenis_penyakit =  $request->formData[1]["value"];
-        $penyakit->save();
+        $icd = Icd::find($request->id);
+        $icd->nama_icd =  $request->formData[0]["value"];
+        $icd->save();
     }
 
     /**
@@ -133,7 +120,7 @@ class IcdController extends Controller
     public function destroy(Request $req)
     {
         if( $req->ajax()) {
-            return Penyakit::destroy($req-> id);
+            return Icd::destroy($req-> id);
         }
     }
 }
