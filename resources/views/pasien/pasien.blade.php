@@ -10,6 +10,7 @@
 		<h5 class="card-title">Tabel Pasien</h5>
 	</div>
 
+
 	<table class="table datatable-basic" id="pasien">
         <thead>
             <tr>
@@ -567,4 +568,6 @@
     <script src="{{asset('/template/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js')}}"></script>
     <script src="{{asset('/template/global_assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
     <script src="{{asset('/template/global_assets/js/demo_pages/form_inputs.js')}}"></script>
+    <script src="{{asset('/template/global_assets/js/plugins/tables/datatables/extensions/responsive.min.js')}}"></script>
+    <script src="{{asset('/template/global_assets/js/demo_pages/datatables_responsive.js')}}"></script>
 @endsection

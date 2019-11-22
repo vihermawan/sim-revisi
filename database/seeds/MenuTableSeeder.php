@@ -156,7 +156,14 @@ class MenuTableSeeder extends Seeder
             'parent_id' => 6,
             'nama_menu' => 'Daftar ICD',
             'url' => '/daftar-icd',
-            'icon' => 'icon-snowflake ',
+            'icon' => 'icon-snowflake',
+        ]);
+
+        DB::table('menu')->insert([
+            'parent_id' => 7,
+            'nama_menu' => 'Dokter',
+            'url' => '/dokter',
+            'icon' => 'icon-snowflake',
         ]);
 
         DB::table('menu')->insert([
