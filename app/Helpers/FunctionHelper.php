@@ -37,7 +37,14 @@ class FunctionHelper {
                             for($j=0; $j< count($child); $j++){
                                 // $checkMenu = FunctionHelper::checkMenu($child($j)->$url);
                                 // if($checkMenu){
-                                    $menu .= '<ul class="nav nav-group-sub" data-submenu-title="Layouts"><li class="nav-item"><a href="'.$child[$j]->url.'" class="nav-link">'.$child[$j]->nama_menu.'</a></li></ul>';
+                                    $menu .= '<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+                                    <li class="nav-item">
+                                    <a href="'.$child[$j]->url.'" class="nav-link">'.
+                                    '<i class="'.$child[$j]->icon.'"></i>'.
+                                    $child[$j]->nama_menu.
+                                    '</a>
+                                    </li>
+                                    </ul>';
                                 // }
                         }
                     $view .= $modul.$menu.'</li>';

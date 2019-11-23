@@ -81,6 +81,11 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
   //sub modul transaksi medis pasien
   Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index');
+  //sub-modul kelola ruang
+  Route::get('kelola-ruang', 'RawatInap\RuangController@index');
+  Route::get('ruang-json', 'RawatInap\RuangController@ruangJSON')->name('ruang.dataJSON');
+  Route::get('ruang-delete', 'RawatInap\RuangController@destroy')->name('ruang.delete');
+
 
 
   
