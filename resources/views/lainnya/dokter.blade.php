@@ -7,31 +7,33 @@
 @section('content')
 <div class="card">
 	<div class="card-header header-elements-inline">
-        <h5 class="card-title">Tabel Perawat</h5>   
+        <h5 class="card-title">Tabel Dokter</h5>   
     </div>
     
     <div class="card-header">
-        <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Perawat</button>
+        <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Dokter</button>
     </div>
     
-	<table class="table datatable-basic" id="perawat-tables">
+	<table class="table datatable-basic" id="dokter-tables">
 		<thead>
 			<tr>
 				<th>No</th>
-				<th>Nama Perawat</th>
-				<th>Nama Dokter </th>
+				<th>Nama Dokter</th>
+				<th>Waktu Buka</th>
+				<th>Poli</th>
+				<th>Hari Buka</th>
 				<th class="text-center">Actions</th>
 			</tr>
 		</thead>
     </table>
 </div>
 
-<!-- modal tambah perawat -->
+<!-- modal tambah dokter -->
 <div id="add-modal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h6 class="modal-title">Form Tambah Perawat</h6>
+                    <h6 class="modal-title">Form Tambah Dokter</h6>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -42,16 +44,38 @@
                             <form id="addForm" name="addForm">
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Nama Perawat:</label>
+                                    <label class="col-lg-4 col-form-label">Nama Dokter:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Nama Perawat" class="form-control" id="nama_perawat" name="nama_perawat">
+                                    <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter">
+                                    </div>
+                                </div>
+
+                               
+                                <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label">Waktu Buka:</label>
+                                    <div class="col-lg-8">
+                                    <div class="mb-4">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-watch2"></i></span>
+										</span>
+										<input type="text" class="form-control" id="anytime-time"  name="waktu_buka">
+									</div>
+								</div>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Nama Dokter: </label>
+                                    <label class="col-lg-4 col-form-label">Poli:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter">
+                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Hari Buka</label>
+                                    <div class="col-lg-8">
+                                    <input type="text" placeholder="Hari Buka" class="form-control" id="hari_buka" name="hari_buka">
                                     </div>
                                 </div>
                             </form>
@@ -67,13 +91,13 @@
     </div>
 <!-- akhir modal tambah dokter -->
 
-@foreach($perawats as $data)
+@foreach($dokters as $data)
 <!-- modal edit dokter -->
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h6 class="modal-title">Form Edit Perawat</h6>
+                <h6 class="modal-title">Form Edit Dokter</h6>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -84,16 +108,37 @@
                         <form id="editForm" name="editForm">
                             
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Nama Perawat :</label>
+                                    <label class="col-lg-4 col-form-label">Nama Dokter:</label>
                                         <div class="col-lg-8">
-                                             <input type="text" placeholder="Nama Perawat" class="form-control" id="nama_perawat" name="nama_perawat" value="{{$data->nama_perawat}}">
+                                             <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter" value="{{$data->nama_dokter}}">
                                         </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Nama Dokter : </label>
+                                        <label class="col-lg-4 col-form-label">Waktu Buka:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter" value="{{$data->nama_dokter}}">
+                                    <div class="mb-4">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-watch2"></i></span>
+										</span>
+										<input type="text" class="form-control" id="anytime-time"  name="waktu_buka" value="{{$data->waktu_buka}}">
+									</div>
+								</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Poli:</label>
+                                    <div class="col-lg-8">
+                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli" value="{{$data->nama_poli}}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Hari Buka</label>
+                                    <div class="col-lg-8">
+                                    <input type="text" placeholder="Hari Buka" class="form-control" id="hari_buka" name="hari_buka" value="{{$data->hari_buka}}">
                                     </div>
                                 </div>
                         </form>
@@ -104,7 +149,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-success edit_perawat">Save changes</button>
+                <button type="button" class="btn bg-success edit_dokter">Save changes</button>
             </div>
         </div>
     </div>
@@ -131,7 +176,7 @@
     
              <div class="modal-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn bg-danger delete_perawat">Delete</button>
+                <button type="button" class="btn bg-danger delete_dokter">Delete</button>
             </div>
         </div>
     </div>
@@ -143,7 +188,7 @@
 @push('scripts')
     <script>
 
-        //add perawat
+        //add dokter
         $(document).on('click', '.add_data', function(e){
         e.preventDefault();
 
@@ -151,7 +196,7 @@
             headers: {
                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
             },
-            url: "{{ route('perawat.addPerawat') }}",
+            url: "{{ route('dokter.addDokter') }}",
             method: "post",
             data: {formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
             success: function(data){
@@ -163,20 +208,20 @@
                });
                $("#addForm")[0].reset();
                $('#add-modal').modal('hide');
-               $('#perawat-tables').DataTable().ajax.reload();
+               $('#dokter-tables').DataTable().ajax.reload();
             }
          });  
       });
 
       //edit ruangan
-      //edit-perawat-data itu id saat klik button edit
-    $(document).on('click', '.edit-perawat-data', function(){
+      //edit-dokter-data itu id saat klik button edit
+    $(document).on('click', '.edit-dokter-data', function(){
          var id = $(this).attr("id");
          //ini di bawah itu make id nya simpan yang simpan edit
-         $('.edit_perawat').attr("id", id);
+         $('.edit_dokter').attr("id", id);
     });
 
-    $(document).on('click', '.edit_perawat', function(e){
+    $(document).on('click', '.edit_dokter', function(e){
         e.preventDefault();
          var id = $(this).attr("id");
         
@@ -194,25 +239,25 @@
                   text: 'Dokter yang anda pilih telah diubah!',
                });
                $('#edit-modal').modal('hide');
-               $('#perawat-tables').DataTable().ajax.reload();
+               $('#dokter-tables').DataTable().ajax.reload();
             }
          });
         
       });
 
     // delete ruangan
-    $(document).on('click', '.delete-perawat-data', function(){
+    $(document).on('click', '.delete-dokter-data', function(){
        var id = $(this).attr("id");
-       $('.delete_perawat').attr("id", id);
+       $('.delete_dokter').attr("id", id);
     });
 
-    $(document).on('click', '.delete_perawat', function(){
+    $(document).on('click', '.delete_dokter', function(){
         var id = $(this).attr("id"); 
         $.ajax({
            headers: {
               'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
            },
-           url: "{{ route('perawat.delete') }}",
+           url: "{{ route('dokter.delete') }}",
            method: "GET",
            data: {id: id},
            success: function(){          
@@ -222,7 +267,7 @@
                     text: 'Dokter yang anda pilih telah dihapus!',
                 });
                 $('#delete-modal').modal('hide');
-                $('#perawat-tables').DataTable().ajax.reload();
+                $('#dokter-tables').DataTable().ajax.reload();
            }
         });
        
@@ -231,26 +276,34 @@
       
       //GET ALL DATA
      $(function(){
-            $('#perawat-tables').DataTable({
+            $('#dokter-tables').DataTable({
             order: [[ 2, "asc" ]],
                prossessing: true,
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 3 ] }
+                    { className: "text-center", "targets": [ 5 ] }
                 ],
-               ajax: '{!! route('perawat.dataJSON') !!}',
+               ajax: '{!! route('dokter.dataJSON') !!}',
                columns: [
                   { name: 'id', data: 'DT_RowIndex' },
-                  {
-                     name: 'nama_perawat',
-                     data: 'nama_perawat',
-                  },
                   {
                      name: 'nama_dokter',
                      data: 'nama_dokter',
                   },
-				  {
+                  {
+                     name: 'waktu_buka',
+                     data: 'waktu_buka',
+                  },
+                  {
+                     name: 'nama_poli',
+                     data: 'nama_poli',
+                  },
+                  {
+                     name: 'hari_buka',
+                     data: 'hari_buka',
+                  },
+                  {
                      name: 'action',
                      data: 'action',
                   },

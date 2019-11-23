@@ -35,10 +35,9 @@ class PasienController extends Controller
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-                <div class="list-icons">
-                    <a href="#" id="'.$data['id'].'" class="dropdown-item edit-data-pasien" data-toggle="modal" data-target="#edit-modal"><button type="button" class="btn btn-primary"> <i class="icon-pencil5 mr-2"></i> Edit </button></a>
-                    <a href="#" id="'.$data['id'].'" class="dropdown-item delete-modal" data-toggle="modal" data-target="#delete-modal"><button type="button" class="btn btn-danger"> <i class="icon-trash mr-2"></i> Delete </button></i></a>
-                </div>
+                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm rekam-medis-modal" data-toggle="modal" data-target="#rekam-medis"><b><i class="icon-database2"></i></b> Rekam Medis</button>
+                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pasien" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+                <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
             ';
         })
         ->rawColumns(['action'])
@@ -51,7 +50,12 @@ class PasienController extends Controller
         $menus = FunctionHelper::callMenu();
 
         $pasien = Pasien::orderBy('id', 'asc')->get();
-        return view('pasien.pasien', ['pasien' => $pasien, 'menus' => $menus]);
+
+        $pasiens = DB::table('pasien')
+                ->select('pasien.*')
+                ->get();
+                
+        return view('pasien.pasien', ['pasien' => $pasien, 'menus' => $menus, 'pasiens' => $pasiens]);
     }
 
     /**
