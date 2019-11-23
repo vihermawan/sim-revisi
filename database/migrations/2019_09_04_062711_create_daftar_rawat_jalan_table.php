@@ -15,7 +15,7 @@ class CreateDaftarRawatJalanTable extends Migration
     {
         Schema::create('daftar_rawat_jalan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->datetime('tanggal_kunjungan');
+            $table->date('tanggal_kunjungan');
             $table->bigInteger('id_pasien')->unsigned();
             $table->bigInteger('id_icd')->unsigned();
             $table->bigInteger('id_diagnosa')->unsigned();

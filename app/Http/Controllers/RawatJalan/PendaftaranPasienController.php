@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers\RawatJalan;
 
+use DB;
+use App\Poli;
+use Response;
+use App\Pasien;
+use App\Dokter;
+use App\Diagnosa;
+use App\DaftarRawatJalan;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
+use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
+
 
 class PendaftaranPasienController extends Controller
 {
@@ -16,7 +25,57 @@ class PendaftaranPasienController extends Controller
     public function index()
     {
         $menus = FunctionHelper::callMenu();
-        return view('rawatjalan.pendaftaranpasien', ['menus' => $menus]);
+
+        $diagnosa = Diagnosa::all();
+        $poli     = Poli::all();
+        $dokter   = Dokter::all();
+        return view('rawatjalan.pendaftaranpasien', [
+                'poli' => $poli,
+                'menus' => $menus,
+                'dokter' => $dokter,
+                'diagnosa' => $diagnosa,
+        
+            ]);
+    }
+
+    public function searchPasien(Request $req){
+        return Pasien::find($req['id']);						
+    }
+
+    public function searchPoli(Request $req) {
+        $dokter = Dokter::where('id_poli', $req['id'])->get();
+        $data = [];
+        foreach($dokter as $dokters) {
+            $data[] = [
+                'id' => $dokters->id,
+                'nama_dokter' => $dokters->nama_dokter,
+            ];
+        }
+        return Datatables::of($data)
+        ->addColumn('action', function ($data){
+            return'
+            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Daftar</button>
+            ';
+        })
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+
+    }
+
+    public function daftar(Request $req) {
+
+        $daftar = new DaftarRawatJalan;
+        $daftar->id_pasien = $req->formData[0]["value"];
+        $daftar->id_diagnosa = $req->formData[1]["value"];
+        $daftar->id_poli = $req->formData[2]["value"];
+        $daftar->tanggal_kunjungan = date('Y-m-d');
+        $daftar->id_icd =  1;
+        $daftar->keterangan = $req->formData[3]["value"]; ;
+        $daftar->id_dokter = $req['idDokter'];
+        //TODO: auth
+        $daftar->id_user =  1;
+        $daftar->save();
     }
 
     /**
