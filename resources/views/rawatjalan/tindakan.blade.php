@@ -188,8 +188,8 @@ $(document).ready(function(){
            headers: {
               'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
            },
-           url: "{{ route('tindakan.delete') }}",
-           method: "GET",
+           url: '{!! route('tindakan.delete') !!}',
+           method: 'GET',
            data: {id: id},
            success: function(){          
                 Swal.fire({

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\RawatInap;
 
+use Response;
 use App\Ruang;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
@@ -37,14 +38,22 @@ class RuangController extends Controller
                 'no_rm' => $ruangan->id,
                 'kode_ruang' => $ruangan->kode_ruang,
                 'nama_ruang' => $ruangan->nama_ruang,
+                'status_ruang' => $ruangan->status_ruang
             ];
         }
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pendaftaran" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-ruangan-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
             <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-ruang-data" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
         ';
+        })
+        ->editColumn('status_ruang', function($data) {
+            if ($data['status_ruang'] == 1) {
+                return "Terisi";
+            } else {
+                return "Kosong";
+            }
         })
         ->rawColumns(['action'])
         ->addIndexColumn()
@@ -91,7 +100,8 @@ class RuangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ruang = Ruang::findOrFail($id);
+        return Response::json($ruang);
     }
 
     /**
@@ -101,9 +111,13 @@ class RuangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req)
     {
-        //
+        $ruang = Ruang::findOrFail($req->id);
+        $ruang->kode_ruang      =  $req->formData[0]["value"];
+        $ruang->nama_ruang      =  $req->formData[1]["value"];
+        $ruang->status_ruang    =  $req->formData[2]["value"];
+        $ruang->save();
     }
 
     /**

@@ -37,14 +37,28 @@
                     <!-- Form -->
                     <div class="card-body">
                         <form id="editForm" name="editForm">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Kode Ruang:</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" id="kode-ruang" name="kode_ruang"/>
+                                </div>
+                            </div>
 
                             <div class="form-group row">
-                              <label class="col-lg-3 col-form-label">Status</label>
-                              <div class="col-lg-6">
-                                  <select name="status" class="form-control">
-                                      <option value="1">Penuh</option>
-                                      <option value="0">Kosong</option>
-                                  </select>
+                                <label class="col-lg-3 col-form-label">Nama Ruang:</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" id="nama-ruang" name="nama_ruang"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Status</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" type="hidden" id="status-ruang" name="status_ruang"/>
+                                    <select id="select-status-ruang" name="status" class="form-control">
+                                        <option value="0">Kosong</option>
+                                        <option value="1">Penuh</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>
@@ -95,6 +109,16 @@
     $(document).on('click', '.edit-ruangan-data', function(){
          var id = $(this).attr("id");
          $('.edit_ruangan').attr("id", id);
+         $.get('ruang/' + id +'/edit', function (data) {
+            $('#editForm #kode-ruang').val(data.kode_ruang);
+            $('#editForm #nama-ruang').val(data.nama_ruang);
+            $('#select-status-ruang').find('option[value='+data.status_ruang+']').prop('selected', true);
+            $('#select-status-ruang').on('change', function(){
+                  var status = $(this).val();
+                  $('#editForm #status-ruang').val(status);
+              });
+            $('#edit-modal').modal('show');
+        })
     });
 
     $(document).on('click', '.edit_ruangan', function(e){
@@ -105,8 +129,8 @@
             headers: {
                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
             },
-            url: "{{ route('ruang.editRuang') }}",
-            method: "post",
+            url: '{!! route('ruang.update') !!}',
+            method: "put",
             data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
             success: function(data){
                Swal.fire({
@@ -133,7 +157,7 @@
            headers: {
               'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
            },
-           ajax: '{!! route('ruang.delete') !!}',
+           url: '{!! route('ruang.delete') !!}',
            method: "GET",
            data: {id: id},
            success: function(){          
@@ -159,7 +183,7 @@
             serverside: true,
             "bDestroy": true,
             "columnDefs": [
-                { className: "text-center", "targets": [ 3 ] }
+                { className: "text-center", "targets": [ 4 ] }
             ],
             ajax: '{!! route('ruang.dataJSON') !!}',
             columns: [
@@ -178,10 +202,6 @@
                 {
                     name: 'status_ruang',
                     data: 'status_ruang',
-                    sortable: false,
-                    render: function(data){
-                        return data == 1 ? 'penuh' : 'kosong';
-                    }
                 },
                 {
                     name: 'action',
