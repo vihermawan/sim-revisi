@@ -48,15 +48,24 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
    //sub-modul pendaftaran pasien
    Route::get('daftar-rawat-jalan', 'RawatJalan\PendaftaranPasienController@index');
+   Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
+   Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
+   Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
+   Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
+   Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
+  
+   
+   
+   
    //sub-modul rekam medis pasien
    Route::get('rekam-medis-rawat-jalan', 'RawatJalan\RekamMedisController@index');
    //sub-modul tindakan medis pasien
    Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
    //sub modul transaksi medis pasien
    Route::get('transaksi-rawat-jalan', 'RawatJalan\TransaksiRawatController@index');
-
+   Route::get('transaksi-rawat-jalan/json', 'RawatJalan\TransaksiRawatController@transaksiJSON')->name('rawatJalan.transaksi');
    Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');
-   Route::get('rawat-jalan/pasien-search', 'RawatJalan\PasienController@pasienSearch')->name('rawatJalan.pasienSearch');
+   Route::get('rawat-jalan/pasien-search', 'RawatJalan\PasienController@pasienSearch')->name('pasien.autocomplete');
    Route::get('rawat-jalan/data-json', 'RawatJalan\PasienController@dataJSON')->name('rawatJalan.dataJSON');
    Route::post('rawat-jalan/add-data', 'RawatJalan\PasienController@store')->name('rawatJalan.addData');
    Route::post('rawat-jalan/edit-data', 'RawatJalan\PasienController@UpdateData')->name('rawatJalan.editData');

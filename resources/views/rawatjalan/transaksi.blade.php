@@ -10,65 +10,131 @@
 		<h5 class="card-title">Basic datatable</h5>
 	</div>
 
-	<table class="table datatable-basic">
+	<div class="card-body">
+        <form id="addForm" name="addForm">
+            <div class="row">
+            	<div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group row">
+							<label class="col-form-label col-lg-2">Tanggal</label>
+								<div class="col-lg-6">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text">
+												<input type="checkbox" checked>
+											</span>
+										</span>
+										<input type="text" class="form-control" placeholder="Default checkbox addon">
+									</div>
+								</div>
+							</div>
+                    </fieldset>
+                </div>
+				<div class="col-md-6 text-right mr-0">
+					<fieldset>
+                        <div class="form-group row">
+							<label class="col-form-label col-lg-6">Tanggal</label>
+								<div class="col-lg-6">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text">
+												<input type="checkbox" checked id="tanggal_checked">
+											</span>
+										</span>
+										<input type="date" class="form-control tanggal" placeholder="Default checkbox addon" disabled id="tanggal">
+									</div>
+								</div>
+							</div>
+                    </fieldset>
+				</div>
+            </div>
+        </form>
+    </div>  
+
+	<table class="table datatable-basic" id="transaksi">
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Job Title</th>
-				<th>DOB</th>
-				<th>Status</th>
-				<th class="text-center">Actions</th>
+				<th>Dokter</th>
+				<th>No. RM</th>
+				<th>Nama Pasien</th>
+				<th>Tanggal Lahir</th>
+				<th>Tanggal Kunjungan</th>
+				<th class="text-center">Tindakan</th>
 			</tr>
 		</thead>
 		<tbody>
-
-			<tr>
-				<td>Maxwell</td>
-				<td>Maben</td>
-				<td>Regional Representative</td>
-				<td>25 Feb 1988</td>
-				<td><span class="badge badge-danger">Suspended</span></td>
-				<td class="text-center">
-					<div class="list-icons">
-						<div class="dropdown">
-							<a href="#" class="list-icons-item" data-toggle="dropdown">
-								<i class="icon-menu9"></i>
-							</a>
-
-							<div class="dropdown-menu dropdown-menu-right">
-								<a href="#" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-								<a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-								<a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>Cicely</td>
-				<td>Sigler</td>
-				<td><a href="#">Senior Research Officer</a></td>
-				<td>15 Mar 1960</td>
-				<td><span class="badge badge-info">Pending</span></td>
-				<td class="text-center">
-					<div class="list-icons">
-						<div class="dropdown">
-							<a href="#" class="list-icons-item" data-toggle="dropdown">
-								<i class="icon-menu9"></i>
-							</a>
-
-							<div class="dropdown-menu dropdown-menu-right">
-								<a href="#" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-								<a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-								<a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
 		</tbody>
 	</table>
 </div>
 
+
 @endsection
+
+@push('scripts')
+<script>
+	$(document).ready(function(){
+		$('#transaksi').DataTable({
+			prossessing: true,
+			serverside: true,
+			"bDestroy": true,
+			"order": [[ 4, "desc" ]],
+			"columnDefs": [
+                    { className: "text-center", "targets": [ 5 ] }
+                ],
+			ajax: {
+				url : "{{ route('rawatJalan.transaksi') }}",
+				data: {id: this.value}
+			},
+			columns: [
+			{
+				name: 'nama_dokter',
+				data: 'nama_dokter',
+			},
+			{
+				name: 'no_rm',
+				data: 'id',
+			},
+			{
+				name: 'nama_pasien',
+				data: 'nama_pasien',
+			},
+			{
+				name: 'tanggal_lahir',
+				data: 'tanggal_lahir',
+			},
+			{
+				name: 'tanggal_kunjungan',
+				data: 'tanggal_kunjungan',
+			},
+			{
+				name: 'tindakan',
+				data: 'tindakan',
+			},
+
+			]
+		});
+
+
+		Date.prototype.toDateInputValue = (function() {
+			var local = new Date(this);
+			local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+			return local.toJSON().slice(0,10);
+		});
+
+			let dateNow = new Date().toDateInputValue();
+			$("#tanggal").val(dateNow);
+			$("#tanggal_checked").val(dateNow);
+
+			$("#tanggal_checked").change(function() {
+				if(this.checked) {
+					console.log(dateNow);
+					$("#tanggal").attr("disabled", true)
+				}else {
+					$("#tanggal").removeAttr("disabled")
+				}
+			});
+	});
+
+</script>
+
+@endpush
