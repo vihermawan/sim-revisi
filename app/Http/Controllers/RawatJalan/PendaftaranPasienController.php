@@ -38,8 +38,21 @@ class PendaftaranPasienController extends Controller
             ]);
     }
 
-    public function searchPasien(Request $req){
-        return Pasien::find($req['id']);						
+    public function searchPasien(Request $req) {
+
+        $pasien = Pasien::where('nama_pasien', $req['q'])->get();
+        $data = [];
+        foreach($pasien as $pasiens) {
+            $data[] = [
+                'id' => $pasiens->id,
+                'nama_pasien' => $pasiens->nama_pasien,
+                'alamat' => $pasiens->alamat,
+                'tanggal_lahir' => $pasiens->tanggal_lahir,
+            ];
+        }
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->make(true);
     }
 
     public function searchPoli(Request $req) {

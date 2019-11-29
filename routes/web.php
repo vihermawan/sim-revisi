@@ -51,6 +51,11 @@ Route::get('/', 'Dashboard\DashboardController@index');
    Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
    Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
    Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
+   Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
+   Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
+  
+   
+   
    
    //sub-modul rekam medis pasien
    Route::get('rekam-medis-rawat-jalan', 'RawatJalan\RekamMedisController@index');

@@ -33,6 +33,7 @@
   <script src="{{asset('/template/global_assets/js/plugins/ui/moment/moment.min.js')}}"></script>
   <script src="{{asset('/template/global_assets/js/plugins/pickers/daterangepicker.js')}}"></script>
 
+
   <script src="{{asset('/template/assets/js/app.js')}}"></script>
   <script src="{{asset('/template/global_assets/js/demo_pages/dashboard.js')}}"></script>
 
@@ -41,6 +42,7 @@
 
   <script src="{{asset('/template/global_assets/js/demo_pages/datatables_basic.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
   <!-- /theme JS files -->
   @yield('js')
 </head>

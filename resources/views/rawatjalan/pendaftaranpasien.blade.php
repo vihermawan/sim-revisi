@@ -18,8 +18,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Pasien </label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control search-pasien" placeholder="Masukkan Nama Pasien" name="pasien">
-								<div class="pasien-list"></div>  
+                                <input type="text" class="form-control search-pasien" placeholder="Masukkan Nama Pasien" name="pasien" id="searchPasien">
 							</div>
 						</div>
 						
@@ -34,7 +33,7 @@
 						<div class="form-group row">
                             <label class="col-lg-3 col-form-label">Diagonosa </label>
                             <div class="col-lg-9">
-								<select class="form-control select"  name="diagnosa">
+								<select class="form-control select2"  name="diagnosa">
                                     @foreach($diagnosa as $data)
 									<option value="{{$data->id}}">{{$data->alasan_diagnosa}}</option>
 									@endforeach
@@ -44,7 +43,7 @@
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label">Poliklinik</label>
 							<div class="col-lg-9">
-								<select class="form-control select"  name="poli">
+								<select class="form-control select select2"  name="poli">
 									<option disabled selected>Pilih Poli</option>
                                     @foreach($poli as $data)
 									<option value="{{$data->id}}">{{$data->nama_poli}}</option>
@@ -70,7 +69,7 @@
 			<tr>
 				<th>id</th>
 				<th>Nama Dokter</th>
-				<th class="text-center">#</th>
+				<th class="text-right">#</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -81,6 +80,36 @@
 	</table>
 </div>
 
+				<!-- Basic modal -->
+				<div id="modal_default" class="modal fade" tabindex="-1" data-backdrop="false">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Basic modal</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+								<table class="table datatable-basic" id="pasien">
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Nama Pasien</th>
+											<th>Alamat</th>
+											<th>Tanggal Lahir</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
+								<button type="button" class="btn bg-primary" id="saveModal">Save changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /basic modal -->
 
 @endsection
 
@@ -88,54 +117,79 @@
 <script>
 
 $(document).ready(function(){  
-      $('.search-pasien').keyup(function(){  
-           let query = $(this).val();  
-           if(query != '')  
-           {  
-                $.ajax({  
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                    },
-                     url:"{{ route('pasien.autocomplete') }}",  
-                     method:"GET",  
-                     data:{query:query},  
-                     success:function(data)  
-                     {  
-                         console.log(data);
-                          $('.pasien-list').fadeIn();  
-                          $('.pasien-list').html(data);  
-                     }  
-                });  
-           }  
-      });  
-      $(document).on('click', 'li', function(){   
-           let id = $(this).attr("id");
-		   $('.search-pasien').val(id); 
-           $('.search-pasien').attr('data-id', id);  
-           $('.pasien-list').fadeOut();  
-		   $.ajax({  
-            	headers: {
-                    'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                },
-                url: "{{ route('rawatJalan.searchPasien') }}",  
-                method:"GET",  
-                data:{id:id},  
-                success:function(data)  
-                {  
-                	console.log(data);
-					$('#namaPasien').html(data.nama_pasien);  
-					$('#detailPasien').html('{ RM: ' + data.id + ' } <br/> ' + data.created_at + ' | ' + data.alamat);  
-                }  
-            });  
-      });  
 
-	$('select').on('change', function() {
+	$('.select2').select2();
+
+	$('#searchPasien').keypress(function (e) {
+		var key = e.which;
+		if(key == 13)  // the enter key code
+		{
+			let a = $(this).val();
+			$("#modal_default").modal('show');
+
+			let dTable = $('#pasien').DataTable({
+				order: [[ 2, "asc" ]],
+				prossessing: true,
+				serverside: true,
+				"bDestroy": true,
+				select: true,
+				ajax: {
+					url : "{{ route('rawatJalan.searchPasien') }}",
+					data: {q: a}
+				},
+				columns: [
+					{ name: 'id', data: 'DT_RowIndex' },
+					{
+						name: 'nama_pasien',
+						data: 'nama_pasien',
+					},
+					{
+						name: 'alamat',
+						data: 'alamat',
+					},
+					{
+						name: 'tanggal_lahir',
+						data: 'tanggal_lahir',
+					},
+				]
+    		});
+
+			$('#pasien tbody').on( 'click', 'tr', function () {
+				if ($(this).hasClass('selected')) {
+					$(this).removeClass('selected');
+				} else {
+					dTable.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+					var d = dTable.row(this).data();
+
+					$('#closeModal').on( 'click', function () {
+						$("#addForm")[0].reset();
+						location.reload();
+					});
+
+					$('#saveModal').on( 'click', function () {
+						$('#searchPasien').val(d.id)
+						$('#namaPasien').html(d.nama_pasien);  
+						$('#detailPasien').html('{ RM: ' + d.id + ' } <br/> ' + d.tanggal_lahir + ' | ' + d.alamat);  
+						$("#modal_default").modal('hide');
+					});
+				}
+			} );
+
+
+			return false;
+		}
+	});
+	
+
+
+	$('.select').on('change', function() {
 		$('#poli').DataTable({
 			prossessing: true,
 			serverside: true,
 			"bDestroy": true,
 			"columnDefs": [
-                    { className: "text-center", "targets": [ 2] }
+                    { className: "text-right", "targets": [ 2] }
                 ],
 			ajax: {
 				url : "{{ route('rawatJalan.searchPoli') }}",

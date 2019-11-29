@@ -54,11 +54,11 @@
 	<table class="table datatable-basic" id="transaksi">
 		<thead>
 			<tr>
-				<th>No.</th>
 				<th>Dokter</th>
 				<th>No. RM</th>
 				<th>Nama Pasien</th>
 				<th>Tanggal Lahir</th>
+				<th>Tanggal Kunjungan</th>
 				<th class="text-center">Tindakan</th>
 			</tr>
 		</thead>
@@ -66,6 +66,7 @@
 		</tbody>
 	</table>
 </div>
+
 
 @endsection
 
@@ -76,6 +77,7 @@
 			prossessing: true,
 			serverside: true,
 			"bDestroy": true,
+			"order": [[ 4, "desc" ]],
 			"columnDefs": [
                     { className: "text-center", "targets": [ 5 ] }
                 ],
@@ -84,11 +86,6 @@
 				data: {id: this.value}
 			},
 			columns: [
-			{
-				name: 'id',
-				data: 'DT_RowIndex',
-			},
-
 			{
 				name: 'nama_dokter',
 				data: 'nama_dokter',
@@ -104,6 +101,10 @@
 			{
 				name: 'tanggal_lahir',
 				data: 'tanggal_lahir',
+			},
+			{
+				name: 'tanggal_kunjungan',
+				data: 'tanggal_kunjungan',
 			},
 			{
 				name: 'tindakan',
