@@ -108,11 +108,10 @@
                                 <th>Dokter</th>
                                 <th>ICD</th>
                                 <th>Diagnosa</th>
-                                <th>Anamesa</th>
+                                <th>Anamnesa</th>
                                 <th>P.Fisik</th>
                                 <th>P.Penunjang</th>
                                 <th>Jenis</th>
-                                <th>Poli</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -374,12 +373,16 @@
 			},
 			columns: [
 			{
-				name: 'id',
-				data: 'DT_RowIndex',
+				name: 'tanggal',
+				data: 'tanggal',
 			},
             {
 				name: 'nama_dokter',
 				data: 'nama_dokter',
+			},
+            {
+				name: 'nama_icd',
+				data: 'nama_icd',
 			},
             {
 				name: 'diagnosa',
@@ -401,9 +404,50 @@
 				name: 'kasus',
 				data: 'kasus',
 			},
+            {
+				name: 'action',
+				data: 'action',
+			},
 
 			]
 		});
+
+
+        //delete rekam medis
+        $(document).on('click', '#hapusRM', function(){
+            let id = $(this).attr("data-id");
+            Swal.fire({
+                title: 'Harap Konfirmasi',
+                text: "Anda tidak dapat mengembalikan data yang telah ada hapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Lanjutkan'
+                }).then((result) => {
+                
+                if (result.value) {
+                    $.ajax({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                        },
+                        url: "{{ route('rawatJalan.deleteRM') }}",
+                        method: "post",
+                        data: {id: id},
+                        success: function(data){
+                            console.log(data);
+                            Swal.fire({
+                                type: 'success',
+                                title: 'Berhasil!',
+                                text: 'Rekam Medis berhasil di hapus!',
+                            });
+                            $('#rekamMedisTable').DataTable().ajax.reload();
+                        }
+                    });
+                }
+            })
+            return false;
+        });
 
 
         Date.prototype.toDateInputValue = (function() {

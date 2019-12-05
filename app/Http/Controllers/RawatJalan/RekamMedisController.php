@@ -22,13 +22,15 @@ class RekamMedisController extends Controller
                         ->join('pasien','rekam_medis.id_pasien','=','pasien.id')
                         ->join('dokter','rekam_medis.id_dokter','=','dokter.id')
                         ->join('icd','rekam_medis.id_icd','=','icd.id')
+                        ->select('rekam_medis.*', 'rekam_medis.id as id_rekam_medis', 'pasien.*', 'dokter.*', 'icd.*')
                         ->where('rekam_medis.id_pasien','=' ,$req['id'])
                         ->get(); 
                     
         $data = [];
         foreach($rekamMedis as $rm) {
             $data[] = [
-                'id' => $rm->id,
+                'id' => $rm->id_rekam_medis,
+                'tanggal' => $rm->tanggal,
                 'nama_dokter' => $rm->nama_dokter,
                 'nama_icd' => $rm->nama_icd,
                 'diagnosa' => $rm->diagnosa,
@@ -39,6 +41,13 @@ class RekamMedisController extends Controller
             ];
         }
         return Datatables::of($data)
+        ->addColumn('action', function ($data){
+            return'
+                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pasien" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+                <button type="button" data-id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm" id="hapusRM"><b><i class="icon-bin"></i></b> Hapus</button>
+            ';
+        })
+        ->rawColumns(['action'])
         ->addIndexColumn()
         ->make(true);
     }
@@ -65,6 +74,7 @@ class RekamMedisController extends Controller
         $daftar->catatan = $req->formData[11]["value"];
         //TODO: auth
         // $daftar->id_user =  1;
+        $daftar->save();
     
     }
 
@@ -74,9 +84,10 @@ class RekamMedisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function deleteRM(Request $req)
     {
-        //
+        $data = RekamMedis::find($req['id']);
+        $data->delete();
     }
 
     /**
@@ -102,14 +113,5 @@ class RekamMedisController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

@@ -61,6 +61,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
    Route::get('rekam-medis-rawat-jalan', 'RawatJalan\RekamMedisController@index');
    Route::post('rekam-medis-rawat-jalan/tambah-rm', 'RawatJalan\RekamMedisController@store')->name('rawatJalan.tambahRM');
    Route::get('rekam-medis-rawat-jalan/detail-rm-json', 'RawatJalan\RekamMedisController@detailRMJSON')->name('rawatJalan.detailRMJSON');
+   Route::post('rekam-medis-rawat-jalan/delete-rm', 'RawatJalan\RekamMedisController@deleteRM')->name('rawatJalan.deleteRM');
    //sub-modul tindakan medis pasien
    Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
    //sub modul transaksi medis pasien
