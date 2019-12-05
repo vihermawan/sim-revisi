@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Pasien;
 
+use Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Icd;
+use App\Poli;
+use App\Dokter;
+use App\DaftarRawatJalan;
 use App\Pasien;
 use Redirect;
 use Yajra\Datatables\Datatables;
@@ -25,18 +30,16 @@ class PasienController extends Controller
                 'id' => $pasiens->id,
                 'nama_pasien' => $pasiens->nama_pasien,
                 'jenis_kelamin' => $pasiens->jenis_kelamin,
-                'alamat' => $pasiens->alamat,
+                'tanggal_lahir' => $pasiens->tanggal_lahir,
                 'status' => $pasiens->status,
-                'agama' => $pasiens->agama,
-                'umur' => $pasiens->umur,
-                'pendidikan' => $pasiens->pendidikan,
+                'alamat' => $pasiens->alamat,
             ];
         }
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm rekam-medis-modal" data-toggle="modal" data-target="#rekam-medis"><b><i class="icon-database2"></i></b> Rekam Medis</button>
-                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pasien" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+                <a href="'.route('pasien.rekamMedisPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-database2"></i></b>Rekam Medis</button></a>
+                <a href="'.route('pasien.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
                 <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
             ';
         })
@@ -66,6 +69,44 @@ class PasienController extends Controller
     public function create()
     {
         //
+    }
+
+    public function detailPasien(Request $req) {
+        $pasien = Pasien::find($req->id);
+
+        $rawatJalan = DB::table('pasien')
+                        ->select('pasien.id as id_pasien')
+                        ->where('pasien.id','=' ,$req['id'])
+                        ->first(); 
+        $menus = FunctionHelper::callMenu();
+        return view('pasien.edit', ['menus' => $menus, 'pasien' => $pasien,]);
+    }
+
+    public function rekamMedisPasien(Request $req){
+        $pasien = Pasien::find($req->id);
+
+        $rawatJalan = DB::table('daftar_rawat_jalan')
+                        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien')
+                        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
+                        ->first(); 
+
+        $poli     = Poli::all();
+        $dokter   = Dokter::all();
+        $icd      = Icd::all();
+        $menus = FunctionHelper::callMenu();
+        return view('pasien.rekammedis', [
+                                'icd' => $icd,
+                                'poli' => $poli,
+                                'dokter'=> $dokter,
+                                'menus' => $menus,
+                                'pasien' => $pasien,
+                                'rawatJalan' => $rawatJalan, 
+                            ]);
     }
 
     /**
@@ -98,7 +139,7 @@ class PasienController extends Controller
      */
     public function edit($id)
     {
-        //
+      
     }
 
     /**
