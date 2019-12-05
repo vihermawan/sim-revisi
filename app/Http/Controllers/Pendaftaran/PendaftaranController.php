@@ -18,41 +18,12 @@ class PendaftaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    // public function pendaftaranJSON() {
-    //     $pasien = DB::table('pasien')
-    //             ->select('pasien.*')
-    //             ->get();  
-
-    //     $data = [];
-    //     foreach($pasien as $pasiens) {
-    //         $data[] = [
-    //             'id' => $pasiens->id,
-    //             'no_rm' => $pasiens->id,
-    //             'nama_pasien' => $pasiens->nama_pasien,
-    //             'no_identitas' => $pasiens->no_identitas,
-    //             'tanggal_kunjungan' => $pasiens->tanggal_kunjungan,
-    //             'alamat' => $pasiens->alamat,
-    //         ];
-    //     }
-    //     return Datatables::of($data)
-    //     ->addColumn('action', function ($data){
-    //         return'
-    //         <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pendaftaran" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
-    //         <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
-    //     ';
-    //     })
-    //     ->rawColumns(['action'])
-    //     ->addIndexColumn()
-    //     ->make(true);
-    // }
-     
     public function index()
     {
         $menus = FunctionHelper::callMenu();
         $pasien = DB::table('pasien')->count();  
         $idbaru = $pasien+1;
-        $kode = str_pad('0',7,"0");
+        $kode = str_pad('1',7,"0");
         $id_pasien = $kode.$idbaru;
         return view('pendaftaran.coba',['pasien' => $pasien, 'menus' => $menus, 'id_pasien' => $id_pasien]);
     }
