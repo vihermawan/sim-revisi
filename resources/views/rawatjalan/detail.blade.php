@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label">No. RM
+                                    <label class="col-lg-2 col-form-label">No. RM</label>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control search-pasien" placeholder="Masukkan Nama Pasien" name="id_pasien"  value="{{$rawatJalan->id_pasien}}" readonly="readonly" id="idPasien">
                                     </div>
