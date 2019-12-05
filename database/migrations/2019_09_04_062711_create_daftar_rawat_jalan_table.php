@@ -23,6 +23,8 @@ class CreateDaftarRawatJalanTable extends Migration
             $table->bigInteger('id_poli')->unsigned();
             $table->bigInteger('id_user')->unsigned();
             $table->string('keterangan');
+            $table->string('catatan')->nullable();
+            $table->string('alergi')->nullable();
             $table->timestamps();
         });
     }
