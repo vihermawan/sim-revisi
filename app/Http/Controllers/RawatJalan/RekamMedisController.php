@@ -43,7 +43,7 @@ class RekamMedisController extends Controller
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pasien" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+                <button type="button" data-id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-pasien" id="editRekmedBtn"><b><i class="icon-pencil5"></i></b> Edit</button>
                 <button type="button" data-id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm" id="hapusRM"><b><i class="icon-bin"></i></b> Hapus</button>
             ';
         })
@@ -96,9 +96,9 @@ class RekamMedisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editDataRM(Request $req)
     {
-        //
+        return RekamMedis::find($req['id']);
     }
 
     /**
