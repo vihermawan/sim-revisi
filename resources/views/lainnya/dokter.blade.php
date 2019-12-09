@@ -20,6 +20,7 @@
 				<th>No</th>
 				<th>Nama Dokter</th>
 				<th>Waktu Buka</th>
+                <th>Waktu Tutup</th>
 				<th>Poli</th>
 				<th>Hari Buka</th>
 				<th class="text-center">Actions</th>
@@ -66,11 +67,33 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Poli:</label>
+                                        <label class="col-lg-4 col-form-label">Waktu Tutup:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli">
+                                    <div class="mb-4">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-watch2"></i></span>
+										</span>
+										<input type="text" class="form-control" id="anytime-time"  name="waktu_tutup">
+									</div>
+								</div>
                                     </div>
                                 </div>
+
+                        
+
+                        <div class="form-group row">
+							<label class="col-lg-4 col-form-label">Poli</label>
+							    <div class="col-lg-8">
+								    <select class="form-control select select2"  name="poli">
+									    <option disabled selected>Pilih Poli</option>
+                                            @foreach($poli as $data)
+									        <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+									        @endforeach
+                                    </select>
+							</div>
+						</div>
+
 
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Hari Buka</label>
@@ -129,9 +152,23 @@
                                 </div>
 
                                 <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label">Waktu Tutup:</label>
+                                    <div class="col-lg-8">
+                                    <div class="mb-4">
+									<div class="input-group">
+										<span class="input-group-prepend">
+											<span class="input-group-text"><i class="icon-watch2"></i></span>
+										</span>
+										<input type="text" class="form-control" id="anytime-time"  name="waktu_tutup" value="{{$data->waktu_tutup}}">
+									</div>
+								</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Poli:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli" value="{{$data->nama_poli}}">
+                                    <input type="text" placeholder="Poli" class="form-control" id="nama_poli" name="nama_poli" value="{{$data->nama_poli}}">
                                     </div>
                                 </div>
 
@@ -215,9 +252,9 @@
 
       //edit ruangan
       //edit-dokter-data itu id saat klik button edit
-    $(document).on('click', '.edit-dokter-data', function(){
+   //edit penyakit
+   $(document).on('click', '.edit-dokter-data', function(){
          var id = $(this).attr("id");
-         //ini di bawah itu make id nya simpan yang simpan edit
          $('.edit_dokter').attr("id", id);
     });
 
@@ -233,6 +270,7 @@
             method: "post",
             data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
             success: function(data){
+                console.log(data)
                Swal.fire({
                   type: 'success',
                   title: 'Dokter berhasil di ubah!',
@@ -282,7 +320,7 @@
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 5 ] }
+                    { className: "text-center", "targets": [ 6 ] }
                 ],
                ajax: '{!! route('dokter.dataJSON') !!}',
                columns: [
@@ -294,6 +332,10 @@
                   {
                      name: 'waktu_buka',
                      data: 'waktu_buka',
+                  },
+                  {
+                     name: 'waktu_tutup',
+                     data: 'waktu_tutup',
                   },
                   {
                      name: 'nama_poli',

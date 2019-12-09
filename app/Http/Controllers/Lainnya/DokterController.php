@@ -30,6 +30,7 @@ class DokterController extends Controller
                 'id' => $dokter->id_dokter,
                 'nama_dokter' => $dokter->nama_dokter,
                 'waktu_buka' => $dokter->waktu_buka,
+                'waktu_tutup' => $dokter->waktu_tutup,
                 'nama_poli' => $dokter->nama_poli,
                 'hari_buka' => $dokter->hari_buka,
             ];
@@ -37,7 +38,7 @@ class DokterController extends Controller
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-dokter" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-dokter-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
             <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
         ';
         })
@@ -53,8 +54,10 @@ class DokterController extends Controller
         ->select('dokter.*','dokter.id as id_dokter','poli.*','poli.id as id_poli')
         ->get();
 
+        $poli     = Poli::all();
+
         $menus = FunctionHelper::callMenu();
-        return view('lainnya.dokter', ['menus' => $menus, 'dokters' => $dokters]);
+        return view('lainnya.dokter', ['menus' => $menus, 'dokters' => $dokters, 'poli' => $poli]);
     }
 
     /**
@@ -75,11 +78,14 @@ class DokterController extends Controller
      */
     public function store(Request $req)
     {
+            
+
             $dokter = new Dokter;
             $dokter->nama_dokter = $req->formData[0]["value"];
             $dokter->waktu_buka = $req->formData[1]["value"];
-            $dokter->id_poli = $req->formData[2]["value"];
-            $dokter->hari_buka = $req->formData[3]["value"];
+            $dokter->waktu_tutup = $req -> formData[2]["value"];
+            $dokter->id_poli = $req->formData[3]["value"];
+            $dokter->hari_buka = $req->formData[4]["value"];
             $dokter->save();
             return $req;
     }
@@ -116,10 +122,11 @@ class DokterController extends Controller
     public function update(Request $req)
     {
         $dokter = Dokter::find($req->id);
-        $dokter->nama_dokter =  $req->formData[0]["value"];
+        $dokter->nama_dokter =   $req->formData[0]["value"];
         $dokter->waktu_buka =  $req->formData[1]["value"];
-        $dokter->nama_poli =  $req->formData[2]["value"];
-        $dokter->hari_buka =  $req->formData[3]["value"];
+        $dokter->waktu_tutup =  $req->formData[2]["value"];
+        $dokter->nama_poli =  $req->formData[3]["value"];
+        $dokter->hari_buka =  $req->formData[4]["value"];
         $dokter->save();
     }
 

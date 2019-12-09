@@ -60,7 +60,6 @@
 <!--End Modal show penyakit-->
 
 <!--Modal edit penyakit -->
-@foreach($tindakans as $data)
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -77,7 +76,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Nama Tindakan</label>
                                 <div class="col-lg-9">
-                                <input name="nama_tindakan" type="text" class="form-control" value="{{$data->nama_tindakan}}" >
+                                <input name="nama_tindakan" type="text" class="form-control" >
                                 </div>
                             </div>
                         </form>
@@ -93,7 +92,7 @@
         </div>
     </div>
 </div>
-@endforeach
+
 <!--End Modal edit penyakit-->
 
 <!--Modal delete -->
