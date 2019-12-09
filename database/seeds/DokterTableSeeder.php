@@ -13,7 +13,8 @@ class DokterTableSeeder extends Seeder
     {
         DB::table('dokter')->insert([
             'nama_dokter' => 'dr. Rian Andi',
-            'waktu_buka' => '07.00-12.00',
+            'waktu_buka' => '07.00',
+            'waktu_tutup' => '12.00',
             'id_poli' => 1,
             'hari_buka' => 'senin',
         ]);

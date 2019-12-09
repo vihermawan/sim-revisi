@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Lainnya;
 
+
 use Illuminate\Http\Request;
 use App\Tindakan;
 use Redirect;
@@ -18,39 +19,38 @@ class TindakanMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function tindakanJSON()
-    {
+    public function tindakanJSON() {
         $tindakans = DB::table('tindakan')
         ->select('tindakan.*','tindakan.id as id_tindakan')
-        ->get();  
+        ->get();
 
         $data = [];
         foreach($tindakans as $tindakan) {
             $data[] = [
-                'id' => $tindakan->id_tindakan,
-                'nama_tindakan' => $tindakan->nama_tindakan
+                'id' => $tindakan-> id_tindakan,
+                'nama_tindakan' => $tindakan -> nama_tindakan
             ];
         }
-        return Datatables::of($data)
-        ->addColumn('action', function ($data){
-            return'
-            <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-data-tindakan" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
-            <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-modal" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
-        ';
-        })
-        ->rawColumns(['action'])
-        ->addIndexColumn()
-        ->make(true);
-    } 
+    return Datatables::of($data)
+    ->addColumn('action', function ($data){
+        return'
+        <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-tindakan-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+        <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-tindakan-data" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
+    ';
+    })
+    ->rawColumns(['action'])
+    ->addIndexColumn()
+    ->make(true);
+} 
 
     public function index()
     {
+        $menus = FunctionHelper::callMenu();
         $tindakans = DB::table('tindakan')
         ->select('tindakan.*','tindakan.id as id_tindakan')
-        ->get();  
+        ->get();
 
-        $menus = FunctionHelper::callMenu();
-        return view('lainnya.tindakanmaster', ['menus' => $menus, 'tindakans' => $tindakans]);
+        return view('lainnya.tindakanMaster', ['tindakan' => $tindakans, 'menus' => $menus]);
     }
 
     /**
@@ -60,7 +60,7 @@ class TindakanMasterController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -69,12 +69,13 @@ class TindakanMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $req)
+    public function store(Request $request)
     {
-        $tindakan = new Tindakan;
-        $tindakan->nama_tindakan = $req->formData[0]["value"];
+        $tindakan = new Tindakan();
+        $tindakan ->nama_tindakan = $request->formData[0]["value"];
         $tindakan->save();
-        return $req;
+
+
     }
 
     /**
@@ -121,8 +122,8 @@ class TindakanMasterController extends Controller
      */
     public function destroy(Request $req)
     {
-        if ($req->ajax()) {
-            return Tindakan::destroy($req->id);
-         }
+        if( $req->ajax()) {
+            return Tindakan::destroy($req-> id);
+        }
     }
 }
