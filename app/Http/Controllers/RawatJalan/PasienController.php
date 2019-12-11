@@ -35,7 +35,7 @@ class PasienController extends Controller
                         ->select('pasien.*','pasien.id as id_pasien','pemeriksaan.*','pemeriksaan.id as id_pemeriksaan','users.*','rawat_jalan.*','rawat_jalan.id as id_rawat_jalan','poli.*','tindakan.*','resep.*')
                         ->get();   
         
-                        $data = [];
+    $data = [];
         foreach($rawatjalan as $pasien) {
             $data[] = [
                 'id' => $pasien->id_rawat_jalan,

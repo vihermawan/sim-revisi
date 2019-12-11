@@ -7,7 +7,7 @@
 @section('content')
 <div class="card">
 	<div class="card-header header-elements-inline">
-		<h5 class="card-title">Basic datatable</h5>
+		<h5 class="card-title">Manajemen Ruang</h5>
 	</div>
     
 	<table id="ruang-tables" class="table datatable-basic">

@@ -86,14 +86,14 @@ class PasienController extends Controller
         $pasien = Pasien::find($req->id);
 
         $rawatJalan = DB::table('daftar_rawat_jalan')
-                        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
-                        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
-                        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
-                        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
-                        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
-                        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien')
-                        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
-                        ->first(); 
+        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien')
+        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
+        ->first(); 
 
         $poli     = Poli::all();
         $dokter   = Dokter::all();
@@ -109,6 +109,37 @@ class PasienController extends Controller
                             ]);
     }
 
+    public function rekmedTransaksiJSON() {
+        $pasieninap = DB::table('transaksi_rawat_inap')
+                    ->join('daftar_rawat_inap','transaksi_rawat_inap.id_daftar_rawat_inap','=','daftar_rawat_inap.id')
+                    ->join('ruang','daftar_rawat_inap.id_ruang','=','ruang.id')
+                    ->join('transaksi_rawat_jalan','daftar_rawat_inap.id_transaksi_rawat_jalan','=','transaksi_rawat_jalan.id')
+                    ->join('daftar_rawat_jalan','transaksi_rawat_jalan.id_daftar_rawat_jalan','=','daftar_rawat_jalan.id')
+                    ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                    ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                    ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                    ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                    ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                    ->select('transaksi_rawat_inap.*','transaksi_rawat_inap.id as id_transaksi_rawat_inap','daftar_rawat_inap.*','transaksi_rawat_jalan.*','daftar_rawat_jalan.*','pasien.*','pasien.id as id_pasien','poli.*','icd.*','dokter.*','diagnosa.*','ruang.*')
+                    ->get(); 
+
+        $data = [];
+        foreach($pasieninap as $info) {
+            $data[] = [
+                'tanggal_kunjungan' => $info->tanggal_kunjungan,
+                'nama_poli' => $info->nama_poli,
+                'nama_ruang' => $info->nama_ruang,
+                'tanggal_lahir' => $info->tanggal_lahir,
+                'status' => $info->status,
+                'alamat' => $info->alamat,
+            ];
+        }
+        return Datatables::of($data)
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *

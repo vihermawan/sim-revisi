@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Informasi;
 
+use App\Ruang;
+use Redirect;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
 use App\Http\Controllers\Controller;
+use Yajra\Datatables\Datatables;
 
 class InformasiRuangController extends Controller
 {
@@ -13,6 +17,33 @@ class InformasiRuangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function informasiruangJSON() {
+        $informasi = DB::table('ruang')
+                    ->select('ruang.*')
+                    ->get();  
+        $data = [];
+        foreach($informasi as $ruang) {
+            $data[] = [
+                'id' => $ruang->id,
+                'kode_ruang' => $ruang->kode_ruang,
+                'nama_ruang' => $ruang->nama_ruang,
+                'status_ruang' => $ruang->status_ruang,
+            ];
+        }
+        return Datatables::of($data)
+        ->addColumn('action', function ($data){
+            return'
+                <a href="'.route('pasien.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Daftar</button></a>
+            ';
+        })
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+ 
+ 
+     
     public function index()
     {
         $menus = FunctionHelper::callMenu();

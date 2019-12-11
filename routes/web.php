@@ -30,18 +30,21 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   //sub-modul informasi ruang
   Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index');
-
+  Route::get('informasi-ruang-json', 'Informasi\InformasiRuangController@informasiruangJSON')->name('informasiruang.dataJSON');
   //sub-modul jadwal praktek
   Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
+  Route::get('jadwal-praktek-json', 'Informasi\JadwalPraktekController@jadwalJSON')->name('jadwal.dataJSON');
 
   //sub-modul pasien inap
   Route::get('pasien-rawat-inap', 'Informasi\PasienInapController@index');
+  Route::get('pasien-rawat-inap-json', 'Informasi\PasienInapController@informasipasienJSON')->name('inap.dataJSON');
 
   // modul pasien
   Route::get('pasien', 'Pasien\PasienController@index')->name('pasien');
   Route::get('pasien-json', 'Pasien\PasienController@pasienJSON')->name('pasien.dataJSON');
   Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
   Route::get('pasien/rekam-medis/{id}', 'Pasien\PasienController@rekamMedisPasien')->name('pasien.rekamMedisPasien');
+  Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedTransaksiJSON')->name('pasien.rekmedTransaksiJSON');
   // Route::get('pasien/{id}/edit', 'Pasien\PasienController@edit')->name('pasien.edit');
   Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
