@@ -13,8 +13,10 @@
 
 Auth::routes();
 
-Route::middleware(['guest'])->group(function () {
-Route::get('/', 'Dashboard\DashboardController@index');
+Route::middleware(['auth'])->group(function () {
+  
+  
+  Route::get('/', 'Dashboard\DashboardController@index');
 
   // modul dashboard
   Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
@@ -173,3 +175,11 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   Route::get('profile', 'Setting\ProfileController@index');
 });
+
+Route::get('/login',function(){
+  return view('layouts.login');
+})->name('login');
+
+Route::get('/register',function(){
+  return view('layouts.register');
+})->name('register');
