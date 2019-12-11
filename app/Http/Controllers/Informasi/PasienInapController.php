@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Informasi;
 
+use App\Pasien;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class PasienInapController extends Controller
 {
@@ -13,6 +16,37 @@ class PasienInapController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function informasipasienJSON() {
+        $pasieninap = DB::table('transaksi_rawat_inap')
+                    ->join('daftar_rawat_inap','transaksi_rawat_inap.id_daftar_rawat_inap','=','daftar_rawat_inap.id')
+                    ->join('ruang','daftar_rawat_inap.id_ruang','=','ruang.id')
+                    ->join('transaksi_rawat_jalan','daftar_rawat_inap.id_transaksi_rawat_jalan','=','transaksi_rawat_jalan.id')
+                    ->join('daftar_rawat_jalan','transaksi_rawat_jalan.id_daftar_rawat_jalan','=','daftar_rawat_jalan.id')
+                    ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                    ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                    ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                    ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                    ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                    ->select('transaksi_rawat_inap.*','transaksi_rawat_inap.id as id_transaksi_rawat_inap','daftar_rawat_inap.*','transaksi_rawat_jalan.*','daftar_rawat_jalan.*','pasien.*','pasien.id as id_pasien','poli.*','icd.*','dokter.*','diagnosa.*','ruang.*')
+                    ->get();  
+        $data = [];
+        foreach($pasieninap as $informasi) {
+            $data[] = [
+                'id_transaksi_rawat_inap' => $informasi->id_transaksi_rawat_inap,
+                'nama_ruang' => $informasi->nama_ruang,
+                'id_pasien' => $informasi->id_pasien,
+                'nama_pasien' => $informasi->nama_pasien,
+                'alamat' => $informasi->alamat,
+            ];
+        }
+        return Datatables::of($data)
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+
+
     public function index()
     {
         $menus = FunctionHelper::callMenu();

@@ -286,7 +286,7 @@
       let kabupatencode = $('#codekabupaten').val();
       let kecamatancode = $('#codekecamatan').val();
       let kelurahancode = $('#codekelurahan').val();
-      console.log(propinsicode);
+    //   console.log(kabupatencode);
       $.ajax({
           url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/provinsi',
           type: 'GET',
@@ -294,22 +294,22 @@
           success: function(json) {
               if (json.code == 200) {
                   for (i = 0; i < Object.keys(json.data).length; i++) {
-                    result =  (propinsicode == json.data[i].id) ? 'selected' : '';
-                    console.log(result); 
-                    //   $('#propinsi').append($('<option class="provinsi" >').text(json.data[i].name).attr('value', json.data[i].id));
-                      
+                    // result =  (propinsicode == json.data[i].id) ? 'selected' : '';
+                    // console.log(result); 
                     if(propinsicode == json.data[i].id){
                         $('#propinsi').append($('<option class="provinsi">').text(json.data[i].name).attr({'selected':'selected','value':json.data[i].id }));
                     }else {
                         $('#propinsi').append($('<option class="provinsi">').text(json.data[i].name).attr('value',json.data[i].id));
                     }
-                   
                   }
               } else {
                   $('#kabupaten').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
               }
           }
       });
+      
+
+     
 
       
       $("#propinsi").change(function() {
