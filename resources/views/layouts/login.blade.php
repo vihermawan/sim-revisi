@@ -45,7 +45,7 @@
 						<div class="col-lg-6">
 							<div class="card pt-4 px-3">	
 							<img src="https://indok3ll.com/wp-content/uploads/2018/12/kesehatan-icon.png" class="mb-4" width="120px">							
-								<h1 class="font-weight-semibold ">LOGIN SISTEM INFORMASI KLINIK</h1>
+								<h1 class="font-weight-semibold ">LOGIN SISTEM INFORMASI KLINIK Komsi</h1>
 								<div class="card-body">
 									<form action="#">
 										<fieldset class="mb-0">
