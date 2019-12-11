@@ -517,7 +517,6 @@
 			]
 		});
 
-
         //delete rekam medis
         $(document).on('click', '#hapusRM', function(){
             let id = $(this).attr("data-id");
@@ -574,7 +573,7 @@
                     $('#editFormRM #tanggal_edit').val(data.tanggal);
 
                     if($('#editJenisKasus option').select2().val() !== data.kasus_diagnosa){
-                        $('#editJenisKasus  option').select2().attr('selected', 'selected');  
+                        $('#editJenisKasus option').select2().attr('selected','selected');  
                     }
                
                     $("#editRekmed").modal("show")

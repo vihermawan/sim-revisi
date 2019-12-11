@@ -167,7 +167,7 @@ class MenuTableSeeder extends Seeder
         ]);
 
         DB::table('menu')->insert([
-            'parent_id' => 7,
+            'parent_id' => 6,
             'nama_menu' => 'Dokter',
             'url' => '/dokter',
             'icon' => 'icon-radio-unchecked',
