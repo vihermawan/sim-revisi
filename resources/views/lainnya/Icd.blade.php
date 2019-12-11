@@ -60,7 +60,7 @@
 <!--End Modal show penyakit-->
 
 <!--Modal edit penyakit -->
-@foreach($icd as $data)
+
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -77,7 +77,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Nama ICD</label>
                                 <div class="col-lg-9">
-                                <input name="nama_icd" type="text" class="form-control" value="{{$data->nama_icd}}" >
+                                    <input name="nama_icd" id="nama_icd" type="text" class="form-control" >
                                 </div>
                             </div>
                         </form>
@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-@endforeach
+
 <!--End Modal edit penyakit-->
 
 <!--Modal delete -->
@@ -152,10 +152,32 @@
     });
 
     //edit penyakit
-    $(document).on('click', '.edit-icd-data', function(){
-         var id = $(this).attr("id");
-         $('.edit_icd').attr("id", id);
-    });
+    // $(document).on('click', '.edit-icd-data', function(){
+    //      var id = $(this).attr("id");
+    //      $('.edit_icd').attr("id", id);
+    // });
+
+    
+    //edit penyakit baru
+    $(document).on('click', '#editIcdBtn', function(){
+            console.log("text")
+            id = $(this).attr('data-id');
+            $('.edit_icd').attr("id", id);
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                },
+                url: "{{ route('icd.editDataIcd') }}",
+                method: "get",
+                data: {id: id},
+                success: function(data){
+                    console.log(data);
+                    $('#editForm #nama_icd').val(data.nama_icd);
+                    $("#edit-modal").modal("show")
+                }
+            });
+    
+        });
 
     $(document).on('click', '.edit_icd', function(e){
         e.preventDefault();

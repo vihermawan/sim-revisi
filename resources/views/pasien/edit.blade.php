@@ -294,8 +294,6 @@
           success: function(json) {
               if (json.code == 200) {
                   for (i = 0; i < Object.keys(json.data).length; i++) {
-                    // result =  (propinsicode == json.data[i].id) ? 'selected' : '';
-                    // console.log(result); 
                     if(propinsicode == json.data[i].id){
                         $('#propinsi').append($('<option class="provinsi">').text(json.data[i].name).attr({'selected':'selected','value':json.data[i].id }));
                     }else {

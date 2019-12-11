@@ -45,7 +45,6 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
   Route::get('pasien/rekam-medis/{id}', 'Pasien\PasienController@rekamMedisPasien')->name('pasien.rekamMedisPasien');
   Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedTransaksiJSON')->name('pasien.rekmedTransaksiJSON');
-  // Route::get('pasien/{id}/edit', 'Pasien\PasienController@edit')->name('pasien.edit');
   Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
 
@@ -133,6 +132,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('dokter', 'Lainnya\DokterController@index');
   Route::post('add-dokter', 'Lainnya\DokterController@store')->name('dokter.addDokter');
   Route::get('dokter-json', 'Lainnya\DokterController@dokterJSON')->name('dokter.dataJSON');
+  Route::get('dokter/edit-dokter', 'Lainnya\DokterController@editDataDokter')->name('dokter.editDataDokter');
   Route::post('edit-dokter', 'Lainnya\DokterController@update')->name('dokter.editDokter');
   Route::get('deleteDokter', 'Lainnya\DokterController@destroy')->name('dokter.delete');
   
@@ -148,6 +148,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::post('add-icd', 'Lainnya\IcdController@store')->name('icd.addIcd');
   Route::get('icd-json', 'Lainnya\IcdController@icdJSON')->name('icd.dataJSON');
   Route::get('deleteIcd', 'Lainnya\IcdController@destroy')->name('icd.delete');
+  Route::get('icd/edit-icd', 'Lainnya\IcdController@editDataIcd')->name('icd.editDataIcd');
   Route::post('edit-icd', 'Lainnya\IcdController@update')->name('icd.editIcd');
 
   //tindakan
@@ -155,6 +156,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::post('add-tindakan', 'Lainnya\TindakanMasterController@store')->name('tindakan.addTindakan');
   Route::get('tindakan-json', 'Lainnya\TindakanMasterController@tindakanJSON')->name('tindakan.dataJSON');
   Route::get('deleteTindakan', 'Lainnya\TindakanMasterController@destroy')->name('tindakan.delete');
+  Route::get('tindakan/edit-tindakan', 'Lainnya\TindakanMasterController@editDataTindakan')->name('tindakan.editDataTindakan');
   Route::post('edit-tindakan', 'Lainnya\TindakanMasterController@update')->name('tindakan.editTindakan');
 
   // modul setting

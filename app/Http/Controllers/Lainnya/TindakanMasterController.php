@@ -34,7 +34,7 @@ class TindakanMasterController extends Controller
     return Datatables::of($data)
     ->addColumn('action', function ($data){
         return'
-        <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-tindakan-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+        <button type="button" data-id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-icd-data" id="editTindakanBtn"><b><i class="icon-pencil5"></i></b> Edit</button>
         <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-tindakan-data" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
     ';
     })
@@ -69,6 +69,11 @@ class TindakanMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function editDataTindakan(Request $req)
+    {   
+        return Tindakan::find($req['id']);
+    }
+
     public function store(Request $request)
     {
         $tindakan = new Tindakan();
