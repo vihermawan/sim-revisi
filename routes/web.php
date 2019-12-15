@@ -13,7 +13,7 @@
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['guest'])->group(function () {
   
   
   Route::get('/', 'Dashboard\DashboardController@index');
