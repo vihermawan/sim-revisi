@@ -46,7 +46,11 @@ Route::middleware(['guest'])->group(function () {
   Route::get('pasien-json', 'Pasien\PasienController@pasienJSON')->name('pasien.dataJSON');
   Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
   Route::get('pasien/rekam-medis/{id}', 'Pasien\PasienController@rekamMedisPasien')->name('pasien.rekamMedisPasien');
-  Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedTransaksiJSON')->name('pasien.rekmedTransaksiJSON');
+  Route::get('pasien-transaksi-inap-json', 'Pasien\PasienController@rekmedTransaksiInapJSON')->name('pasien.rekmedTransaksiInapJSON');
+  Route::get('pasien-transaksi-jalan-json', 'Pasien\PasienController@rekmedTransaksiJalanJSON')->name('pasien.rekmedTransaksiJalanJSON');
+  Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedPasienJSON')->name('pasien.rekmedPasienJSON');
+  Route::get('pasien-tindakan-inap-json', 'Pasien\PasienController@TindakanMedisInapJSON')->name('pasien.TindakanMedisInapJSON');
+  Route::get('pasien-tindakan-jalan-json', 'Pasien\PasienController@TindakanMedisJalanJSON')->name('pasien.TindakanMedisJalanJSON');
   Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
 
