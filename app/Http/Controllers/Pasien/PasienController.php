@@ -84,32 +84,14 @@ class PasienController extends Controller
 
     public function rekamMedisPasien(Request $req){
         $pasien = Pasien::find($req->id);
-
-        $rawatJalan = DB::table('daftar_rawat_jalan')
-        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
-        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
-        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
-        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
-        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
-        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien')
-        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
-        ->first(); 
-
-        $poli     = Poli::all();
-        $dokter   = Dokter::all();
-        $icd      = Icd::all();
         $menus = FunctionHelper::callMenu();
         return view('pasien.rekammedis', [
-                                'icd' => $icd,
-                                'poli' => $poli,
-                                'dokter'=> $dokter,
                                 'menus' => $menus,
                                 'pasien' => $pasien,
-                                'rawatJalan' => $rawatJalan, 
                             ]);
     }
 
-    public function rekmedTransaksiJSON() {
+    public function rekmedTransaksiInapJSON(Request $req) {
         $pasieninap = DB::table('transaksi_rawat_inap')
                     ->join('daftar_rawat_inap','transaksi_rawat_inap.id_daftar_rawat_inap','=','daftar_rawat_inap.id')
                     ->join('ruang','daftar_rawat_inap.id_ruang','=','ruang.id')
@@ -121,17 +103,17 @@ class PasienController extends Controller
                     ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
                     ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
                     ->select('transaksi_rawat_inap.*','transaksi_rawat_inap.id as id_transaksi_rawat_inap','daftar_rawat_inap.*','transaksi_rawat_jalan.*','daftar_rawat_jalan.*','pasien.*','pasien.id as id_pasien','poli.*','icd.*','dokter.*','diagnosa.*','ruang.*')
+                    ->where('id_pasien','=',$req["id"])
                     ->get(); 
 
         $data = [];
         foreach($pasieninap as $info) {
             $data[] = [
-                'tanggal_kunjungan' => $info->tanggal_kunjungan,
-                'nama_poli' => $info->nama_poli,
+                'id_transaksi_rawat_inap' => $info->id_transaksi_rawat_inap,
+                'tanggal_mutasi' => $info->tanggal_mutasi,
+                'status_rawat_inap' => $info->status_rawat_inap,
                 'nama_ruang' => $info->nama_ruang,
                 'tanggal_lahir' => $info->tanggal_lahir,
-                'status' => $info->status,
-                'alamat' => $info->alamat,
             ];
         }
         return Datatables::of($data)
@@ -139,7 +121,114 @@ class PasienController extends Controller
         ->addIndexColumn()
         ->make(true);
     }
+
+    public function rekmedTransaksiJalanJSON(Request $req) {
+        $pasienjalan = DB::table('daftar_rawat_jalan')
+                        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien','poli.*','diagnosa.*')
+                        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
+                        ->get();
+
+        $data = [];
+        foreach($pasienjalan as $info) {
+            $data[] = [
+                'tanggal_kunjungan' => $info->tanggal_kunjungan,
+                // 'status_rawat_inap' => $info->status_rawat_inap,
+                'nama_poli' => $info->nama_poli,
+                'alasan_diagnosa' => $info->alasan_diagnosa,
+            ];
+        }
+        return Datatables::of($data)
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+
+    public function rekmedPasienJSON(Request $req) {
+        $rekamMedis = DB::table('rekam_medis')
+                    ->join('pasien','rekam_medis.id_pasien','=','pasien.id')
+                    ->join('dokter','rekam_medis.id_dokter','=','dokter.id')
+                    ->join('icd','rekam_medis.id_icd','=','icd.id')
+                    ->select('rekam_medis.*', 'rekam_medis.id as id_rekam_medis', 'pasien.*', 'dokter.*', 'icd.*')
+                    ->where('rekam_medis.id_pasien','=' ,$req['id'])
+                    ->get(); 
     
+        $data = [];
+        foreach($rekamMedis as $rm) {
+        $data[] = [
+            'tanggal' => $rm->tanggal,
+            'nama_dokter' => $rm->nama_dokter,
+            'nama_icd' => $rm->nama_icd,
+            'jenis_diagnosa' => $rm->jenis_diagnosa,
+            'anamesa' => $rm->anamesa,
+            'pemeriksaan_fisik' => $rm->pemeriksaan_fisik,
+            'pemeriksaan_penunjang' => $rm->pemeriksaan_penunjang,
+            'status_rawat' => $rm->status_rawat,
+            ];
+        }
+        return Datatables::of($data)       
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+
+    public function TindakanMedisInapJSON(Request $req) {
+        $tindakanInap = DB::table('transaksi_tindakan_medis_inap')
+                    ->join('tindakan','transaksi_tindakan_medis_inap.id_tindakan','=','tindakan.id')
+                    ->join('ruang','transaksi_tindakan_medis_inap.id_dokter','=','ruang.id')
+                    ->join('dokter','transaksi_tindakan_medis_inap.id_dokter','=','dokter.id')
+                    ->join('pasien','transaksi_tindakan_medis_inap.id_pasien','=','pasien.id')
+                    ->select('transaksi_tindakan_medis_inap.*', 'transaksi_tindakan_medis_inap.id as id_transaksi_tindakan_medis_inap', 'pasien.*', 'dokter.*', 'ruang.*','tindakan.*')
+                    ->where('transaksi_tindakan_medis_inap.id_pasien','=' ,$req['id'])
+                    ->get(); 
+    
+        $data = [];
+        foreach($tindakanInap as $rm) {
+        $data[] = [
+            'tanggal_permintaan' => $rm->tanggal_permintaan,
+            'nama_dokter' => $rm->nama_dokter,
+            'nama_tindakan' => $rm->nama_tindakan,
+            'nama_ruang' => $rm->nama_ruang,
+            'status_proses' => $rm->status_proses,
+            'jumlah' => $rm->jumlah,
+            ];
+        }
+        return Datatables::of($data)       
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+    
+    public function TindakanMedisJalanJSON(Request $req) {
+        $tindakanJalan = DB::table('transaksi_tindakan_medis_jalan')
+                    ->join('tindakan','transaksi_tindakan_medis_jalan.id_tindakan','=','tindakan.id')
+                    ->join('poli','transaksi_tindakan_medis_jalan.id_dokter','=','poli.id')
+                    ->join('dokter','transaksi_tindakan_medis_jalan.id_dokter','=','dokter.id')
+                    ->join('pasien','transaksi_tindakan_medis_jalan.id_pasien','=','pasien.id')
+                    ->select('transaksi_tindakan_medis_jalan.*', 'transaksi_tindakan_medis_jalan.id as id_transaksi_tindakan_medis_jalan', 'pasien.*', 'dokter.*', 'poli.*','tindakan.*')
+                    ->where('transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id'])
+                    ->get(); 
+    
+        $data = [];
+        foreach($tindakanJalan as $rm) {
+        $data[] = [
+            'tanggal_permintaan' => $rm->tanggal_permintaan,
+            'nama_dokter' => $rm->nama_dokter,
+            'nama_tindakan' => $rm->nama_tindakan,
+            'nama_poli' => $rm->nama_poli,
+            'status_proses' => $rm->status_proses,
+            'jumlah' => $rm->jumlah,
+            ];
+        }
+        return Datatables::of($data)       
+        ->rawColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
     /**
      * Store a newly created resource in storage.
      *
