@@ -177,7 +177,7 @@
                                 <label class="col-lg-3 col-form-label">Jenis Diagnosa</label>
                                 <div class="col-lg-9">
                                     <select class="form-control select select2"  name="jenis_diagnosa">
-                                        <option value="iagnosa Primer">Diagnosa Primer</option>
+                                        <option value="Diagnosa Primer">Diagnosa Primer</option>
                                         <option value="Diagnosa Sekunder">Diagnosa Sekunder</option>
                                         <option value="Diagnosa Masuk">Diagnosa Masuk</option>
                                         <option value="Diagnosa Keluar">Diagnosa Keluar</option>
@@ -281,8 +281,8 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Jenis Diagnosa</label>
                                 <div class="col-lg-9">
-                                    <select class="form-control select select2"  name="jenis_diagnosa">
-                                        <option value="iagnosa Primer">Diagnosa Primer</option>
+                                    <select class="form-control select select2"  name="jenis_diagnosa" id="jenis_diagnosa">
+                                        <option value="Diagnosa Primer">Diagnosa Primer</option>
                                         <option value="Diagnosa Sekunder">Diagnosa Sekunder</option>
                                         <option value="Diagnosa Masuk">Diagnosa Masuk</option>
                                         <option value="Diagnosa Keluar">Diagnosa Keluar</option>
@@ -557,6 +557,7 @@
         //edit data
         $(document).on('click', '#editRekmedBtn', function(){
             id = $(this).attr('data-id');
+            $("#editModalRM").attr('data-id', id);
             $.ajax({
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
@@ -576,6 +577,13 @@
                     if($('#editJenisKasus option').select2().val() !== data.kasus_diagnosa){
                         $('#editJenisKasus  option').select2().attr('selected', 'selected');  
                     }
+                   
+                    if($('#jenis_diagnosa option').select2().val() !== data.jenis_diagnosa){
+                        $('#jenis_diagnosa  option').select2().attr('selected', 'selected');  
+                        console.log('true')
+                    }else{
+                        console.log('false');
+                    }
                
                     $("#editRekmed").modal("show")
                 }
@@ -586,12 +594,48 @@
         $(document).on('click', '.closeEditRM', function(){
             console.log('gg');
             $('#editJenisKasus option').select2().removeAttr('selected');
+            $('#jenis_diagnosa option').select2().removeAttr('selected');
             $("#editFormRM")[0].reset();
         });
 
         $(document).on('click', '#editModalRM', function(){
-            console.log(JSON.parse(JSON.stringify($('#editFormRM').serializeArray())));
-            $("#editRekmed").modal("hide")
+            id = $(this).attr('data-id');
+            console.log(id); 
+            Swal.fire({
+                    title: 'Harap Konfirmasi',
+                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Lanjutkan'
+                    }).then((result) => {
+                    
+                    if (result.value) {
+                        $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                            },
+                            url: "{{ route('rawatJalan.editRM') }}",
+                            method: "post",
+                            data: {id: id, formData: JSON.parse(JSON.stringify($('#editFormRM').serializeArray())) },
+                            success: function(data){
+                                console.log(data);
+                                Swal.fire({
+                                    type: 'success',
+                                    title: 'Berhasil!',
+                                    text: 'Pasien berhasil di daftar!',
+                                });
+                                $("#editRekmed").modal("hide")
+                                $("#addFormRM")[0].reset();
+                                $("#modal_default").modal('hide');
+                                $('#rekamMedisTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                })
+                return false;
+           
         });
 
         Date.prototype.toDateInputValue = (function() {

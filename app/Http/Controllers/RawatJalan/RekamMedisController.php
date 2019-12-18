@@ -77,6 +77,26 @@ class RekamMedisController extends Controller
         $daftar->save();
     
     }
+    public function editRM(Request $req)
+    {
+        $daftar = RekamMedis::find($req['id']);
+        $daftar->id_pasien = $req->formData[0]["value"];
+        $daftar->status_rawat = $req->formData[1]["value"];
+        $daftar->anamesa = $req->formData[2]["value"];
+        $daftar->id_icd = $req->formData[3]["value"];
+        $daftar->diagnosa = $req->formData[4]["value"];
+        $daftar->jenis_diagnosa = $req->formData[5]["value"];
+        $daftar->tanggal = $req->formData[6]["value"];
+        $daftar->id_dokter = $req->formData[7]["value"];
+        $daftar->kasus_diagnosa = $req->formData[8]["value"];
+        $daftar->pemeriksaan_fisik = $req->formData[9]["value"];
+        $daftar->pemeriksaan_penunjang = $req->formData[10]["value"];
+        $daftar->catatan = $req->formData[11]["value"];
+        //TODO: auth
+        // $daftar->id_user =  1;
+        $daftar->save();
+    
+    }
 
     /**
      * Display the specified resource.
