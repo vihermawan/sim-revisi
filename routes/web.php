@@ -22,7 +22,7 @@ Route::middleware(['guest'])->group(function () {
   Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
 
   // modul pendaftaran
-  Route::get('pendaftaran', 'Pendaftaran\PendaftaranController@index');
+  Route::get('pendaftaran', 'Pendaftaran\PendaftaranController@index')->name('pendaftaran.tabel');
   Route::post('add-pendaftaran', 'Pendaftaran\PendaftaranController@store')->name('pendaftaran.addPendaftaran');
   Route::post('edit-pendaftaran', 'Pendaftaran\PendaftaranController@updateData')->name('pendaftaran.editPendaftaran');
   Route::get('pendaftaran-json', 'Pendaftaran\PendaftaranController@pendaftaranJSON')->name('pendaftaran.dataJSON');
@@ -31,7 +31,7 @@ Route::middleware(['guest'])->group(function () {
   // modul informasi
 
   //sub-modul informasi ruang
-  Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index');
+  Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index')->name('informasiruang');
   Route::get('informasi-ruang-json', 'Informasi\InformasiRuangController@informasiruangJSON')->name('informasiruang.dataJSON');
   //sub-modul jadwal praktek
   Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
@@ -58,7 +58,7 @@ Route::middleware(['guest'])->group(function () {
    //modul rawat jalan
 
    //sub-modul pendaftaran pasien
-   Route::get('daftar-rawat-jalan', 'RawatJalan\PendaftaranPasienController@index');
+   Route::get('daftar-rawat-jalan', 'RawatJalan\PendaftaranPasienController@index')->name('daftar-rawat-jalan');
    Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
    Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
    Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
@@ -113,7 +113,7 @@ Route::middleware(['guest'])->group(function () {
   //sub-modul tindakan medis pasien
   Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
   //sub modul transaksi medis pasien
-  Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index');
+  Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index')->name('transaksi-rawat-inap');
   Route::post('transaksi-rawat-inap/invoice', 'RawatInap\TransaksiRawatController@invoice')->name('rawatInap.invoice');
   //sub-modul kelola ruang
   Route::get('ruang', 'RawatInap\RuangController@index')->name('ruang.index');
@@ -141,7 +141,7 @@ Route::middleware(['guest'])->group(function () {
   Route::get('pemeriksaan-harian', 'RawatInap\PemeriksaanHarianController@index');
 
   //dokter
-  Route::get('dokter', 'Lainnya\DokterController@index');
+  Route::get('dokter', 'Lainnya\DokterController@index')->name('dokter');
   Route::post('add-dokter', 'Lainnya\DokterController@store')->name('dokter.addDokter');
   Route::get('dokter-json', 'Lainnya\DokterController@dokterJSON')->name('dokter.dataJSON');
   Route::get('dokter/edit-dokter', 'Lainnya\DokterController@editDataDokter')->name('dokter.editDataDokter');
