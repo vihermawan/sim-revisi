@@ -23,12 +23,15 @@ class TransaksiRawatController extends Controller
                         ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
                         ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
                         ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
-                        ->select('pasien.*','pasien.id as id_pasien','daftar_rawat_jalan.*','daftar_rawat_jalan.id as id_rawat_jalan','poli.*','diagnosa.*', 'dokter.*')
+                        ->join('daftar_rawat_inap','daftar_rawat_jalan.id','=','daftar_rawat_inap.id_transaksi_rawat_jalan')
+                        ->select('pasien.*','pasien.id as id_pasien','daftar_rawat_jalan.*','daftar_rawat_jalan.id as id_rawat_jalan','poli.*','diagnosa.*', 'dokter.*','daftar_rawat_inap.*', 'daftar_rawat_inap.id as id_rawat_inap')
+                        ->where('daftar_rawat_inap.status','=',0)
                         ->get(); 
         $data = [];
         foreach($daftar as $rawatJalan) {
             $data[] = [
                 'id' => $rawatJalan->id_rawat_jalan,
+                'id_rawat_inap' => $rawatJalan->id_rawat_inap,
                 'id_pasien' => $rawatJalan->id_pasien,
                 'nama_pasien' => $rawatJalan->nama_pasien,
                 'tanggal_lahir' => $rawatJalan->tanggal_lahir,
@@ -40,6 +43,8 @@ class TransaksiRawatController extends Controller
         ->addColumn('tindakan', function ($data){
             return'
             <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
+            <button type="button" id="'.$data['id_rawat_inap'].'" class="btn btn-primary btn-labeled btn-labeled-left btn-sm ranip-invoice"><b><i class="icon-pencil5"></i></b>Invoice</button>
+          
             ';
         })
         ->rawColumns(['tindakan'])
@@ -60,6 +65,12 @@ class TransaksiRawatController extends Controller
     public function create()
     {
         //
+    }
+
+    public function invoice(Request $req) {
+        DB::table('daftar_rawat_inap')
+            ->where('id', $req['id'])
+            ->update(['status' => 1]);
     }
 
     /**

@@ -110,6 +110,7 @@ Route::middleware(['guest'])->group(function () {
   Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
   //sub modul transaksi medis pasien
   Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index');
+  Route::post('transaksi-rawat-inap/invoice', 'RawatInap\TransaksiRawatController@invoice')->name('rawatInap.invoice');
   //sub-modul kelola ruang
   Route::get('ruang', 'RawatInap\RuangController@index')->name('ruang.index');
   Route::get('ruang-json', 'RawatInap\RuangController@ruangJSON')->name('ruang.dataJSON');
