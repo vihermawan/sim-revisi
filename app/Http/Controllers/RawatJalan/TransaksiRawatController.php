@@ -4,8 +4,10 @@ namespace App\Http\Controllers\RawatJalan;
 use DB;
 use App\Icd;
 use App\Poli;
+use App\Ruang;
 use App\Dokter;
 use App\Pasien;
+use App\DaftarRawatInap;
 use App\DaftarRawatJalan;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
@@ -43,7 +45,9 @@ class TransaksiRawatController extends Controller
         return Datatables::of($data)
         ->addColumn('tindakan', function ($data){
             return'
-            <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
+            <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
+            <a href="#" ><button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm mutasi-pasien"><b><i class="icon-pencil5"></i></b>Mutasi</button></a>
+          
             ';
         })
         ->rawColumns(['tindakan'])
@@ -135,5 +139,38 @@ class TransaksiRawatController extends Controller
         $data = DaftarRawatJalan::find($req['id']);
         $data->delete();
 
+    }
+    public function MutasiPasien(Request $req) {
+        $daftar = new DaftarRawatInap();
+        $daftar->id_transaksi_rawat_jalan = $req['idRawatJalan'];
+        $daftar->id_ruang = $req['idRuang'];
+        $daftar->tanggal_mutasi = $req['tanggal'];
+        $daftar->save();
+        
+        DB::table('ruang')
+            ->where('id', $req['idRuang'])
+            ->update(['status_ruang' => 1]);
+
+    }
+    public function mutasiRuang() {
+        $getRuang = DB::table('ruang')->where('status_ruang','=','0')->get(); 
+        $data = [];
+        foreach($getRuang as $ruang) {
+            $data[] = [
+                'id' => $ruang->id,
+                'koderuang' => $ruang->kode_ruang,
+                'namaruang' => $ruang->nama_ruang,
+                'tanggal_lahir' => $ruang->status_ruang
+            ];
+        }
+        return Datatables::of($data)
+        ->addColumn('tindakan', function ($data){
+            return'
+            <a href="#" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm mutasi-proses"><b><i class="icon-pencil5"></i></b>Proses</button></a>
+            ';
+        })
+        ->rawColumns(['tindakan'])
+        ->addIndexColumn()
+        ->make(true);
     }
 }

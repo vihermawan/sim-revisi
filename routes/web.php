@@ -63,7 +63,6 @@ Route::middleware(['guest'])->group(function () {
   
    
    
-   
    //sub-modul rekam medis pasien
    Route::get('rekam-medis-rawat-jalan', 'RawatJalan\RekamMedisController@index');
    Route::post('rekam-medis-rawat-jalan/tambah-rm', 'RawatJalan\RekamMedisController@store')->name('rawatJalan.tambahRM');
@@ -71,6 +70,7 @@ Route::middleware(['guest'])->group(function () {
    Route::post('rekam-medis-rawat-jalan/delete-rm', 'RawatJalan\RekamMedisController@deleteRM')->name('rawatJalan.deleteRM');
    Route::get('rekam-medis-rawat-jalan/edit-rm-json', 'RawatJalan\RekamMedisController@editDataRM')->name('rawatJalan.editDataRM');
    Route::post('rekam-medis-rawat-jalan/edit-rm', 'RawatJalan\RekamMedisController@editRM')->name('rawatJalan.editRM');
+   Route::get('rekam-medis-rawat-jalan/rekam-medis-json', 'RawatJalan\RekamMedisController@rawatDataMenu')->name('rawatJalan.rekam-medis-json');
    //sub-modul tindakan medis pasien
    Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
    //sub modul transaksi medis pasien
@@ -78,7 +78,9 @@ Route::middleware(['guest'])->group(function () {
    Route::get('transaksi-rawat-jalan/json', 'RawatJalan\TransaksiRawatController@transaksiJSON')->name('rawatJalan.transaksi');
    Route::post('transaksi-rawat-jalan/delete-transaksi', 'RawatJalan\TransaksiRawatController@delete')->name('rawatJalan.deleteTransaksi');
    Route::post('transaksi-rawat-jalan/simpan-transaksi', 'RawatJalan\TransaksiRawatController@simpan')->name('rawatJalan.simpanTransaksi');
-
+   Route::post('rawat-jalan/mutasi-pasien', 'RawatJalan\TransaksiRawatController@MutasiPasien')->name('rawatJalan.mutasi-pasien');
+   Route::get('rawat-jalan/mutasi-ruang', 'RawatJalan\TransaksiRawatController@mutasiRuang')->name('rawatJalan.mutasiRuang');
+   
 
    Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');
    Route::get('rawat-jalan/pasien-search', 'RawatJalan\PasienController@pasienSearch')->name('pasien.autocomplete');
@@ -99,6 +101,7 @@ Route::middleware(['guest'])->group(function () {
 
 
   //modul rawat inap
+  Route::get('transaksi-rawat-inap/json', 'RawatInap\TransaksiRawatController@transaksiJSON')->name('rawatInap.transaksi');
 
   //sub-modul rekam medis pasien
 

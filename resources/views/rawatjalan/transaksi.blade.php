@@ -68,6 +68,34 @@
 </div>
 
 
+<!-- Basic modal -->
+<div id="mutasi-modal" class="modal fade" tabindex="-1" data-backdrop="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Basic modal</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<table class="table datatable-basic" id="ruang">
+					<thead>
+						<tr>
+							<th>Kode Ruang</th>
+							<th>Nama Ruang</th>
+							<th>Tindakan</th>
+						</tr>
+					</thead>
+				</table>
+				<input type="date" class="form-control tanggal" placeholder="Default checkbox addon" disabled id="tanggal">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link " data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /basic modal -->
+
 @endsection
 
 @push('scripts')
@@ -122,18 +150,78 @@
 		});
 
 			let dateNow = new Date().toDateInputValue();
-			$("#tanggal").val(dateNow);
-			$("#tanggal_checked").val(dateNow);
+			$(".tanggal").val(dateNow);
 
-			$("#tanggal_checked").change(function() {
-				if(this.checked) {
-					console.log(dateNow);
-					$("#tanggal").attr("disabled", true)
-				}else {
-					$("#tanggal").removeAttr("disabled")
-				}
-			});
+
+
 	});
+
+	$(document).on('click', '.mutasi-pasien', function(){
+		$("#mutasi-modal").modal("show");
+		let idRawatJalan = $(this).attr("id");
+
+		$('#ruang').DataTable({
+			prossessing: true,
+			serverside: true,
+			"bDestroy": true,
+			"columnDefs": [
+                    { className: "text-center", "targets": [ 2 ] }
+                ],
+			ajax: {
+				url : "{{ route('rawatJalan.mutasiRuang') }}",
+			},
+			columns: [
+			{
+				name: 'koderuang',
+				data: 'koderuang',
+			},
+			{
+				name: 'namaruang',
+				data: 'namaruang',
+			},
+			{
+				name: 'tindakan',
+				data: 'tindakan',
+			},
+
+			]
+		});
+
+		$(document).on('click', '.mutasi-proses', function(){
+			Swal.fire({
+			title: 'Harap Konfirmasi',
+			text: "Mutasi Pasien?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Lanjutkan'
+			}).then((result) => {
+			
+			if (result.value) {
+				$.ajax({
+					headers: {
+					'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+					},
+					url: "{{ route('rawatJalan.mutasi-pasien') }}",
+					method: "post",
+					data: {idRawatJalan: idRawatJalan, idRuang: $(this).attr("id"), tanggal: $('.tanggal').val()},
+					success: function(data){
+						console.log(data);
+						$("#mutasi-modal").modal("hide");
+						Swal.fire({
+							type: 'success',
+							title: 'Berhasil!',
+							text: 'Pasien berhasil di daftar!',
+						});
+					}
+					});
+				}
+			})
+		
+		});
+
+    });
 
 </script>
 

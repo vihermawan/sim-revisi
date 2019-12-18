@@ -13,6 +13,8 @@ class TindakanMedisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
         $menus = FunctionHelper::callMenu();

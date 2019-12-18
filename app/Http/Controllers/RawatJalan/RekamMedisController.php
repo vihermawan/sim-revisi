@@ -133,5 +133,37 @@ class RekamMedisController extends Controller
         //
     }
 
+    public function rawatDataMenu(){
+
+        $daftar = DB::table('daftar_rawat_jalan')
+                        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                        ->select('pasien.*','pasien.id as id_pasien','daftar_rawat_jalan.*','daftar_rawat_jalan.id as id_rawat_jalan','poli.*','diagnosa.*', 'dokter.*')
+                        ->get(); 
+        $data = [];
+        foreach($daftar as $rawatJalan) {
+            $data[] = [
+                'id' => $rawatJalan->id_rawat_jalan,
+                'id_pasien' => $rawatJalan->id_pasien,
+                'nama_pasien' => $rawatJalan->nama_pasien,
+                'tanggal_lahir' => $rawatJalan->tanggal_lahir,
+                'nama_dokter' => $rawatJalan->nama_dokter,
+                'tanggal_kunjungan' => $rawatJalan->tanggal_kunjungan,
+            ];
+        }
+        return Datatables::of($data)
+        ->addColumn('tindakan', function ($data){
+            return'
+            <a href="'.route('rawatJalan.detailPasien', $data['id']).'#rekam-medis" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
+            ';
+        })
+        ->rawColumns(['tindakan'])
+        ->addIndexColumn()
+        ->make(true);
    
+    }
+
 }

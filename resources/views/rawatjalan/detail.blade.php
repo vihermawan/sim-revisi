@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs nav-tabs-top nav-justified">
                 <li class="nav-item"><a href="#top-justified-tab1" class="nav-link active" data-toggle="tab">Transaksi Medis</a></li>
-                <li class="nav-item"><a href="#top-justified-tab2" class="nav-link" data-toggle="tab">Rekam Medis</a></li>
+                <li class="nav-item"><a href="#rekam-medis" class="nav-link" data-toggle="tab">Rekam Medis</a></li>
                 <li class="nav-item"><a href="#top-justified-tab3" class="nav-link" data-toggle="tab">Tindakan Medis</a></li>
             </ul>
             <div class="tab-content">
@@ -95,7 +95,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="top-justified-tab2">
+                <div class="tab-pane fade" id="rekam-medis">
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <button class="btn bg-success" id="tambahRM">Tambah Rekam Medis</button>
