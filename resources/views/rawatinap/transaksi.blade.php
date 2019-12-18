@@ -71,6 +71,40 @@ $(document).ready(function(){
 
 			]
 		});
+
+
+		$(document).on('click', '.ranip-invoice', function(){
+			Swal.fire({
+				title: 'Harap Konfirmasi',
+				text: "Apakah data sudah benar??",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Lanjutkan'
+				}).then((result) => {
+				
+				if (result.value) {
+					$.ajax({
+						headers: {
+						'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+						},
+						url: "{{ route('rawatInap.invoice') }}",
+						method: "post",
+						data: {id: $(this).attr("id")},
+						success: function(data){
+							console.log(data);
+							$('#transaksi').DataTable().ajax.reload();
+							Swal.fire({
+								type: 'success',
+								title: 'Berhasil!',
+								text: 'Proses berhasil',
+							});
+						}
+					});
+				}
+			})
+		});
 	});
 
 </script>

@@ -81,6 +81,7 @@ Route::middleware(['guest'])->group(function () {
    Route::post('transaksi-rawat-jalan/simpan-transaksi', 'RawatJalan\TransaksiRawatController@simpan')->name('rawatJalan.simpanTransaksi');
    Route::post('rawat-jalan/mutasi-pasien', 'RawatJalan\TransaksiRawatController@MutasiPasien')->name('rawatJalan.mutasi-pasien');
    Route::get('rawat-jalan/mutasi-ruang', 'RawatJalan\TransaksiRawatController@mutasiRuang')->name('rawatJalan.mutasiRuang');
+   Route::post('transaksi-rawat-jalan/invoice', 'RawatJalan\TransaksiRawatController@invoice')->name('rawatJalan.invoice');
    
 
    Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');
@@ -110,6 +111,7 @@ Route::middleware(['guest'])->group(function () {
   Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
   //sub modul transaksi medis pasien
   Route::get('transaksi-rawat-inap', 'RawatInap\TransaksiRawatController@index');
+  Route::post('transaksi-rawat-inap/invoice', 'RawatInap\TransaksiRawatController@invoice')->name('rawatInap.invoice');
   //sub-modul kelola ruang
   Route::get('ruang', 'RawatInap\RuangController@index')->name('ruang.index');
   Route::get('ruang-json', 'RawatInap\RuangController@ruangJSON')->name('ruang.dataJSON');
