@@ -17,6 +17,7 @@ class CreateDokterTable extends Migration
             $table->bigIncrements('id');
             $table->string('nama_dokter');
             $table->string('waktu_buka');
+            $table->string('waktu_tutup');
             $table->bigInteger('id_poli')->unsigned();
             $table->string('hari_buka');
             $table->timestamps();

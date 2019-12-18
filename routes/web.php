@@ -14,7 +14,9 @@
 Auth::routes();
 
 Route::middleware(['guest'])->group(function () {
-Route::get('/', 'Dashboard\DashboardController@index');
+  
+  
+  Route::get('/', 'Dashboard\DashboardController@index');
 
   // modul dashboard
   Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
@@ -30,19 +32,21 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   //sub-modul informasi ruang
   Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index');
-
+  Route::get('informasi-ruang-json', 'Informasi\InformasiRuangController@informasiruangJSON')->name('informasiruang.dataJSON');
   //sub-modul jadwal praktek
   Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
+  Route::get('jadwal-praktek-json', 'Informasi\JadwalPraktekController@jadwalJSON')->name('jadwal.dataJSON');
 
   //sub-modul pasien inap
   Route::get('pasien-rawat-inap', 'Informasi\PasienInapController@index');
+  Route::get('pasien-rawat-inap-json', 'Informasi\PasienInapController@informasipasienJSON')->name('inap.dataJSON');
 
   // modul pasien
   Route::get('pasien', 'Pasien\PasienController@index')->name('pasien');
   Route::get('pasien-json', 'Pasien\PasienController@pasienJSON')->name('pasien.dataJSON');
   Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
   Route::get('pasien/rekam-medis/{id}', 'Pasien\PasienController@rekamMedisPasien')->name('pasien.rekamMedisPasien');
-  // Route::get('pasien/{id}/edit', 'Pasien\PasienController@edit')->name('pasien.edit');
+  Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedTransaksiJSON')->name('pasien.rekmedTransaksiJSON');
   Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
 
@@ -131,6 +135,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('dokter', 'Lainnya\DokterController@index');
   Route::post('add-dokter', 'Lainnya\DokterController@store')->name('dokter.addDokter');
   Route::get('dokter-json', 'Lainnya\DokterController@dokterJSON')->name('dokter.dataJSON');
+  Route::get('dokter/edit-dokter', 'Lainnya\DokterController@editDataDokter')->name('dokter.editDataDokter');
   Route::post('edit-dokter', 'Lainnya\DokterController@update')->name('dokter.editDokter');
   Route::get('deleteDokter', 'Lainnya\DokterController@destroy')->name('dokter.delete');
   
@@ -146,6 +151,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::post('add-icd', 'Lainnya\IcdController@store')->name('icd.addIcd');
   Route::get('icd-json', 'Lainnya\IcdController@icdJSON')->name('icd.dataJSON');
   Route::get('deleteIcd', 'Lainnya\IcdController@destroy')->name('icd.delete');
+  Route::get('icd/edit-icd', 'Lainnya\IcdController@editDataIcd')->name('icd.editDataIcd');
   Route::post('edit-icd', 'Lainnya\IcdController@update')->name('icd.editIcd');
 
   //tindakan
@@ -153,6 +159,7 @@ Route::get('/', 'Dashboard\DashboardController@index');
   Route::post('add-tindakan', 'Lainnya\TindakanMasterController@store')->name('tindakan.addTindakan');
   Route::get('tindakan-json', 'Lainnya\TindakanMasterController@tindakanJSON')->name('tindakan.dataJSON');
   Route::get('deleteTindakan', 'Lainnya\TindakanMasterController@destroy')->name('tindakan.delete');
+  Route::get('tindakan/edit-tindakan', 'Lainnya\TindakanMasterController@editDataTindakan')->name('tindakan.editDataTindakan');
   Route::post('edit-tindakan', 'Lainnya\TindakanMasterController@update')->name('tindakan.editTindakan');
 
   // modul setting
@@ -169,3 +176,11 @@ Route::get('/', 'Dashboard\DashboardController@index');
 
   Route::get('profile', 'Setting\ProfileController@index');
 });
+
+Route::get('/login',function(){
+  return view('layouts.login');
+})->name('login');
+
+Route::get('/register',function(){
+  return view('layouts.register');
+})->name('register');

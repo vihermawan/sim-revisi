@@ -47,18 +47,34 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="top-justified-tab1">
-                <table class="table datatable-basic">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Transaksi Rawat Inap</h5>
+                </div>
+                <table class="table datatable-basic" id="rawat_inap">
                     <thead>
                         <tr>
-                            <th>Tanggal</th>
-                            <th>Jenis</th>
-                            <th>Poli</th>
+                            <th>Tanggal Mutasi</th>
+                            <th>Status</th>
                             <th>Ruang</th>
                             <th>Tanggal Pulang</th>
-                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                 </table>
+
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Transaksi Rawat Jalan</h5>
+                </div>
+
+                <table class="table datatable-basic" id="rawat_jalan">
+                    <thead>
+                        <tr>
+                            <th>Tanggal Kunjungan</th>
+                            <th>Poli</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                
             </div>
             <div class="tab-pane fade" id="top-justified-tab2">
                 <table class="table datatable-basic" id="rekamMedisTable">
@@ -106,174 +122,46 @@
 
 @push('scripts')
 <script>
-    $('.select2').select2();
+    $(function(){
+            $('#rawat_inap').DataTable({
+            order: [[ 2, "asc" ]],
+               prossessing: true,
+               serverside: true,
+               "bDestroy": true,
+               "columnDefs": [
+                    { className: "text-center", "targets": [ 5 ] }
+                ],
+               ajax: '{!! route('pasien.rekmedTransaksiJSON') !!}',
+               columns: [
+                //   { name: 'id', data: 'id' },
+                  {
+                     name: 'tanggal_kunjungan',
+                     data: 'tanggal_kunjungan',
+                  },
+                  {
+                     name: 'nama_poli',
+                     data: 'nama_poli',
+                  },
+                  {
+                     name: 'nama_ruang',
+                     data: 'nama_ruang',
+                  },
+                  {
+                     name: 'tanggal_lahir',
+                     data: 'tanggal_lahir',
+                  },
+                  {
+                     name: 'status',
+                     data: 'status',
+                  },
+                  {
+                     name: 'alamat',
+                     data: 'alamat',
+                  },
 
-    $(document).ready(function(){
-        $("#tambahRM").on('click', function(){
-            $("#modal_default").modal('show');
-
-             //simpan data
-            $(document).on('click', '#saveModalRM', function(){
-                Swal.fire({
-                    title: 'Harap Konfirmasi',
-                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Lanjutkan'
-                    }).then((result) => {
-                    
-                    if (result.value) {
-                        $.ajax({
-                            headers: {
-                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                            },
-                            url: "{{ route('rawatJalan.tambahRM') }}",
-                            method: "post",
-                            data: {formData: JSON.parse(JSON.stringify($('#addFormRM').serializeArray())) },
-                            success: function(data){
-                                console.log(data);
-                                Swal.fire({
-                                    type: 'success',
-                                    title: 'Berhasil!',
-                                    text: 'Pasien berhasil di daftar!',
-                                });
-                                $("#addFormRM")[0].reset();
-                                $("#modal_default").modal('hide');
-                                $('#rekamMedisTable').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                })
-                return false;
+               ]
             });
-        });
-
-
-        //delete transaksi
-        $(document).on('click', '#hapusTransaksi', function(){
-            let id = $("#idRawatJalan").val();
-            Swal.fire({
-                title: 'Harap Konfirmasi',
-                text: "Anda tidak dapat mengembalikan data yang telah ada hapus!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Lanjutkan'
-                }).then((result) => {
-                
-                if (result.value) {
-                    $.ajax({
-                        headers: {
-                        'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                        },
-                        url: "{{ route('rawatJalan.deleteTransaksi') }}",
-                        method: "post",
-                        data: {id: id},
-                        success: function(data){
-                            console.log(data);
-                            Swal.fire({
-                                type: 'success',
-                                title: 'Berhasil!',
-                                text: 'Pasien berhasil di hapus!',
-                            });
-                            window.location.href = "{{ route('rawatJalan.transaksiIndex')}}";
-                        }
-                    });
-                }
-            })
-            return false;
-        });
-
-        //simpan data
-        $(document).on('click', '#simpanTransaksi', function(){
-            let id = $("#idRawatJalan").val();
-            Swal.fire({
-                title: 'Harap Konfirmasi',
-                text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Lanjutkan'
-                }).then((result) => {
-                
-                if (result.value) {
-                    $.ajax({
-                        headers: {
-                        'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                        },
-                        url: "{{ route('rawatJalan.simpanTransaksi') }}",
-                        method: "post",
-                        data: {id:id, formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
-                        success: function(data){
-                            console.log(data);
-                            Swal.fire({
-                                type: 'success',
-                                title: 'Berhasil!',
-                                text: 'Pasien berhasil di daftar!',
-                            });
-                        }
-                    });
-                }
-            })
-            return false;
-        });
-
-        $('#rekamMedisTable').DataTable({
-			prossessing: true,
-			serverside: true,
-			"bDestroy": true,
-			ajax: {
-				url : "{{ route('rawatJalan.detailRMJSON') }}",
-				data: {id: $("#idPasien").val()}
-			},
-			columns: [
-			{
-				name: 'id',
-				data: 'DT_RowIndex',
-			},
-            {
-				name: 'nama_dokter',
-				data: 'nama_dokter',
-			},
-            {
-				name: 'diagnosa',
-				data: 'diagnosa',
-			},
-			{
-				name: 'anamnesa',
-				data: 'anamnesa',
-			},
-            {
-				name: 'Rfisik',
-				data: 'Rfisik',
-			},
-            {
-				name: 'Rpenunjang',
-				data: 'Rpenunjang',
-			},
-            {
-				name: 'kasus',
-				data: 'kasus',
-			},
-
-			]
-		});
-
-
-        Date.prototype.toDateInputValue = (function() {
-			var local = new Date(this);
-			local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-			return local.toJSON().slice(0,10);
-		});
-
-		let dateNow = new Date().toDateInputValue();
-		$("#tanggal").val(dateNow);
-
-    });
+         });
 </script>
 
 @endpush

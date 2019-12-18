@@ -31,7 +31,7 @@ class IcdController extends Controller
     return Datatables::of($data)
     ->addColumn('action', function ($data){
         return'
-        <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-icd-data" data-toggle="modal" data-target="#edit-modal"><b><i class="icon-pencil5"></i></b> Edit</button>
+        <button type="button" data-id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm edit-icd-data" id="editIcdBtn"><b><i class="icon-pencil5"></i></b> Edit</button>
         <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm delete-icd-data" data-toggle="modal" data-target="#delete-modal"><b><i class="icon-bin"></i></b> Delete</button>
     ';
     })
@@ -92,7 +92,13 @@ class IcdController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    
+    public function editDataIcd(Request $req)
+    {   
+        return Icd::find($req['id']);
+    }
+    
+     public function edit($id)
     {
         //
     }

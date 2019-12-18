@@ -48,12 +48,13 @@ class PerawatController extends Controller
 
     public function index()
     {
+        $menus = FunctionHelper::callMenu();
         $perawats = DB::table('perawat')
         ->join('dokter', 'perawat.id_dokter','=','dokter.id')
         ->select('perawat.*','perawat.id as id_perawat','dokter.*','dokter.id as id_dokter')
         ->get();  
 
-        $menus = FunctionHelper::callMenu();
+       
         return view('lainnya.perawat', ['menus' => $menus, 'perawats' => $perawats]);
     }
 
@@ -75,11 +76,12 @@ class PerawatController extends Controller
      */
     public function store(Request $req)
     {
-        $perawat = new Perawat;
-        $perawat->nama_perawat = $req->formData[0]["value"];
-        $perawat->id_dokter = $req->formData[1]["value"];
-        $perawat->save();
-        return $req;
+            $perawat = new Perawat;
+            $perawat->nama_perawat = $req->formData[0]["value"];
+            $perawat->id_dokter = $req->formData[1]["value"];
+            $perawat->save();
+            return $req;
+    
     }
 
     /**
@@ -114,7 +116,7 @@ class PerawatController extends Controller
     public function update(Request $req)
     {
         $perawat = Perawat::find($req->id);
-        $perawat->nama_perawat =  $req->formData[0]["value"];
+        $perawat->nama_perawat =   $req->formData[0]["value"];
         $perawat->nama_dokter =  $req->formData[1]["value"];
         $perawat->save();
     }

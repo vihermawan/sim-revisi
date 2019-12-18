@@ -20,6 +20,7 @@
 				<th>No</th>
 				<th>Nama Dokter</th>
 				<th>Waktu Buka</th>
+                <th>Waktu Tutup</th>
 				<th>Poli</th>
 				<th>Hari Buka</th>
 				<th class="text-center">Actions</th>
@@ -50,32 +51,54 @@
                                     </div>
                                 </div>
 
-                               
+                                
                                 <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label">Waktu Buka:</label>
+                                    <label class="col-lg-4 col-form-label">Waktu Buka:</label>
                                     <div class="col-lg-8">
-                                    <div class="mb-4">
-									<div class="input-group">
-										<span class="input-group-prepend">
-											<span class="input-group-text"><i class="icon-watch2"></i></span>
-										</span>
-										<input type="text" class="form-control" id="anytime-time"  name="waktu_buka">
-									</div>
-								</div>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-alarm"></i></span>
+                                            </span>
+                                            <input type="text" class="form-control pickatime" name="waktu_buka" placeholder="Waktu Buka&hellip;">
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Poli:</label>
+                                    <label class="col-lg-4 col-form-label">Waktu Tutup:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-alarm"></i></span>
+                                            </span>
+                                            <input type="text" class="form-control pickatime" name="waktu_tutup" placeholder="Waktu Tutup&hellip;">
+                                        </div>
                                     </div>
                                 </div>
-
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Poli</label>
+                                        <div class="col-lg-8">
+                                            <select class="form-control select select2"  name="poli">
+                                                <option disabled selected>Pilih Poli</option>
+                                                    @foreach($poli as $data)
+                                                    <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+                                                    @endforeach
+                                            </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Hari Buka</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Hari Buka" class="form-control" id="hari_buka" name="hari_buka">
+                                        {{-- <input type="text" placeholder="Hari Buka" class="form-control" id="hari_buka" name="hari_buka"> --}}
+                                        <select class="form-control select" data-fouc id="hari_buka" name="hari_buka">
+                                            <option>Pilih Hari</option>
+                                            <option value="Senin">Senin</option>
+                                            <option value="Selasa">Selasa</option>
+                                            <option value="Rabu">Rabu</option>
+                                            <option value="Kamis">Kamis</option>
+                                            <option value="Jumat">Jumat</option>
+                                            <option value="Sabtu">Sabtu</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
@@ -91,7 +114,7 @@
     </div>
 <!-- akhir modal tambah dokter -->
 
-@foreach($dokters as $data)
+
 <!-- modal edit dokter -->
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -110,35 +133,57 @@
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Nama Dokter:</label>
                                         <div class="col-lg-8">
-                                             <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter" value="{{$data->nama_dokter}}">
+                                             <input type="text" placeholder="Nama Dokter" class="form-control" id="nama_dokter" name="nama_dokter" >
                                         </div>
                                 </div>
 
                                 <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label">Waktu Buka:</label>
+                                    <label class="col-lg-4 col-form-label">Waktu Buka:</label>
                                     <div class="col-lg-8">
-                                    <div class="mb-4">
-									<div class="input-group">
-										<span class="input-group-prepend">
-											<span class="input-group-text"><i class="icon-watch2"></i></span>
-										</span>
-										<input type="text" class="form-control" id="anytime-time"  name="waktu_buka" value="{{$data->waktu_buka}}">
-									</div>
-								</div>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-alarm"></i></span>
+                                            </span>
+                                            <input type="text" class="form-control pickatime" id="waktu_buka" name="waktu_buka" placeholder="Waktu Buka&hellip;">
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">Poli:</label>
+                                    <label class="col-lg-4 col-form-label">Waktu Tutup:</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Poli" class="form-control" id="poli" name="poli" value="{{$data->nama_poli}}">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-alarm"></i></span>
+                                            </span>
+                                            <input type="text" class="form-control pickatime" id="waktu_tutup" name="waktu_tutup" placeholder="Waktu Tutup&hellip;">
+                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Poli</label>
+                                        <div class="col-lg-8">
+                                            <select class="form-control select select2" name="poli" id="editPoli" >
+                                                <option disabled selected>Pilih Poli</option>
+                                                    @foreach($poli as $data)
+                                                    <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+                                                    @endforeach
+                                            </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Hari Buka</label>
                                     <div class="col-lg-8">
-                                    <input type="text" placeholder="Hari Buka" class="form-control" id="hari_buka" name="hari_buka" value="{{$data->hari_buka}}">
+                                        <select class="form-control select select2" name="hari_buka" id="editharibuka" >
+                                            <option disabled >Pilih Hari</option>
+                                            <option value="Senin">Senin</option>
+                                            <option value="Selasa">Selasa</option>
+                                            <option value="Rabu">Rabu</option>
+                                            <option value="Kamis">Kamis</option>
+                                            <option value="Jumat">Jumat</option>
+                                            <option value="Sabtu">Sabtu</option>
+                                        </select>
                                     </div>
                                 </div>
                         </form>
@@ -148,14 +193,14 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-link closeEditDokter" data-dismiss="modal">Close</button>
                 <button type="button" class="btn bg-success edit_dokter">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 <!--End Modal edit ruangan-->
-@endforeach
+
 
 <!--Modal delete -->
 <div id="delete-modal" class="modal fade" tabindex="-2">
@@ -189,62 +234,104 @@
     <script>
 
         //add dokter
-        $(document).on('click', '.add_data', function(e){
-        e.preventDefault();
+    $(document).on('click', '.add_data', function(e){
+    e.preventDefault();
 
-        $.ajax({
-            headers: {
-               'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-            },
-            url: "{{ route('dokter.addDokter') }}",
-            method: "post",
-            data: {formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
-            success: function(data){
-                console.log('data', data)
-               Swal.fire({
-                  type: 'success',
-                  title: 'Data berhasil di ditambah!',
-                  text: 'Data anda telah berhasil ditambahkan!',
-               });
-               $("#addForm")[0].reset();
-               $('#add-modal').modal('hide');
-               $('#dokter-tables').DataTable().ajax.reload();
-            }
-         });  
-      });
-
-      //edit ruangan
-      //edit-dokter-data itu id saat klik button edit
-    $(document).on('click', '.edit-dokter-data', function(){
-         var id = $(this).attr("id");
-         //ini di bawah itu make id nya simpan yang simpan edit
-         $('.edit_dokter').attr("id", id);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+        },
+        url: "{{ route('dokter.addDokter') }}",
+        method: "post",
+        data: {formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
+        success: function(data){
+            console.log('data', data)
+            Swal.fire({
+                type: 'success',
+                title: 'Data berhasil di ditambah!',
+                text: 'Data anda telah berhasil ditambahkan!',
+            });
+            $("#addForm")[0].reset();
+            $('#add-modal').modal('hide');
+            $('#dokter-tables').DataTable().ajax.reload();
+        }
+        });  
     });
 
-    $(document).on('click', '.edit_dokter', function(e){
-        e.preventDefault();
-         var id = $(this).attr("id");
-        
-         $.ajax({
-            headers: {
-               'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-            },
-            url: "{{ route('dokter.editDokter') }}",
-            method: "post",
-            data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
-            success: function(data){
-               Swal.fire({
-                  type: 'success',
-                  title: 'Dokter berhasil di ubah!',
-                  text: 'Dokter yang anda pilih telah diubah!',
-               });
-               $('#edit-modal').modal('hide');
-               $('#dokter-tables').DataTable().ajax.reload();
-            }
-         });
-        
-      });
 
+    //edit dokter baru
+    //edit data
+    $(document).on('click', '#editDokterBtn', function(){
+            id = $(this).attr('data-id');
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                },
+                url: "{{ route('dokter.editDataDokter') }}",
+                method: "get",
+                data: {id: id},
+                success: function(data){
+                    console.log(data);
+                    $('#editForm #nama_dokter').val(data.nama_dokter);
+                    $('#editForm #waktu_buka').val(data.waktu_buka);
+                    $('#editForm #waktu_tutup').val(data.waktu_tutup);
+                    if($('#editharibuka option').select2().val() !== data.hari_buka){
+                        $('#editharibuka option').select2().val(data.hari_buka);  
+                    }
+                    if($('#editPoli option').select2().val() !== data.nama_poli){
+                        $('#editPoli option').select2().attr('selected','selected');  
+                    }
+                    // $('#edit_hari_buka').find('option[value='+data.hari_buka+']').prop('selected', true);
+                    // $('#edit_hari_buka').on('change', function(){
+                    //     var status = $(this).val();
+                    //     $('#editForm #edit_hari_buka').val(status);
+                    // });
+                    // if($('#edit_hari_buka option').select2().val() !== data.hari_buka){
+                    //     $('#edit_hari_buka').append($('<option type="hidden">').text(data.hari_buka).attr({'selected':'selected','value':data.hari_buka }));
+                    //     // $('#edit_hari_buka option').select2().text(data.hari_buka).attr('selected':'selected');  
+                    // }
+                   $("#edit-modal").modal("show")
+                }
+            });
+    
+        });
+
+        $(document).on('click', '.closeEditDokter', function(){
+            console.log('gg');
+            $('#edit_hari_buka option').select2().removeAttr('selected');
+            $("#editForm")[0].reset();
+        });
+
+        $(document).on('click', '#edit_dokter', function(){
+            console.log(JSON.parse(JSON.stringify($('#editFormRM').serializeArray())));
+            $("#edit-modal").modal("hide")
+        });
+
+        $(document).on('click', '.edit_dokter', function(e){
+            e.preventDefault();
+            var id = $(this).attr("id");
+            
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                },
+                url: "{{ route('dokter.editDokter') }}",
+                method: "post",
+                data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
+                success: function(data){
+                    console.log(data)
+                Swal.fire({
+                    type: 'success',
+                    title: 'Dokter berhasil di ubah!',
+                    text: 'Dokter yang anda pilih telah diubah!',
+                });
+                $('#edit-modal').modal('hide');
+                $('#dokter-tables').DataTable().ajax.reload();
+                }
+            });
+            
+        });
+    
     // delete ruangan
     $(document).on('click', '.delete-dokter-data', function(){
        var id = $(this).attr("id");
@@ -273,16 +360,15 @@
        
     });
 
-      
-      //GET ALL DATA
-     $(function(){
+    //GET ALL DATA
+    $(function(){
             $('#dokter-tables').DataTable({
             order: [[ 2, "asc" ]],
                prossessing: true,
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 5 ] }
+                    { className: "text-center", "targets": [ 6 ] }
                 ],
                ajax: '{!! route('dokter.dataJSON') !!}',
                columns: [
@@ -294,6 +380,10 @@
                   {
                      name: 'waktu_buka',
                      data: 'waktu_buka',
+                  },
+                  {
+                     name: 'waktu_tutup',
+                     data: 'waktu_tutup',
                   },
                   {
                      name: 'nama_poli',
@@ -316,7 +406,10 @@
 @endpush
 
 
+
 @section('js')
+    <script src="{{asset('/template/global_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
+    <script src="{{asset('/template/global_assets/js/demo_pages/form_select2.js')}}"></script>
     <script src="{{asset('/template/global_assets/js/plugins/pickers/anytime.min.js')}}"></script>
 	<script src="{{asset('/template/global_assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
 	<script src="{{asset('/template/global_assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>

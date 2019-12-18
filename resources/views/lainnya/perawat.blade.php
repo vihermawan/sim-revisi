@@ -170,7 +170,7 @@
 
       //edit ruangan
       //edit-perawat-data itu id saat klik button edit
-    $(document).on('click', '.edit-perawat-data', function(){
+    $(document).on('click', '.edit-data-perawat', function(){
          var id = $(this).attr("id");
          //ini di bawah itu make id nya simpan yang simpan edit
          $('.edit_perawat').attr("id", id);

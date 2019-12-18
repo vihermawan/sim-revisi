@@ -60,7 +60,6 @@
 <!--End Modal show penyakit-->
 
 <!--Modal edit penyakit -->
-@foreach($tindakans as $data)
 <div id="edit-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -77,7 +76,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Nama Tindakan</label>
                                 <div class="col-lg-9">
-                                <input name="nama_tindakan" type="text" class="form-control" value="{{$data->nama_tindakan}}" >
+                                <input  type="text" id="nama_tindakan" name="nama_tindakan" class="form-control" >
                                 </div>
                             </div>
                         </form>
@@ -93,7 +92,7 @@
         </div>
     </div>
 </div>
-@endforeach
+
 <!--End Modal edit penyakit-->
 
 <!--Modal delete -->
@@ -151,10 +150,26 @@
         });
     });
 
-    //edit penyakit
-    $(document).on('click', '.edit-tindakan-data', function(){
-         var id = $(this).attr("id");
-         $('.edit_tindakan').attr("id", id);
+    //edit tindakan
+   //edit penyakit baru
+   $(document).on('click', '#editTindakanBtn', function(){
+            console.log("text")
+            id = $(this).attr('data-id');
+            $('.edit_tindakan').attr("id", id);
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                },
+                url: "{{ route('tindakan.editDataTindakan') }}",
+                method: "get",
+                data: {id: id},
+                success: function(data){
+                    console.log(data);
+                    $('#editForm #nama_tindakan').val(data.nama_tindakan);
+                    $("#edit-modal").modal("show")
+                }
+            });
+    
     });
 
     $(document).on('click', '.edit_tindakan', function(e){
