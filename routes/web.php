@@ -59,7 +59,7 @@ Route::middleware(['guest'])->group(function () {
    Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
    Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
    Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
-   Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
+  Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
   
    
    
@@ -80,6 +80,7 @@ Route::middleware(['guest'])->group(function () {
    Route::post('transaksi-rawat-jalan/simpan-transaksi', 'RawatJalan\TransaksiRawatController@simpan')->name('rawatJalan.simpanTransaksi');
    Route::post('rawat-jalan/mutasi-pasien', 'RawatJalan\TransaksiRawatController@MutasiPasien')->name('rawatJalan.mutasi-pasien');
    Route::get('rawat-jalan/mutasi-ruang', 'RawatJalan\TransaksiRawatController@mutasiRuang')->name('rawatJalan.mutasiRuang');
+   Route::post('transaksi-rawat-jalan/invoice', 'RawatJalan\TransaksiRawatController@invoice')->name('rawatJalan.invoice');
    
 
    Route::get('rawat-jalan/pasien', 'RawatJalan\PasienController@index');

@@ -30,6 +30,7 @@ class TransaksiRawatController extends Controller
                         ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
                         ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
                         ->select('pasien.*','pasien.id as id_pasien','daftar_rawat_jalan.*','daftar_rawat_jalan.id as id_rawat_jalan','poli.*','diagnosa.*', 'dokter.*')
+                        ->where('daftar_rawat_jalan.status','=',0)
                         ->get(); 
         $data = [];
         foreach($daftar as $rawatJalan) {
@@ -42,13 +43,17 @@ class TransaksiRawatController extends Controller
                 'tanggal_kunjungan' => $rawatJalan->tanggal_kunjungan,
             ];
         }
+
+  
         return Datatables::of($data)
         ->addColumn('tindakan', function ($data){
             return'
             <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
             <a href="#" ><button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm mutasi-pasien"><b><i class="icon-pencil5"></i></b>Mutasi</button></a>
+            <button type="button" id="'.$data['id'].'" class="btn btn-primary btn-labeled btn-labeled-left btn-sm rajal-invoice"><b><i class="icon-pencil5"></i></b>Invoice</button>
           
             ';
+
         })
         ->rawColumns(['tindakan'])
         ->addIndexColumn()
@@ -146,6 +151,10 @@ class TransaksiRawatController extends Controller
         $daftar->id_ruang = $req['idRuang'];
         $daftar->tanggal_mutasi = $req['tanggal'];
         $daftar->save();
+
+        DB::table('daftar_rawat_jalan')
+            ->where('id', $req['idRawatJalan'])
+            ->update(['status' => 1]);
         
         DB::table('ruang')
             ->where('id', $req['idRuang'])
@@ -172,5 +181,11 @@ class TransaksiRawatController extends Controller
         ->rawColumns(['tindakan'])
         ->addIndexColumn()
         ->make(true);
+    }
+    
+    public function invoice(Request $req) {
+        DB::table('daftar_rawat_jalan')
+            ->where('id', $req['id'])
+            ->update(['status' => 2]);
     }
 }

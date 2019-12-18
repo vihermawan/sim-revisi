@@ -25,6 +25,7 @@ class CreateDaftarRawatJalanTable extends Migration
             $table->string('keterangan');
             $table->string('catatan')->nullable();
             $table->string('alergi')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
