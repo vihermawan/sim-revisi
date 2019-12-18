@@ -639,6 +639,43 @@
 			]
 		});
 
+        $('#tindakanTable').DataTable({
+			prossessing: true,
+			serverside: true,
+			"bDestroy": true,
+			ajax: {
+				url : "{{ route('rawatJalan.detailTindakanJSON') }}",
+				data: {id: $("#idPasien").val()}
+			},
+			columns: [
+			{
+				name: 'tanggal',
+				data: 'tanggal',
+			},
+            {
+				name: 'nama_dokter',
+				data: 'nama_dokter',
+			},
+            {
+				name: 'nama_tindakan',
+				data: 'nama_tindakan',
+			},
+            {
+				name: 'jumlah',
+				data: 'jumlah',
+			},
+			{
+				data: 'unit',
+				name: 'unit',
+			},
+            {
+				name: 'action',
+				data: 'action',
+			},
+
+			]
+		});
+
         //delete rekam medis
         $(document).on('click', '#hapusRM', function(){
             let id = $(this).attr("data-id");
@@ -668,6 +705,42 @@
                                 text: 'Rekam Medis berhasil di hapus!',
                             });
                             $('#rekamMedisTable').DataTable().ajax.reload();
+                        }
+                    });
+                }
+            })
+            return false;
+        });
+
+        //delete tindakan
+        $(document).on('click', '#hapusTindakan', function(){
+            let id = $(this).attr("data-id");
+            Swal.fire({
+                title: 'Harap Konfirmasi',
+                text: "Anda tidak dapat mengembalikan data yang telah ada hapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Lanjutkan'
+                }).then((result) => {
+                
+                if (result.value) {
+                    $.ajax({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                        },
+                        url: "{{ route('rawatJalan.deleteTindakan') }}",
+                        method: "post",
+                        data: {id: id},
+                        success: function(data){
+                            console.log(data);
+                            Swal.fire({
+                                type: 'success',
+                                title: 'Berhasil!',
+                                text: 'Tindakan berhasil dihapus!',
+                            });
+                            $('#tindakanTable').DataTable().ajax.reload();
                         }
                     });
                 }
