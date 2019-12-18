@@ -7,6 +7,7 @@ use App\Poli;
 use App\Ruang;
 use App\Dokter;
 use App\Pasien;
+use App\Tindakan;
 use App\DaftarRawatInap;
 use App\DaftarRawatJalan;
 use Yajra\Datatables\Datatables;
@@ -77,6 +78,7 @@ class TransaksiRawatController extends Controller
         $poli     = Poli::all();
         $dokter   = Dokter::all();
         $icd      = Icd::all();
+        $tindakan = Tindakan::all();
         $menus = FunctionHelper::callMenu();
         return view('rawatjalan.detail', [
                                 'icd' => $icd,
@@ -84,7 +86,8 @@ class TransaksiRawatController extends Controller
                                 'dokter'=> $dokter,
                                 'menus' => $menus,
                                 'pasien' => $pasien,
-                                'rawatJalan' => $rawatJalan, 
+                                'rawatJalan' => $rawatJalan,
+                                'tindakan' => $tindakan
                             ]);
     }
 

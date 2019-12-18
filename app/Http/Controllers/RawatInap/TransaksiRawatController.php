@@ -46,6 +46,7 @@ class TransaksiRawatController extends Controller
         ->addIndexColumn()
         ->make(true);
     }
+    
     public function index()
     {
         $menus = FunctionHelper::callMenu();

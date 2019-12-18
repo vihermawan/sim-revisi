@@ -59,7 +59,7 @@ Route::middleware(['guest'])->group(function () {
    Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
    Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
    Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
-   Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
+  Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
   
    
    
@@ -71,6 +71,7 @@ Route::middleware(['guest'])->group(function () {
    Route::get('rekam-medis-rawat-jalan/edit-rm-json', 'RawatJalan\RekamMedisController@editDataRM')->name('rawatJalan.editDataRM');
    Route::post('rekam-medis-rawat-jalan/edit-rm', 'RawatJalan\RekamMedisController@editRM')->name('rawatJalan.editRM');
    Route::get('rekam-medis-rawat-jalan/rekam-medis-json', 'RawatJalan\RekamMedisController@rawatDataMenu')->name('rawatJalan.rekam-medis-json');
+   Route::post('rekam-medis-rawat-jalan/tambah-tindakan', 'RawatJalan\TindakanMedisController@store')->name('rawatJalan.tambahTindakan');
    //sub-modul tindakan medis pasien
    Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
    //sub modul transaksi medis pasien

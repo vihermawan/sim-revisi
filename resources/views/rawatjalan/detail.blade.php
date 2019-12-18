@@ -118,7 +118,12 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="top-justified-tab3">
-                   <table class="table datatable-basic">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button class="btn bg-success" id="tambahTindakan">Tambah Tindakan</button>
+                        </div>
+                    </div>
+                   <table class="table datatable-basic" id="tindakanTable">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
@@ -258,7 +263,7 @@
                                 <label class="col-lg-3 col-form-label">Anamnesa </label>
                                 <div class="col-lg-9">
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_rawat" value="rawat jalan"/>
+                                    <input type="hidden" name="status_rawat" value="0"/>
                                     <textarea  name="anamnesa" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -347,6 +352,82 @@
 	</div>
 </div>
 
+<!-- Add tindakan modal -->
+<div id="modal-tambah-tindakan" class="modal fade" tabindex="-1" data-backdrop="false">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Basic modal</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+                <form id="addFormTindakan">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tindakan</label>
+                                <div class="col-lg-9">
+                                    <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
+                                    <input type="hidden" name="status_proses" value="0"/>
+                                    <select data-placeholder="Pilih Tindakan" class="form-control select select2"  name="tindakan" data-fouc>
+                                        <option></option>
+                                        @foreach($tindakan as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Jumlah</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="jumlah-tindakan">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Unit</label>
+                                <div class="col-lg-9">
+                                    <select class="form-control select select2"  name="poli">
+                                        @foreach($poli as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tanggal :</label>
+                                <div class="col-lg-9">
+                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Dokter</label>
+                                <div class="col-lg-9">
+                                    <select class="form-control select select2"  name="dokter">
+                                        @foreach($dokter as $data)
+                                        <option value="{{$data->id}}" <?php echo ($data->id === $rawatJalan->id_dokter) ? 'selected' : '';?>>{{$data->nama_dokter}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Catatan </label>
+                                <div class="col-lg-9">
+                                    <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
+				<button type="button" class="btn bg-primary" id="saveModalTindakan">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 @endsection
 
@@ -388,6 +469,47 @@
                                 $("#addFormRM")[0].reset();
                                 $("#modal_default").modal('hide');
                                 $('#rekamMedisTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                })
+                return false;
+            });
+        });
+
+        $('#tambahTindakan').on('click', function(){
+            $('#modal-tambah-tindakan').modal('show');
+
+            //simpan data
+            $(document).on('click', '#saveModalTindakan', function(){
+                Swal.fire({
+                    title: 'Harap Konfirmasi',
+                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Lanjutkan'
+                    }).then((result) => {
+                    
+                    if (result.value) {
+                        $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                            },
+                            url: "{{ route('rawatJalan.tambahTindakan') }}",
+                            method: "post",
+                            data: {formData: JSON.parse(JSON.stringify($('#addFormTindakan').serializeArray())) },
+                            success: function(data){
+                                console.log(data);
+                                Swal.fire({
+                                    type: 'success',
+                                    title: 'Berhasil!',
+                                    text: 'Pasien berhasil di daftar!',
+                                });
+                                $("#addFormTindakan")[0].reset();
+                                $("#modal-tambah-tindakan").modal('hide');
+                                $('#indakanTable').DataTable().ajax.reload();
                             }
                         });
                     }

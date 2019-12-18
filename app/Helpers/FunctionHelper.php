@@ -54,6 +54,7 @@ class FunctionHelper {
         }
         return $html;
     }
+    
     public static function checkMenu($url)
     {
         $check = DB::table('user_akses')->leftJoin('menu', 'menu.id', 'user_akses.id_menu')

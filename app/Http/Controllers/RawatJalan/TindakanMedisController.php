@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\RawatJalan;
 
+use App\TransaksiTindakanMedisRawatInap;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,17 @@ class TindakanMedisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tindakan = new TransaksiTindakanMedisRawatInap;
+        $tindakan->id_pasien = $req->formData[0]["value"];
+        $tindakan->status_proses = $req->formData[1]["value"];
+        $tindakan->id_tindakan = $req->formData[2]["value"];
+        $tindakan->jumlah = $req->formData[3]["value"];
+        $tindakan->id_poli = $req->formData[4]["value"];
+        $tindakan->tanggal_permintaan = $req->formData[5]["value"];
+        $tindakan->id_dokter = $req->formData[6]["value"];
+        $tindakan->tanggal_permintaan = $req->formData[7]["value"];
+        $tindakan->save();
+        return $request;
     }
 
     /**
