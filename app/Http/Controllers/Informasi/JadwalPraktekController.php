@@ -37,7 +37,7 @@ class JadwalPraktekController extends Controller
         return Datatables::of($data)
         ->addColumn('action', function ($data){
             return'
-                <a href="'.route('pasien.detailPasien', $data['id_dokter']).'" ><button type="button" id="'.$data['id_dokter'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Daftar</button></a>
+                <a href="'.route('daftar-rawat-jalan', $data['id_dokter']).'" ><button type="button" id="'.$data['id_dokter'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Daftar</button></a>
             ';
         })
         ->rawColumns(['action'])

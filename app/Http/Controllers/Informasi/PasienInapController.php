@@ -38,6 +38,7 @@ class PasienInapController extends Controller
                 'id_pasien' => $informasi->id_pasien,
                 'nama_pasien' => $informasi->nama_pasien,
                 'alamat' => $informasi->alamat,
+                'status' => $informasi->status,
             ];
         }
         return Datatables::of($data)

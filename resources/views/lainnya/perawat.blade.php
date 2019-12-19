@@ -11,7 +11,9 @@
     </div>
     
     <div class="card-header">
-        <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Perawat</button>
+        @if(Auth::user()->id_role == "1")
+            <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Perawat</button>
+        @endif
     </div>
     
 	<table class="table datatable-basic" id="perawat-tables">
@@ -19,8 +21,10 @@
 			<tr>
 				<th>No</th>
 				<th>Nama Perawat</th>
-				<th>Nama Dokter </th>
-				<th class="text-center">Actions</th>
+                <th>Nama Dokter </th>
+                @if(Auth::user()->id_role == "1")
+                    <th class="text-center">Actions</th>
+                @endif
 			</tr>
 		</thead>
     </table>

@@ -23,7 +23,6 @@
 					<th>Kode Ruang</th>
 					<th>Nama Ruang</th>
 					<th>Status</th>
-					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
 	</table>
@@ -112,7 +111,7 @@
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 4 ] }
+                    { className: "text-center", "targets": [ 3 ] }
                 ],
                ajax: '{!! route('informasiruang.dataJSON') !!}',
                columns: [
@@ -128,6 +127,7 @@
                   {
                      name: 'status_ruang',
                      data: 'status_ruang',
+                     
                      render: function(data){
                         return data == '0' ? 'Kosong' : 'Terisi';
                      }
@@ -136,7 +136,6 @@
                      name: 'action',
                      data: 'action',
                   },
-
                ]
             });
 
