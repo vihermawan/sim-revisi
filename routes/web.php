@@ -120,7 +120,8 @@ Route::group(['middleware' => 'auth'],function(){
   //modul rawat inap
   Route::get('transaksi-rawat-inap/json', 'RawatInap\TransaksiRawatController@transaksiJSON')->name('rawatInap.transaksi');
   Route::get('rawat-inap/detail/{id}', 'RawatInap\TransaksiRawatController@detailPasien')->name('rawatInap.detailPasien');
-  
+  Route::get('rekam-medis-rawat-inap', 'RawatInap\RekamMedisController@index');
+  Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@index');
   //sub-modul rekam medis pasien
 
   //sub-modul tindakan medis pasien
