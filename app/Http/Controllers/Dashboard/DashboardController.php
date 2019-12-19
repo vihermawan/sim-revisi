@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 use App\Helpers\FunctionHelper;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -15,6 +16,8 @@ class DashboardController extends Controller
     public function index()
     {   
         $menus = FunctionHelper::callMenu();
+        // $menus = MenuController::index();
+
         return view('dashboard.dashboard', ['menus' => $menus]);
     }
 
