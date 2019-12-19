@@ -148,14 +148,7 @@ class MenuTableSeeder extends Seeder
         DB::table('menu')->insert([
             'parent_id' => 5,
             'nama_menu' => 'Tindakan Medis',
-            'url' => '/tindakan-medis-rawat-jalan',
-            'icon' => 'icon-radio-unchecked',
-        ]);
-
-        DB::table('menu')->insert([
-            'parent_id' => 5,
-            'nama_menu' => 'Kelola Ruang',
-            'url' => '/kelola-ruang',
+            'url' => '/tindakan-medis-rawat-inap',
             'icon' => 'icon-radio-unchecked',
         ]);
 

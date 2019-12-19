@@ -148,7 +148,7 @@
                      data: 'jenis_kelamin',
                      
                      render: function(data){
-                        return data == 'L' ? 'Laki-Laki' : 'Perempuan';
+                        return data == '0' ? 'Kosong' : 'Penuh';
                      }
                   },
                   {

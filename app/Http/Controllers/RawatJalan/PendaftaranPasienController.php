@@ -40,7 +40,10 @@ class PendaftaranPasienController extends Controller
 
     public function searchPasien(Request $req) {
 
-        $pasien = Pasien::where('nama_pasien', $req['q'])->get();
+        $pasien = Pasien::where('nama_pasien','like','%'.$req['q'].'%')     
+                        ->orWhere('id','like','%'.$req['q'].'%')    
+                        ->orWhere('tanggal_lahir','like','%'.$req['q'].'%')    
+                        ->get();
         $data = [];
         foreach($pasien as $pasiens) {
             $data[] = [

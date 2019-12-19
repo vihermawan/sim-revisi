@@ -31,11 +31,15 @@ class InformasiRuangController extends Controller
                 'status_ruang' => $ruang->status_ruang,
             ];
         }
+        
         return Datatables::of($data)
         ->addColumn('action', function ($data){
+            $asu = $data['status_ruang'] == 1 ? ' <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm hapusRuangBtn" disabled><b><i class="icon-pencil5"></i></b>Delete</button>' : ' <button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm hapusRuangBtn"><b><i class="icon-pencil5"></i></b>Delete</button>';
+          
+          
             return'
-                <a href="'.route('pasien.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm daftar-rawatjalan"><b><i class="icon-pencil5"></i></b>Daftar</button></a>
-            ';
+                <button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm editRuangBtn "><b><i class="icon-pencil5"></i></b>Edis</button>
+                '. $asu;
         })
         ->rawColumns(['action'])
         ->addIndexColumn()
@@ -66,9 +70,14 @@ class InformasiRuangController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $ruang = new Ruang();
+        $ruang->kode_ruang = $req->formData[0]["value"];
+        $ruang->nama_ruang = $req->formData[1]["value"];
+        $ruang->status_ruang = $req->formData[2]["value"];
+        $ruang->save();
+        return $req;
     }
 
     /**
@@ -77,11 +86,20 @@ class InformasiRuangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function editRuang(Request $req)
     {
-        //
+        return Ruang::find($req->id);
+        
     }
-
+    public function updateRuang(Request $req)
+    {
+        $ruang = Ruang::find($req->id);
+        $ruang->kode_ruang = $req->formData[0]["value"];
+        $ruang->nama_ruang = $req->formData[1]["value"];
+        $ruang->status_ruang = $req->formData[2]["value"];
+        $ruang->save();
+        return $req;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -111,8 +129,9 @@ class InformasiRuangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $req)
     {
-        //
+        $data = Ruang::find($req->id);
+        $data->delete();
     }
 }

@@ -31,6 +31,10 @@ Route::group(['middleware' => 'auth'],function(){
 
   //sub-modul informasi ruang
   Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index')->name('informasiruang');
+  Route::post('informasi-ruang/add', 'Informasi\InformasiRuangController@store')->name('ruang.tambahRuang');
+  Route::post('informasi-ruang/update', 'Informasi\InformasiRuangController@updateRuang')->name('ruang.updateRuang');
+  Route::post('informasi-ruang/delete', 'Informasi\InformasiRuangController@destroy')->name('ruang.deleteRuang');
+  Route::get('informasi-ruang/edit', 'Informasi\InformasiRuangController@editRuang')->name('ruang.editRuangan');
   Route::get('informasi-ruang-json', 'Informasi\InformasiRuangController@informasiruangJSON')->name('informasiruang.dataJSON');
   //sub-modul jadwal praktek
   Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
@@ -116,6 +120,10 @@ Route::group(['middleware' => 'auth'],function(){
   //modul rawat inap
   Route::get('transaksi-rawat-inap/json', 'RawatInap\TransaksiRawatController@transaksiJSON')->name('rawatInap.transaksi');
   Route::get('rawat-inap/detail/{id}', 'RawatInap\TransaksiRawatController@detailPasien')->name('rawatInap.detailPasien');
+  Route::get('rekam-medis-rawat-inap', 'RawatInap\RekamMedisController@index');
+  Route::get('rekam-medis-rawat-inap/json', 'RawatInap\RekamMedisController@rawatDataMenu')->name('rawatInap.rekamMedisData');
+  Route::get('tindakan-medis-rawat-inap', 'RawatInap\TindakanMedisController@rawatDataMenu')->name('rawatInap.rekamMedisData');
+  Route::get('tindakan-medis-rawat-inap/json', 'RawatInap\TindakanMedisController@rawatDataMenu')->name('rawatInap.tindakanData');
   
   //sub-modul rekam medis pasien
 
