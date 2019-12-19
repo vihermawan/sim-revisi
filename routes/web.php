@@ -44,14 +44,16 @@ Route::middleware(['guest'])->group(function () {
   // modul pasien
   Route::get('pasien', 'Pasien\PasienController@index')->name('pasien');
   Route::get('pasien-json', 'Pasien\PasienController@pasienJSON')->name('pasien.dataJSON');
-  Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
   Route::get('pasien/rekam-medis/{id}', 'Pasien\PasienController@rekamMedisPasien')->name('pasien.rekamMedisPasien');
   Route::get('pasien-transaksi-inap-json', 'Pasien\PasienController@rekmedTransaksiInapJSON')->name('pasien.rekmedTransaksiInapJSON');
   Route::get('pasien-transaksi-jalan-json', 'Pasien\PasienController@rekmedTransaksiJalanJSON')->name('pasien.rekmedTransaksiJalanJSON');
   Route::get('pasien-rekam-medis-json', 'Pasien\PasienController@rekmedPasienJSON')->name('pasien.rekmedPasienJSON');
   Route::get('pasien-tindakan-inap-json', 'Pasien\PasienController@TindakanMedisInapJSON')->name('pasien.TindakanMedisInapJSON');
   Route::get('pasien-tindakan-jalan-json', 'Pasien\PasienController@TindakanMedisJalanJSON')->name('pasien.TindakanMedisJalanJSON');
-  Route::post('edit-pasien', 'Pasien\PasienController@updateData')->name('pasien.editPasien');
+  
+  Route::get('pasien/detail-pasien/{id}', 'Pasien\PasienController@detailPasien')->name('pasien.detailPasien');
+  
+  Route::post('edit-pasien', 'Pasien\PasienController@update')->name('pasien.editPasien');
   Route::get('deletePasien', 'Pasien\PasienController@destroy')->name('pasien.delete');
 
 
@@ -63,7 +65,7 @@ Route::middleware(['guest'])->group(function () {
    Route::get('daftar-rawat-jalan/search-poli', 'RawatJalan\PendaftaranPasienController@searchPoli')->name('rawatJalan.searchPoli');
    Route::post('daftar-rawat-jalan/daftar', 'RawatJalan\PendaftaranPasienController@daftar')->name('rawatJalan.daftar');
    Route::get('daftar-rawat-jalan/search-pasien', 'RawatJalan\PendaftaranPasienController@searchPasien')->name('rawatJalan.searchPasien');
-  Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
+   Route::get('daftar-rawat-jalan/detail-pasien/{id}', 'RawatJalan\TransaksiRawatController@detailPasien')->name('rawatJalan.detailPasien');
   
    
    
@@ -80,6 +82,7 @@ Route::middleware(['guest'])->group(function () {
    Route::post('rekam-medis-rawat-jalan/delete-tindakan', 'RawatJalan\TindakanMedisController@deleteTindakan')->name('rawatJalan.deleteTindakan');
    Route::get('rekam-medis-rawat-jalan/edit-tindakan-json', 'RawatJalan\TindakanMedisController@editDataTindakan')->name('rawatJalan.editDataTindakan');
    Route::post('rekam-medis-rawat-jalan/edit-tindakan', 'RawatJalan\TindakanMedisController@editTindakan')->name('rawatJalan.editTindakan');
+   
    //sub-modul tindakan medis pasien
    Route::get('tindakan-medis-rawat-jalan', 'RawatJalan\TindakanMedisController@index');
    //sub modul transaksi medis pasien
