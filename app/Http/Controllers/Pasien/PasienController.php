@@ -269,26 +269,31 @@ class PasienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateData(Request $req)
+    public function update(Request $req)
     {
-        $pasien = Pasien::find($req->id);
-        $pasien->nama_pasien        = $req->formData[0]["value"];
-        $pasien->jenis_kelamin      = $req->formData[1]["value"];
-        $pasien->alamat             = $req->formData[2]["value"];
-        $pasien->provinsi           = $req->formData[3]["value"];
-        $pasien->kabupaten          = $req->formData[4]["value"];
-        $pasien->kecamatan          = $req->formData[5]["value"];
-        $pasien->desa               = $req->formData[6]["value"];
-        $pasien->golongan_darah     = $req->formData[7]["value"];
-        $pasien->status             = $req->formData[8]["value"];
-        $pasien->tempat_lahir       = $req->formData[9]["value"];
-        $pasien->umur               = $req->formData[10]["value"];
-        $pasien->tanggal_lahir      = $req->formData[11]["value"];
-        $pasien->pekerjaan          = $req->formData[12]["value"];
-        $pasien->pendidikan         = $req->formData[13]["value"];
-        $pasien->agama              = $req->formData[14]["value"];
+        $pasien                     = Pasien::find($req->id);
+        $pasien->id                 = $req->formData[0]["value"];
+        $pasien->nama_pasien        = $req->formData[1]["value"];
+        $pasien->no_identitas       = $req->formData[2]["value"];
+        $pasien->jenis_kelamin      = $req->formData[3]["value"];
+        $pasien->alamat             = $req->formData[4]["value"];
+        $pasien->tanggal_kunjungan  = $req->formData[5]["value"];
+        $pasien->propinsi           = $req->formData[6]["value"];
+        $pasien->kabupaten          = $req->formData[7]["value"];
+        $pasien->kecamatan          = $req->formData[8]["value"];
+        $pasien->kelurahan          = $req->formData[9]["value"];
+        $pasien->golongan_darah     = $req->formData[10]["value"];
+        $pasien->status             = $req->formData[11]["value"];
+        $pasien->tempat_lahir       = $req->formData[12]["value"];
+        $pasien->umur               = $req->formData[13]["value"];
+        $pasien->tanggal_lahir      = $req->formData[14]["value"];
+        $pasien->pekerjaan          = $req->formData[13]["value"];
+        $pasien->pendidikan         = $req->formData[16]["value"];
+        $pasien->agama              = $req->formData[17]["value"];
+        $pasien->nama_wali          = $req->formData[18]["value"];
       
         $pasien->save();
+        
         return $req;
     }
 

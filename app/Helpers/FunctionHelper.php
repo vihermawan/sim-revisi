@@ -48,6 +48,7 @@ class FunctionHelper {
                                 // }
                         }
                     $view .= $modul.$menu.'</li>';
+            
                 }
                 $html .= $view;
             // }
