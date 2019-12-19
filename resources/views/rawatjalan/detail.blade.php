@@ -437,6 +437,7 @@
                                     <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
+                            <input type="hidden" name="status_rawat" value="0">
                         </div>
                     </div>
                 </form>
@@ -513,6 +514,7 @@
                                     <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
+                            <input type="hidden" name="status_rawat" value="0">
                         </div>
                     </div>
                 </form>
@@ -605,7 +607,7 @@
                                 });
                                 $("#addFormTindakan")[0].reset();
                                 $("#modal-tambah-tindakan").modal('hide');
-                                $('#indakanTable').DataTable().ajax.reload();
+                                $('#tindakanTable').DataTable().ajax.reload();
                             }
                         });
                     }
@@ -741,7 +743,7 @@
 			"bDestroy": true,
 			ajax: {
 				url : "{{ route('rawatJalan.detailTindakanJSON') }}",
-				data: {id: $("#idPasien").val()}
+				data: {id: $("#idPasien").val(), status_rawat: 0}
 			},
 			columns: [
 			{

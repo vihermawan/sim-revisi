@@ -19,7 +19,8 @@ class TransaksiTindakanMedisJalanTableSeeder extends Seeder
             'id_dokter' => 1,
             'tanggal_permintaan' => '2019-09-10',
             'status_proses' => 0,
-            'catatan' => ''
+            'catatan' => '',
+            'status_rawat' => 0
         ]);
     }
 }

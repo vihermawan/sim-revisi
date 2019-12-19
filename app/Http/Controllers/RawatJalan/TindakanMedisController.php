@@ -44,6 +44,7 @@ class TindakanMedisController extends Controller
                         ->select('transaksi_tindakan_medis_jalan.*', 'transaksi_tindakan_medis_jalan.id as id_transaksi_tindakan_medis_jalan', 'pasien.*', 'dokter.*', 'tindakan.*', 'poli.*')
                         ->where([
                             ['transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id']],
+                            ['transaksi_tindakan_medis_jalan.status_rawat','=' ,$req['status_rawat']]
                             ])
                         ->get();
                     
@@ -88,6 +89,7 @@ class TindakanMedisController extends Controller
         $tindakan->tanggal_permintaan = $request->formData[5]["value"];
         $tindakan->id_dokter = $request->formData[6]["value"];
         $tindakan->catatan = $request->formData[7]["value"];
+        $tindakan->status_rawat = $request->formData[8]["value"];
         $tindakan->save();
         // return $request;
     }
@@ -109,6 +111,7 @@ class TindakanMedisController extends Controller
         $tindakan->tanggal_permintaan = $req->formData[5]["value"];
         $tindakan->id_dokter = $req->formData[6]["value"];
         $tindakan->catatan = $req->formData[7]["value"];
+        $tindakan->status_rawat = $req->formData[8]["value"];
         $tindakan->save();
         // return $req;
     }
