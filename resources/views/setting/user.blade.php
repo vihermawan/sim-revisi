@@ -11,7 +11,10 @@
 	</div>
 
 	<div class="card-header header-elements-inline">
+		@if($create)
 			<button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah User Baru</button>
+		@endif
+		
 	</div>
 
 	<table id="tabel-user" class="table datatable-basic">

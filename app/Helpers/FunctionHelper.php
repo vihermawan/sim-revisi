@@ -1,6 +1,7 @@
 <?php
 namespace App\Helpers;
 use App\Menu;
+use Auth;
 use DB;
 
 class FunctionHelper {
@@ -68,6 +69,20 @@ class FunctionHelper {
             return true;
         }
 
+        return false;
+    }
+
+    public static function checkAction($action)
+    {
+        $role = Auth::user()->id_role;
+        $check = DB::table('user_akses')
+                ->where('id_role', $role)
+                ->where('aksi_menu', $action)
+                ->where('status_menu', 1)
+                ->first();
+        if (isset($check->aksi_menu)) {
+            return true;
+        }
         return false;
     }
 }
