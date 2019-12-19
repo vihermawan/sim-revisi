@@ -46,7 +46,7 @@ class PendaftaranController extends Controller
      */
     public function store(Request $req)
     {
-
+        
         $pasien = new Pasien;
         $pasien->id                 = $req->formData[0]["value"];
         $pasien->nama_pasien        = $req->formData[1]["value"];

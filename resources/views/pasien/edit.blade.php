@@ -11,6 +11,7 @@
 	</div>
 	<div class="card-body">
         <form id="editForm" name="editForm">
+            
             <div class="row">
 
                 <div class="col-md-4">
@@ -18,7 +19,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Nomor Rumah Sakit :</label>
                             <div class="col-lg-8">
-                                <input type="text" class="form-control" placeholder="Masukkan Nama Pasien" id="id" name="id" value="{{$pasien->id}}">
+                                <input type="text" class="form-control" placeholder="Masukkan Nama Pasien" id="id" name="id" value="{{$pasien->id}}" readonly="readonly">
                             </div>
                         </div>
 
@@ -224,6 +225,7 @@
             <div class="text-right">
                 <button type="button" class="btn btn-primary edit_data">Simpan Data</button>
             </div>
+            <input name="_method" type="hidden" value="PATCH">
         </form>
     </div>  
 </div>
@@ -243,9 +245,10 @@
                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
             },
             url: "{{ route('pasien.editPasien')}}",
-            method: "post",
+            method: "POST",
             data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
             success: function(data){
+                console.log('lol', data);
                Swal.fire({
                   type: 'success',
                   title: 'Pasien berhasil di ubah!',
