@@ -1,10 +1,13 @@
 @extends('layouts.main')
 
+@section('menu')
+	{!! $menus !!}
+@endsection
 
 @section('content')
 <div class="card">
 	<div class="card-header header-elements-inline">
-		<h5 class="card-title">Tabel User</h5>
+		<h5 class="card-title">Basic datatable</h5>
 	</div>
 
 	<div class="card-header header-elements-inline">
