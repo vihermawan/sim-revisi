@@ -13,13 +13,12 @@
 
 Auth::routes();
 
-Route::middleware(['guest'])->group(function () {
-  
-  
+Route::group(['middleware' => 'auth'],function(){
   Route::get('/', 'Dashboard\DashboardController@index');
+  Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
 
   // modul dashboard
-  Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
+  
 
   // modul pendaftaran
   Route::get('pendaftaran', 'Pendaftaran\PendaftaranController@index');
@@ -180,12 +179,21 @@ Route::middleware(['guest'])->group(function () {
   Route::get('edit-password', 'Setting\EditPasswordController@index');
 
   Route::get('profile', 'Setting\ProfileController@index');
+
+});
+
+Route::middleware(['guest'])->group(function () {
+  
+  
 });
 
 Route::get('/login',function(){
-  return view('layouts.login');
+  return view('auth.login');
 })->name('login');
 
 Route::get('/register',function(){
   return view('layouts.register');
 })->name('register');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
