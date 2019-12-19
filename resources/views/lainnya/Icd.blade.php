@@ -150,13 +150,6 @@
             }
         });
     });
-
-    //edit penyakit
-    // $(document).on('click', '.edit-icd-data', function(){
-    //      var id = $(this).attr("id");
-    //      $('.edit_icd').attr("id", id);
-    // });
-
     
     //edit penyakit baru
     $(document).on('click', '#editIcdBtn', function(){
@@ -235,28 +228,28 @@
 
     //GET ALL DATA
     $(function(){
-            $('#icd-tables').DataTable({
-            order: [[ 2, "asc" ]],
-               prossessing: true,
-               serverside: true,
-               "bDestroy": true,
-               "columnDefs": [
-                    { className: "text-center", "targets": [ 2 ] }
-                ],
-               ajax: '{!! route('icd.dataJSON') !!}',
-               columns: [
-                  { name: 'id', data: 'DT_RowIndex' },
-                  {
-                     name: 'nama_icd',
-                     data: 'nama_icd'
-                  },
-                  {
-                     name: 'action',
-                     data: 'action',
-                  },
-               ]
-            });
-         });
+        $('#icd-tables').DataTable({
+        order: [[ 2, "asc" ]],
+            prossessing: true,
+            serverside: true,
+            "bDestroy": true,
+            "columnDefs": [
+                { className: "text-center", "targets": [ 2 ] }
+            ],
+            ajax: '{!! route('icd.dataJSON') !!}',
+            columns: [
+                { name: 'id', data: 'DT_RowIndex' },
+                {
+                    name: 'nama_icd',
+                    data: 'nama_icd'
+                },
+                {
+                    name: 'action',
+                    data: 'action',
+                },
+            ]
+        });
+    });
         
 </script>
 @endpush
