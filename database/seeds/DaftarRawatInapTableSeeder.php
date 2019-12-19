@@ -14,6 +14,7 @@ class DaftarRawatInapTableSeeder extends Seeder
         DB::table('daftar_rawat_inap')->insert([
             'tanggal_mutasi' => '2010-11-11',
             'id_ruang' => 1,
+            'id_pasien' => 1,
             'id_transaksi_rawat_jalan' => 1
         ]);
     }

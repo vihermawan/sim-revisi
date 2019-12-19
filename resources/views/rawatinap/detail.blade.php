@@ -111,7 +111,7 @@
                                 <th>Anamnesa</th>
                                 <th>P.Fisik</th>
                                 <th>P.Penunjang</th>
-                                <th>Jenis Kasus</th>
+                                <th>Jenis</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -119,31 +119,11 @@
                 </div>
                 <div class="tab-pane fade" id="top-justified-tab3">
                     <div class="row">
-                        <div class="col-md-6 text-left">
-                            <h3>Tabel Tindakan</h3>
-                        </div>
-                        <div class="col-md-6 text-right">
+                        <div class="col-md-12 text-right">
                             <button class="btn bg-success" id="tambahTindakan">Tambah Tindakan</button>
                         </div>
                     </div>
-                    <table class="table datatable-basic" id="tindakanTable">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Dokter</th>
-                                <th>Tindakan</th>
-                                <th>Data</th>
-                                <th>ICD9-CM</th>
-                                <th>Jenis Rawat</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <div class="row">
-                        <div class="col-md-12 text-left">
-                            <h3>Tabel Tindakan Diproses</h3>
-                        </div>
-                    </div>
-                    <table class="table datatable-basic" id="tindakanDiprosesTable">
+                   <table class="table datatable-basic" id="tindakanTable">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
@@ -171,14 +151,14 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-                <form id="addFormRM">
+                <form id="abcd">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Anamnesa </label>
                                 <div class="col-lg-9">
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_rawat" value="0"/>
+                                    <input type="hidden" name="status_rawat" value="1"/>
                                     <textarea  name="anamnesa" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -283,7 +263,7 @@
                                 <label class="col-lg-3 col-form-label">Anamnesa </label>
                                 <div class="col-lg-9">
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_rawat" value="0"/>
+                                    <input type="hidden" name="status_rawat" value="1"/>
                                     <textarea  name="anamnesa" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -392,7 +372,7 @@
                                     <select data-placeholder="Pilih Tindakan" class="form-control select select2"  name="tindakan" data-fouc>
                                         <option></option>
                                         @foreach($tindakan as $data)
-                                        <option value="{{$data->id}}" <?php echo ($data->id === $rawatJalan->id_dokter) ? 'selected' : ''; ?> >{{$data->nama_tindakan}}</option>
+                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -449,82 +429,6 @@
 	</div>
 </div>
 
-<!-- Edit tindakan modal -->
-<div id="modal-edit-tindakan" class="modal fade" tabindex="-1" data-backdrop="false">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Basic modal</h5>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<div class="modal-body">
-                <form id="editFormTindakan">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Tindakan</label>
-                                <div class="col-lg-9">
-                                    <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_proses" value="0"/>
-                                    <select id="select-tindakan" data-placeholder="Pilih Tindakan" class="form-control select select2" name="tindakan" data-fouc>
-                                        @foreach($tindakan as $data)
-                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Jumlah</label>
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control" name="jumlah-tindakan">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Unit</label>
-                                <div class="col-lg-9">
-                                    <select id="select-poli" class="form-control select select2"  name="poli">
-                                        @foreach($poli as $data)
-                                        <option value="{{$data->id}}">{{$data->nama_poli}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Tanggal :</label>
-                                <div class="col-lg-9">
-                                    <input type="date" class="form-control" name="tanggal">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Dokter</label>
-                                <div class="col-lg-9">
-                                    <select id="select-dokter" class="form-control select select2"  name="dokter">
-                                        @foreach($dokter as $data)
-                                        <option value="{{$data->id}}">{{$data->nama_dokter}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Catatan </label>
-                                <div class="col-lg-9">
-                                    <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
-				<button type="button" class="btn bg-primary" id="editModalTindakan">Save changes</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 @endsection
 
 @push('scripts')
@@ -539,7 +443,7 @@
             $(document).on('click', '#saveModalRM', function(){
                 Swal.fire({
                     title: 'Harap Konfirmasi',
-                    text: "Apalah data rekam medis sudah benar??",
+                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -554,7 +458,7 @@
                             },
                             url: "{{ route('rawatJalan.tambahRM') }}",
                             method: "post",
-                            data: {formData: JSON.parse(JSON.stringify($('#addFormRM').serializeArray())) },
+                            data: {formData: JSON.parse(JSON.stringify($('#abcd').serializeArray())) },
                             success: function(data){
                                 console.log(data);
                                 Swal.fire({
@@ -562,7 +466,7 @@
                                     title: 'Berhasil!',
                                     text: 'Pasien berhasil di daftar!',
                                 });
-                                $("#addFormRM")[0].reset();
+                                $("#abcd")[0].reset();
                                 $("#modal_default").modal('hide');
                                 $('#rekamMedisTable').DataTable().ajax.reload();
                             }
@@ -692,7 +596,7 @@
 			"bDestroy": true,
 			ajax: {
 				url : "{{ route('rawatJalan.detailRMJSON') }}",
-				data: {id: $("#idPasien").val(), status_rawat: 0}
+				data: {id: $("#idPasien").val(), status_rawat: 1}
 			},
 			columns: [
 			{
@@ -881,41 +785,6 @@
     
         });
 
-        //edit tindakan
-        $(document).on('click', '#editTindakanBtn', function(){
-            $('#select-tindakan option').select2().removeAttr('selected');
-            $('#select-poli option').select2().removeAttr('selected');
-            $('#select-dokter option').select2().removeAttr('selected');
-            id = $(this).attr('data-id');
-            $("#editModalTindakan").attr('data-id', id);
-            $.ajax({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                },
-                url: "{{ route('rawatJalan.editDataTindakan') }}",
-                method: "get",
-                data: {id: id},
-                success: function(data){
-                    console.log(data);
-                    if($('#select-tindakan option').select2().val() != data.id_tindakan){
-                        $('#select-tindakan option').select2().attr('selected',true);
-                    }
-                    $('#editFormTindakan input[name="jumlah-tindakan"]').val(data.jumlah);
-                    if($('#select-poli option').select2().val() != data.id_poli){
-                        $('#select-poli option').select2().attr('selected',true);
-                    }
-                    $('#editFormTindakan input[name="tanggal"]').val(data.tanggal_permintaan);
-                    if($('#select-dokter option').select2().val() != data.id_dokter){
-                        $('#select-dokter option').select2().attr('selected',true);
-                    }
-                    $('#editFormTindakan textarea[name="catatan"]').val(data.catatan);
-               
-                    $("#modal-edit-tindakan").modal("show")
-                }
-            });
-    
-        });
-
         $(document).on('click', '.closeEditRM', function(){
             console.log('gg');
             $('#editJenisKasus option').select2().removeAttr('selected');
@@ -952,86 +821,9 @@
                                     text: 'Pasien berhasil di daftar!',
                                 });
                                 $("#editRekmed").modal("hide")
-                                $("#editFormRM")[0].reset();
+                                $("#abcd")[0].reset();
+                                $("#modal_default").modal('hide');
                                 $('#rekamMedisTable').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                })
-                return false;
-           
-        });
-
-        // save edited tindakan
-        $(document).on('click', '#editModalTindakan', function(){
-            id = $(this).attr('data-id');
-            console.log(id); 
-            Swal.fire({
-                    title: 'Harap Konfirmasi',
-                    text: "Simpan Data Tindakan Pasien Ini??",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Lanjutkan'
-                    }).then((result) => {
-                    
-                    if (result.value) {
-                        $.ajax({
-                            headers: {
-                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                            },
-                            url: "{{ route('rawatJalan.editTindakan') }}",
-                            method: "post",
-                            data: {id: id, formData: JSON.parse(JSON.stringify($('#editFormTindakan').serializeArray())) },
-                            success: function(data){
-                                console.log(data);
-                                Swal.fire({
-                                    type: 'success',
-                                    title: 'Berhasil!',
-                                    text: 'Pasien berhasil di daftar!',
-                                });
-                                $("#modal-edit-tindakan").modal("hide")
-                                $("#addFormTindakan")[0].reset();
-                                $('#tindakanTable').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                })
-                return false;
-           
-        });
-
-        // proses tindakan
-        $(document).on('click', '#prosesTindakanBtn', function(){
-            id = $(this).attr('data-id');
-            console.log(id); 
-            Swal.fire({
-                    title: 'Harap Konfirmasi',
-                    text: "Proses Tindakan Ini??",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Lanjutkan'
-                    }).then((result) => {
-                    
-                    if (result.value) {
-                        $.ajax({
-                            headers: {
-                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
-                            },
-                            url: "{{ route('rawatJalan.prosesTindakan') }}",
-                            method: "post",
-                            data: {id: id},
-                            success: function(data){
-                                console.log(data);
-                                Swal.fire({
-                                    type: 'success',
-                                    title: 'Berhasil!',
-                                    text: 'Tindakan akan segera diproses!',
-                                });
-                                $('#tindakanTable').DataTable().ajax.reload();
                             }
                         });
                     }

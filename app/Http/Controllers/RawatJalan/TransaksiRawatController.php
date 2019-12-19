@@ -50,7 +50,7 @@ class TransaksiRawatController extends Controller
         ->addColumn('tindakan', function ($data){
             return'
             <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
-            <a href="#" ><button type="button" id="'.$data['id'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm mutasi-pasien"><b><i class="icon-pencil5"></i></b>Mutasi</button></a>
+            <a href="#" ><button type="button" id="'.$data['id'].'" data-idPasien="'.$data['id_pasien'].'" class="btn btn-warning btn-labeled btn-labeled-left btn-sm mutasi-pasien"><b><i class="icon-pencil5"></i></b>Mutasi</button></a>
             <button type="button" id="'.$data['id'].'" class="btn btn-primary btn-labeled btn-labeled-left btn-sm rajal-invoice"><b><i class="icon-pencil5"></i></b>Invoice</button>
           
             ';
@@ -152,6 +152,7 @@ class TransaksiRawatController extends Controller
         $daftar = new DaftarRawatInap();
         $daftar->id_transaksi_rawat_jalan = $req['idRawatJalan'];
         $daftar->id_ruang = $req['idRuang'];
+        $daftar->id_pasien = $req['id_pasien'];
         $daftar->tanggal_mutasi = $req['tanggal'];
         $daftar->save();
 
