@@ -13,7 +13,7 @@
 
 Auth::routes();
 
-Route::group(['middleware' => 'guest'],function(){
+Route::group(['middleware' => 'auth'],function(){
   Route::get('/', 'Dashboard\DashboardController@index');
   Route::get('dashboard', 'Dashboard\DashboardController@index')->name('hello');
 
@@ -31,6 +31,10 @@ Route::group(['middleware' => 'guest'],function(){
 
   //sub-modul informasi ruang
   Route::get('informasi-ruang', 'Informasi\InformasiRuangController@index')->name('informasiruang');
+  Route::post('informasi-ruang/add', 'Informasi\InformasiRuangController@store')->name('ruang.tambahRuang');
+  Route::post('informasi-ruang/update', 'Informasi\InformasiRuangController@updateRuang')->name('ruang.updateRuang');
+  Route::post('informasi-ruang/delete', 'Informasi\InformasiRuangController@destroy')->name('ruang.deleteRuang');
+  Route::get('informasi-ruang/edit', 'Informasi\InformasiRuangController@editRuang')->name('ruang.editRuangan');
   Route::get('informasi-ruang-json', 'Informasi\InformasiRuangController@informasiruangJSON')->name('informasiruang.dataJSON');
   //sub-modul jadwal praktek
   Route::get('jadwal-praktek', 'Informasi\JadwalPraktekController@index');
