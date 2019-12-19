@@ -22,6 +22,7 @@ class CreateTransaksiTindakanMedisJalanTable extends Migration
             $table->bigInteger('id_dokter')->unsigned();
             $table->date('tanggal_permintaan');
             $table->string('status_proses');
+            $table->string('catatan');
             $table->timestamps();
         });
     }
