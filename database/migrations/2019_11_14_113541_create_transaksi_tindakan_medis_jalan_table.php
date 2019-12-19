@@ -23,6 +23,7 @@ class CreateTransaksiTindakanMedisJalanTable extends Migration
             $table->date('tanggal_permintaan');
             $table->string('status_proses');
             $table->string('catatan');
+            $table->bigInteger('status_rawat');
             $table->timestamps();
         });
     }

@@ -42,7 +42,10 @@ class TindakanMedisController extends Controller
                         ->join('pasien','transaksi_tindakan_medis_jalan.id_pasien','=','pasien.id')
                         ->join('dokter','transaksi_tindakan_medis_jalan.id_dokter','=','dokter.id')
                         ->select('transaksi_tindakan_medis_jalan.*', 'transaksi_tindakan_medis_jalan.id as id_transaksi_tindakan_medis_jalan', 'pasien.*', 'dokter.*', 'tindakan.*', 'poli.*')
-                        ->where('transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id'])
+                        ->where([
+                            ['transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id']],
+                            ['transaksi_tindakan_medis_jalan.status_rawat','=' ,$req['status_rawat']]
+                            ])
                         ->get();
                     
         $data = [];
@@ -86,26 +89,45 @@ class TindakanMedisController extends Controller
         $tindakan->tanggal_permintaan = $request->formData[5]["value"];
         $tindakan->id_dokter = $request->formData[6]["value"];
         $tindakan->catatan = $request->formData[7]["value"];
+        $tindakan->status_rawat = $request->formData[8]["value"];
         $tindakan->save();
         // return $request;
     }
 
     public function editDataTindakan(Request $req)
     {
-        $tindakan = TransaksiTindakanRawatJalan::with(['tindakan', 'poli', 'pasien', 'dokter'])->find($req['id']);
-
-        return $tindakan;
+        return TransaksiTindakanRawatJalan::with(['tindakan', 'poli', 'pasien', 'dokter'])->find($req['id']);
     }
 
     public function editTindakan(Request $req)
     {
-        //tinggal diisi edit tindakan
+        $tindakan = TransaksiTindakanRawatJalan::find($req['id']);
+
+        $tindakan->id_pasien = $req->formData[0]["value"];
+        $tindakan->status_proses = $req->formData[1]["value"];
+        $tindakan->id_tindakan = $req->formData[2]["value"];
+        $tindakan->jumlah = $req->formData[3]["value"];
+        $tindakan->id_poli = $req->formData[4]["value"];
+        $tindakan->tanggal_permintaan = $req->formData[5]["value"];
+        $tindakan->id_dokter = $req->formData[6]["value"];
+        $tindakan->catatan = $req->formData[7]["value"];
+        $tindakan->status_rawat = $req->formData[8]["value"];
+        $tindakan->save();
+        // return $req;
     }
 
     public function deleteTindakan(Request $req)
     {
         $data = TransaksiTindakanRawatJalan::find($req['id']);
         $data->delete();
+    }
+
+    public function prosesTindakan(Request $req)
+    {
+        $data = TransaksiTindakanRawatJalan::find($req['id']);
+        $data->status_proses = 1;
+        $data->save();
+        // return $req;
     }
 
     /**

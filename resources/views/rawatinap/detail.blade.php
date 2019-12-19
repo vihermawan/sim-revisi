@@ -417,6 +417,7 @@
                                     <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
+                            <input type="hidden" name="status_rawat" value="1">
                         </div>
                     </div>
                 </form>
@@ -429,6 +430,82 @@
 	</div>
 </div>
 
+<!-- Edit tindakan modal -->
+<div id="modal-edit-tindakan" class="modal fade" tabindex="-1" data-backdrop="false">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Basic modal</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+                <form id="editFormTindakan">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tindakan</label>
+                                <div class="col-lg-9">
+                                    <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
+                                    <input type="hidden" name="status_proses" value="0"/>
+                                    <select id="select-tindakan" data-placeholder="Pilih Tindakan" class="form-control select select2" name="tindakan" data-fouc>
+                                        @foreach($tindakan as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Jumlah</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="jumlah-tindakan">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Unit</label>
+                                <div class="col-lg-9">
+                                    <select id="select-poli" class="form-control select select2"  name="poli">
+                                        @foreach($poli as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tanggal :</label>
+                                <div class="col-lg-9">
+                                    <input type="date" class="form-control" name="tanggal">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Dokter</label>
+                                <div class="col-lg-9">
+                                    <select id="select-dokter" class="form-control select select2"  name="dokter">
+                                        @foreach($dokter as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_dokter}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Catatan </label>
+                                <div class="col-lg-9">
+                                    <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <input type="hidden" name="status_rawat" value="1">
+                        </div>
+                    </div>
+                </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
+				<button type="button" class="btn bg-primary" id="editModalTindakan">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @push('scripts')
@@ -509,7 +586,7 @@
                                 });
                                 $("#addFormTindakan")[0].reset();
                                 $("#modal-tambah-tindakan").modal('hide');
-                                $('#indakanTable').DataTable().ajax.reload();
+                                $('#tindakanTable').DataTable().ajax.reload();
                             }
                         });
                     }
@@ -645,7 +722,7 @@
 			"bDestroy": true,
 			ajax: {
 				url : "{{ route('rawatJalan.detailTindakanJSON') }}",
-				data: {id: $("#idPasien").val()}
+				data: {id: $("#idPasien").val(), status_rawat: 1}
 			},
 			columns: [
 			{
@@ -783,6 +860,85 @@
                 }
             });
     
+        });
+
+        $(document).on('click', '#editModalRM', function(){
+            id = $(this).attr('data-id');
+            console.log(id); 
+            Swal.fire({
+                    title: 'Harap Konfirmasi',
+                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Lanjutkan'
+                    }).then((result) => {
+                    
+                    if (result.value) {
+                        $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                            },
+                            url: "{{ route('rawatJalan.editRM') }}",
+                            method: "post",
+                            data: {id: id, formData: JSON.parse(JSON.stringify($('#editFormRM').serializeArray())) },
+                            success: function(data){
+                                console.log(data);
+                                Swal.fire({
+                                    type: 'success',
+                                    title: 'Berhasil!',
+                                    text: 'Pasien berhasil di daftar!',
+                                });
+                                $("#editRekmed").modal("hide")
+                                $("#editFormRM")[0].reset();
+                                $('#rekamMedisTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                })
+                return false;
+           
+        });
+
+        // save edited tindakan
+        $(document).on('click', '#editModalTindakan', function(){
+            id = $(this).attr('data-id');
+            console.log(id); 
+            Swal.fire({
+                    title: 'Harap Konfirmasi',
+                    text: "Simpan Data Tindakan Pasien Ini??",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Lanjutkan'
+                    }).then((result) => {
+                    
+                    if (result.value) {
+                        $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                            },
+                            url: "{{ route('rawatJalan.editTindakan') }}",
+                            method: "post",
+                            data: {id: id, formData: JSON.parse(JSON.stringify($('#editFormTindakan').serializeArray())) },
+                            success: function(data){
+                                console.log(data);
+                                Swal.fire({
+                                    type: 'success',
+                                    title: 'Berhasil!',
+                                    text: 'Pasien berhasil di daftar!',
+                                });
+                                $("#modal-edit-tindakan").modal("hide")
+                                $("#addFormTindakan")[0].reset();
+                                $('#tindakanTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                })
+                return false;
+           
         });
 
         $(document).on('click', '.closeEditRM', function(){
