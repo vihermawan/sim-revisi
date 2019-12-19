@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
 <div class="card">
 	<div class="card-header header-elements-inline">
 		<h5 class="card-title">Pendaftaran Pasien Baru</h5>

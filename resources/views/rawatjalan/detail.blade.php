@@ -372,7 +372,7 @@
                                     <select data-placeholder="Pilih Tindakan" class="form-control select select2"  name="tindakan" data-fouc>
                                         <option></option>
                                         @foreach($tindakan as $data)
-                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
+                                        <option value="{{$data->id}}" <?php echo ($data->id === $rawatJalan->id_dokter) ? 'selected' : ''; ?> >{{$data->nama_tindakan}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -424,6 +424,82 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
 				<button type="button" class="btn bg-primary" id="saveModalTindakan">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit tindakan modal -->
+<div id="modal-edit-tindakan" class="modal fade" tabindex="-1" data-backdrop="false">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Basic modal</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+                <form id="editFormTindakan">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tindakan</label>
+                                <div class="col-lg-9">
+                                    <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
+                                    <input type="hidden" name="status_proses" value="0"/>
+                                    <select id="select-tindakan" data-placeholder="Pilih Tindakan" class="form-control select select2" name="tindakan" data-fouc>
+                                        @foreach($tindakan as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Jumlah</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="jumlah-tindakan">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Unit</label>
+                                <div class="col-lg-9">
+                                    <select id="select-poli" class="form-control select select2"  name="poli">
+                                        @foreach($poli as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_poli}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Tanggal :</label>
+                                <div class="col-lg-9">
+                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Dokter</label>
+                                <div class="col-lg-9">
+                                    <select class="form-control select select2"  name="dokter">
+                                        @foreach($dokter as $data)
+                                        <option value="{{$data->id}}">{{$data->nama_dokter}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Catatan </label>
+                                <div class="col-lg-9">
+                                    <textarea  name="catatan" rows="3" cols="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal" id="closeModal">Close</button>
+				<button type="button" class="btn bg-primary" id="editModalTindakan">Save changes</button>
 			</div>
 		</div>
 	</div>
@@ -780,6 +856,49 @@
                     }
                
                     $("#editRekmed").modal("show")
+                }
+            });
+    
+        });
+
+        //edit tindakan
+        $(document).on('click', '#editTindakanBtn', function(){
+            id = $(this).attr('data-id');
+            $("#editModalTindakan").attr('data-id', id);
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+                },
+                url: "{{ route('rawatJalan.editDataTindakan') }}",
+                method: "get",
+                data: {id: id},
+                success: function(data){
+                    console.log(data);
+                    console.log(data.id_tindakan);
+                    if($('#select-tindakan option').select2().val() != data.id_tindakan){
+                        $('#select-tindakan option').select2().attr('selected',true);
+                    }
+                    $('#editFormTindakan input[name="jumlah-tindakan"]').val(data.jumlah);
+                    if($('#select-tindakan option').select2().val() != data.id_tindakan){
+                        $('#select-tindakan option').select2().attr('selected',true);
+                    }
+                    // $('#editFormTindakan textarea[name="pemeriksaan_penujang"]').text(data.pemeriksaan_penunjang);
+                    // $('#editFormTindakan textarea[name="pemeriksaan_fisik"]').text(data.pemeriksaan_fisik);
+                    // $('#editFormTindakan textarea[name="catatan"]').text(data.catatan);
+                    // $('#editFormTindakan #tanggal_edit').val(data.tanggal);
+
+                    // if($('#editJenisKasus option').select2().val() !== data.kasus_diagnosa){
+                    //     $('#editJenisKasus option').select2().attr('selected','selected');  
+                    // }
+                   
+                    // if($('#jenis_diagnosa option').select2().val() !== data.jenis_diagnosa){
+                    //     $('#jenis_diagnosa  option').select2().attr('selected', 'selected');  
+                    //     console.log('true')
+                    // }else{
+                    //     console.log('false');
+                    // }
+               
+                    $("#modal-edit-tindakan").modal("show")
                 }
             });
     

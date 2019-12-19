@@ -43,7 +43,7 @@ class TindakanMedisController extends Controller
                         ->join('dokter','transaksi_tindakan_medis_jalan.id_dokter','=','dokter.id')
                         ->select('transaksi_tindakan_medis_jalan.*', 'transaksi_tindakan_medis_jalan.id as id_transaksi_tindakan_medis_jalan', 'pasien.*', 'dokter.*', 'tindakan.*', 'poli.*')
                         ->where('transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id'])
-                        ->get(); 
+                        ->get();
                     
         $data = [];
         foreach($tindakan as $value) {
@@ -92,7 +92,9 @@ class TindakanMedisController extends Controller
 
     public function editDataTindakan(Request $req)
     {
-        return TransaksiTindakanRawatJalan::find($req['id']);
+        $tindakan = TransaksiTindakanRawatJalan::with(['tindakan', 'poli', 'pasien', 'dokter'])->find($req['id']);
+
+        return $tindakan;
     }
 
     public function editTindakan(Request $req)
