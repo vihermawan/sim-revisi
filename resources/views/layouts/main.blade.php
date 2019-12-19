@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <title>Sistem Informasi Rumah Sakit</title>
+  <title>Sistem Informasi Klinik</title>
 
   <!-- Global stylesheets -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -346,7 +346,7 @@
 				<li class="nav-item dropdown dropdown-user">
 					<a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
 						<img src="../../../../global_assets/images/placeholders/placeholder.jpg" class="rounded-circle mr-2" height="34" alt="">
-						<span>Victoria</span>
+						<span>{{ Auth::user()->nama_user }}</span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
@@ -406,9 +406,9 @@
 							</div>
 
 							<div class="media-body">
-								<div class="media-title font-weight-semibold">Victoria Baker</div>
+								<div class="media-title font-weight-semibold">{{ Auth::user()->nama_user }}</div>
 								<div class="font-size-xs opacity-50">
-									<i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
+									<i class="icon-pin font-size-sm"></i> &nbsp;{{ Auth::user()->email}}
 								</div>
 							</div>
 

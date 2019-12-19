@@ -271,8 +271,7 @@ class PasienController extends Controller
      */
     public function update(Request $req)
     {
-        $pasien                     = Pasien::find($req->id);
-        $pasien->id                 = $req->formData[0]["value"];
+        $pasien                     = Pasien::find($req->formData[0]["value"]);
         $pasien->nama_pasien        = $req->formData[1]["value"];
         $pasien->no_identitas       = $req->formData[2]["value"];
         $pasien->jenis_kelamin      = $req->formData[3]["value"];
