@@ -94,7 +94,7 @@ class TindakanMedisController extends Controller
     {
         $tindakan = TransaksiTindakanRawatJalan::with(['tindakan', 'poli', 'pasien', 'dokter'])->find($req['id']);
 
-        return view('rawatjalan.detail', ['tindakan' => $tindakan]);
+        return $tindakan;
     }
 
     public function editTindakan(Request $req)

@@ -447,7 +447,6 @@
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
                                     <input type="hidden" name="status_proses" value="0"/>
                                     <select id="select-tindakan" data-placeholder="Pilih Tindakan" class="form-control select select2" name="tindakan" data-fouc>
-                                        <option></option>
                                         @foreach($tindakan as $data)
                                         <option value="{{$data->id}}">{{$data->nama_tindakan}}</option>
                                         @endforeach
@@ -463,7 +462,7 @@
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Unit</label>
                                 <div class="col-lg-9">
-                                    <select class="form-control select select2"  name="poli">
+                                    <select id="select-poli" class="form-control select select2"  name="poli">
                                         @foreach($poli as $data)
                                         <option value="{{$data->id}}">{{$data->nama_poli}}</option>
                                         @endforeach
@@ -483,7 +482,7 @@
                                 <div class="col-lg-9">
                                     <select class="form-control select select2"  name="dokter">
                                         @foreach($dokter as $data)
-                                        <option value="{{$data->id}}" <?php echo ($data->id === $tindakan->id_dokter) ? 'selected' : '';?>>{{$data->nama_dokter}}</option>
+                                        <option value="{{$data->id}}">{{$data->nama_dokter}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -875,12 +874,14 @@
                 data: {id: id},
                 success: function(data){
                     console.log(data);
-                    // $('#select-tindakan option[value=' + 1 + ']').attr('selected', true);
-                    if($('#select-tindakan option').select2().val() == data.id){
-                        $('#select-tindakan option').select2().prop('selected',true).val();
-                    }
                     console.log(data.id_tindakan);
+                    if($('#select-tindakan option').select2().val() != data.id_tindakan){
+                        $('#select-tindakan option').select2().attr('selected',true);
+                    }
                     $('#editFormTindakan input[name="jumlah-tindakan"]').val(data.jumlah);
+                    if($('#select-tindakan option').select2().val() != data.id_tindakan){
+                        $('#select-tindakan option').select2().attr('selected',true);
+                    }
                     // $('#editFormTindakan textarea[name="pemeriksaan_penujang"]').text(data.pemeriksaan_penunjang);
                     // $('#editFormTindakan textarea[name="pemeriksaan_fisik"]').text(data.pemeriksaan_fisik);
                     // $('#editFormTindakan textarea[name="catatan"]').text(data.catatan);
