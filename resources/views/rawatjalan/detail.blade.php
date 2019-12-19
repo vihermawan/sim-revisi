@@ -119,11 +119,31 @@
                 </div>
                 <div class="tab-pane fade" id="top-justified-tab3">
                     <div class="row">
-                        <div class="col-md-12 text-right">
+                        <div class="col-md-6 text-left">
+                            <h3>Tabel Tindakan</h3>
+                        </div>
+                        <div class="col-md-6 text-right">
                             <button class="btn bg-success" id="tambahTindakan">Tambah Tindakan</button>
                         </div>
                     </div>
-                   <table class="table datatable-basic" id="tindakanTable">
+                    <table class="table datatable-basic" id="tindakanTable">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Dokter</th>
+                                <th>Tindakan</th>
+                                <th>Data</th>
+                                <th>ICD9-CM</th>
+                                <th>Jenis Rawat</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12 text-left">
+                            <h3>Tabel Tindakan Diproses</h3>
+                        </div>
+                    </div>
+                    <table class="table datatable-basic" id="tindakanDiprosesTable">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>

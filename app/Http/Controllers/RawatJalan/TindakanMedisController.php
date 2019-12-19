@@ -42,7 +42,9 @@ class TindakanMedisController extends Controller
                         ->join('pasien','transaksi_tindakan_medis_jalan.id_pasien','=','pasien.id')
                         ->join('dokter','transaksi_tindakan_medis_jalan.id_dokter','=','dokter.id')
                         ->select('transaksi_tindakan_medis_jalan.*', 'transaksi_tindakan_medis_jalan.id as id_transaksi_tindakan_medis_jalan', 'pasien.*', 'dokter.*', 'tindakan.*', 'poli.*')
-                        ->where('transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id'])
+                        ->where([
+                            ['transaksi_tindakan_medis_jalan.id_pasien','=' ,$req['id']],
+                            ])
                         ->get();
                     
         $data = [];

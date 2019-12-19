@@ -136,9 +136,9 @@
 							</div>
 
 							<div class="media-body">
-								<div class="media-title font-weight-semibold">{{ Auth::user()->nama_user }}</div>
+								{{-- <div class="media-title font-weight-semibold">{{ Auth::user()->nama_user }}</div> --}}
 								<div class="font-size-xs opacity-50">
-									<i class="icon-pin font-size-sm"></i> &nbsp;{{ Auth::user()->email}}
+									{{-- <i class="icon-pin font-size-sm"></i> &nbsp;{{ Auth::user()->email}} --}}
 								</div>
 							</div>
 
