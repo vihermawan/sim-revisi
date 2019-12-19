@@ -11,7 +11,9 @@
 	</div>
 
 	<div class="card-header header-elements-inline">
-        <button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Tindakan</button>
+        @if(Auth::user()->id_role == "1")
+            <button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Tindakan</button>
+        @endif
     </div>
 
 	<table id="tindakan-tables" class="table datatable-basic">

@@ -57,6 +57,14 @@
                      name: 'alamat',
                      data: 'alamat',
                   },
+                  {
+                     name: 'status',
+                     data: 'status',
+
+                     render: function(data){
+                        return data == '0' ? 'Menginap' : 'Pulang';
+                     }
+                  },
                ]
             });
          });

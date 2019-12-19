@@ -20,7 +20,9 @@
                 <th>Tanggal Lahir</th>
                 <th>Tipe Pasien</th>
                 <th>Alamat</th>
-                <th class="text-center">Actions</th>
+                @if(Auth::user()->id_role == "4")
+                    <th class="text-center">Actions</th>
+                @endif
             </tr>
         </thead>
     </table>
@@ -125,9 +127,15 @@
                prossessing: true,
                serverside: true,
                "bDestroy": true,
+               @if(Auth::user()->id_role == "4")
                "columnDefs": [
                     { className: "text-center", "targets": [ 6 ] }
                 ],
+                @endif
+                "columnDefs": [
+                    { className: "text-center", "targets": [ 5 ] }
+                ],
+                
                ajax: '{!! route('pasien.dataJSON') !!}',
                columns: [
                   { name: 'id', data: 'id' },
@@ -155,10 +163,12 @@
                      name: 'alamat',
                      data: 'alamat',
                   },
+                  @if(Auth::user()->id_role == "4")
                   {
                      name: 'action',
                      data: 'action',
                   },
+                  @endif
 
                ]
             });

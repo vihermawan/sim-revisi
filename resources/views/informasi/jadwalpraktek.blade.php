@@ -18,8 +18,10 @@
 				<th>Hari Buka</th>
 				<th>Waktu Buka</th>
 				<th>Waktu Tutup</th>
-				<th>Nama Dokter</th>
-				<th class="text-center">Actions</th>
+            <th>Nama Dokter</th>
+            @if(Auth::user()->id_role == "4")
+            <th class="text-center">Actions</th>
+            @endif
 			</tr>
 		</thead>
 	</table>
@@ -37,8 +39,12 @@
                serverside: true,
                "bDestroy": true,
                "columnDefs": [
-                    { className: "text-center", "targets": [ 6 ] }
+                    { className: "text-center", "targets": [ 5 ] }
                 ],
+                @if(Auth::user()->id_role == "4")
+                { className: "text-center", "targets": [ 6 ] }
+                ],
+                @endif
                ajax: '{!! route('jadwal.dataJSON') !!}',
                columns: [
 				  { name: 'id_dokter', data: 'DT_RowIndex' },
@@ -62,10 +68,12 @@
                      name: 'nama_dokter',
                      data: 'nama_dokter',
                   },
+                  @if(Auth::user()->id_role == "4")
                   {
                      name: 'action',
                      data: 'action',
                   },
+                  @endif
 
                ]
             });

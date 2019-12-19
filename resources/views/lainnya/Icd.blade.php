@@ -11,15 +11,19 @@
 	</div>
 
 	<div class="card-header header-elements-inline">
-        <button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah ICD</button>
+        @if(Auth::user()->id_role == "1")
+            <button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah ICD</button>
+        @endif
     </div>
 
 	<table id="icd-tables" class="table datatable-basic">
 		<thead>
 			<tr>
 				<th>No</th>
-				<th>Nama ICD </th>
-				<th class="text-center">Actions</th>
+                <th>Nama ICD </th>
+                @if(Auth::user()->id_role == "1")
+                    <th class="text-center">Actions</th>
+                @endif
 			</tr>
 		</thead>
 	</table>
@@ -233,8 +237,13 @@
             prossessing: true,
             serverside: true,
             "bDestroy": true,
+            @if(Auth::user()->id_role == "1")
+               "columnDefs": [
+                    { className: "text-center", "targets": [ 2 ] }
+                ],
+            @endif
             "columnDefs": [
-                { className: "text-center", "targets": [ 2 ] }
+                { className: "text-center", "targets": [ 1 ] }
             ],
             ajax: '{!! route('icd.dataJSON') !!}',
             columns: [
@@ -243,10 +252,12 @@
                     name: 'nama_icd',
                     data: 'nama_icd'
                 },
+                @if(Auth::user()->id_role == "1")
                 {
                     name: 'action',
                     data: 'action',
                 },
+                @endif
             ]
         });
     });
