@@ -159,6 +159,7 @@
 	$(document).on('click', '.mutasi-pasien', function(){
 		$("#mutasi-modal").modal("show");
 		let idRawatJalan = $(this).attr("id");
+		let id_pasien = $(this).attr("data-idPasien");
 
 		$('#ruang').DataTable({
 			prossessing: true,
@@ -205,11 +206,12 @@
 					},
 					url: "{{ route('rawatJalan.mutasi-pasien') }}",
 					method: "post",
-					data: {idRawatJalan: idRawatJalan, idRuang: $(this).attr("id"), tanggal: $('.tanggal').val()},
+					data: {id_pasien: id_pasien, idRawatJalan: idRawatJalan, idRuang: $(this).attr("id"), tanggal: $('.tanggal').val()},
 					success: function(data){
 						console.log(data);
 						$('#mutasi-proses').DataTable().ajax.reload();
 						$("#mutasi-modal").modal("hide");
+						$('#transaksi').DataTable().ajax.reload();
 						Swal.fire({
 							type: 'success',
 							title: 'Berhasil!',
@@ -245,7 +247,7 @@
 						data: {id: $(this).attr("id")},
 						success: function(data){
 							console.log(data);
-							$('#rajal-invoice').DataTable().ajax.reload();
+							$('#transaksi').DataTable().ajax.reload();
 							Swal.fire({
 								type: 'success',
 								title: 'Berhasil!',

@@ -24,6 +24,7 @@ class RekamMedisController extends Controller
                         ->join('icd','rekam_medis.id_icd','=','icd.id')
                         ->select('rekam_medis.*', 'rekam_medis.id as id_rekam_medis', 'pasien.*', 'dokter.*', 'icd.*')
                         ->where('rekam_medis.id_pasien','=' ,$req['id'])
+                        ->where('rekam_medis.status_rawat', '=', $req['status_rawat'])
                         ->get(); 
                     
         $data = [];
@@ -75,6 +76,7 @@ class RekamMedisController extends Controller
         //TODO: auth
         // $daftar->id_user =  1;
         $daftar->save();
+        return $req;
     
     }
     public function editRM(Request $req)

@@ -18,6 +18,7 @@ class CreateDaftarRawatInapTable extends Migration
             $table->datetime('tanggal_mutasi');
             $table->bigInteger('id_ruang')->unsigned();
             $table->bigInteger('id_transaksi_rawat_jalan')->unsigned();
+            $table->bigInteger('id_pasien')->unsigned();
             $table->integer('status')->default(0);
             $table->timestamps();   
         });

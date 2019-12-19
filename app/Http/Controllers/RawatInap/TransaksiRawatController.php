@@ -3,6 +3,14 @@
 namespace App\Http\Controllers\RawatInap;
 
 use DB;
+use App\Icd;
+use App\Poli;
+use App\Ruang;
+use App\Dokter;
+use App\Pasien;
+use App\Tindakan;
+use App\DaftarRawatInap;
+use App\DaftarRawatJalan;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use App\Helpers\FunctionHelper;
@@ -30,8 +38,8 @@ class TransaksiRawatController extends Controller
         $data = [];
         foreach($daftar as $rawatJalan) {
             $data[] = [
-                'id' => $rawatJalan->id_rawat_jalan,
-                'id_rawat_inap' => $rawatJalan->id_rawat_inap,
+                'id_rawat_jalan' => $rawatJalan->id_rawat_jalan,
+                'id' => $rawatJalan->id_rawat_inap,
                 'id_pasien' => $rawatJalan->id_pasien,
                 'nama_pasien' => $rawatJalan->nama_pasien,
                 'tanggal_lahir' => $rawatJalan->tanggal_lahir,
@@ -42,8 +50,8 @@ class TransaksiRawatController extends Controller
         return Datatables::of($data)
         ->addColumn('tindakan', function ($data){
             return'
-            <a href="'.route('rawatJalan.detailPasien', $data['id']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
-            <button type="button" id="'.$data['id_rawat_inap'].'" class="btn btn-primary btn-labeled btn-labeled-left btn-sm ranip-invoice"><b><i class="icon-pencil5"></i></b>Invoice</button>
+            <a href="'.route('rawatInap.detailPasien', $data['id_pasien']).'" ><button type="button" id="'.$data['id'].'" class="btn btn-success btn-labeled btn-labeled-left btn-sm detail-rawatJalan"><b><i class="icon-pencil5"></i></b>Detail</button></a>
+            <button type="button" id="'.$data['id'].'" class="btn btn-primary btn-labeled btn-labeled-left btn-sm ranip-invoice"><b><i class="icon-pencil5"></i></b>Invoice</button>
           
             ';
         })
@@ -56,6 +64,35 @@ class TransaksiRawatController extends Controller
     {
         $menus = FunctionHelper::callMenu();
         return view('rawatinap.transaksi', ['menus' => $menus]);
+    }
+
+    public function detailPasien(Request $req) {
+        $pasien = Pasien::find($req->id);
+
+        $rawatJalan = DB::table('daftar_rawat_jalan')
+                        ->join('pasien','daftar_rawat_jalan.id_pasien','=','pasien.id')
+                        ->join('poli','daftar_rawat_jalan.id_poli', '=', 'poli.id')
+                        ->join('dokter','daftar_rawat_jalan.id_dokter','=','dokter.id')
+                        ->join('diagnosa','daftar_rawat_jalan.id_diagnosa','=','diagnosa.id')
+                        ->join('icd','daftar_rawat_jalan.id_icd','=','icd.id')
+                        ->select('daftar_rawat_jalan.*', 'daftar_rawat_jalan.id as id_rawat_jalan', 'pasien.*', 'pasien.id as id_pasien')
+                        ->where('daftar_rawat_jalan.id','=' ,$req['id'])
+                        ->first(); 
+
+        $poli     = Poli::all();
+        $dokter   = Dokter::all();
+        $icd      = Icd::all();
+        $tindakan = Tindakan::all();
+        $menus = FunctionHelper::callMenu();
+        return view('rawatinap.detail', [
+                                'icd' => $icd,
+                                'poli' => $poli,
+                                'dokter'=> $dokter,
+                                'menus' => $menus,
+                                'pasien' => $pasien,
+                                'rawatJalan' => $rawatJalan,
+                                'tindakan' => $tindakan
+                            ]);
     }
 
     /**

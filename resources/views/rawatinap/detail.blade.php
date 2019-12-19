@@ -111,7 +111,7 @@
                                 <th>Anamnesa</th>
                                 <th>P.Fisik</th>
                                 <th>P.Penunjang</th>
-                                <th>Jenis Kasus</th>
+                                <th>Jenis</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -151,14 +151,14 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-                <form id="addFormRM">
+                <form id="abcd">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Anamnesa </label>
                                 <div class="col-lg-9">
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_rawat" value="0"/>
+                                    <input type="hidden" name="status_rawat" value="1"/>
                                     <textarea  name="anamnesa" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
                                 <label class="col-lg-3 col-form-label">Anamnesa </label>
                                 <div class="col-lg-9">
                                     <input type="hidden" name="id_pasien" value="{{$rawatJalan->id_pasien}}"/>
-                                    <input type="hidden" name="status_rawat" value="0"/>
+                                    <input type="hidden" name="status_rawat" value="1"/>
                                     <textarea  name="anamnesa" rows="3" cols="3" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -443,7 +443,7 @@
             $(document).on('click', '#saveModalRM', function(){
                 Swal.fire({
                     title: 'Harap Konfirmasi',
-                    text: "Apalah data rekam medis sudah benar??",
+                    text: "Pasien masih memiliki tagihan, lanjutkan pendaftaran??",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -458,7 +458,7 @@
                             },
                             url: "{{ route('rawatJalan.tambahRM') }}",
                             method: "post",
-                            data: {formData: JSON.parse(JSON.stringify($('#addFormRM').serializeArray())) },
+                            data: {formData: JSON.parse(JSON.stringify($('#abcd').serializeArray())) },
                             success: function(data){
                                 console.log(data);
                                 Swal.fire({
@@ -466,7 +466,7 @@
                                     title: 'Berhasil!',
                                     text: 'Pasien berhasil di daftar!',
                                 });
-                                $("#addFormRM")[0].reset();
+                                $("#abcd")[0].reset();
                                 $("#modal_default").modal('hide');
                                 $('#rekamMedisTable').DataTable().ajax.reload();
                             }
@@ -596,7 +596,7 @@
 			"bDestroy": true,
 			ajax: {
 				url : "{{ route('rawatJalan.detailRMJSON') }}",
-				data: {id: $("#idPasien").val(), status_rawat: 0}
+				data: {id: $("#idPasien").val(), status_rawat: 1}
 			},
 			columns: [
 			{
@@ -821,7 +821,7 @@
                                     text: 'Pasien berhasil di daftar!',
                                 });
                                 $("#editRekmed").modal("hide")
-                                $("#addFormRM")[0].reset();
+                                $("#abcd")[0].reset();
                                 $("#modal_default").modal('hide');
                                 $('#rekamMedisTable').DataTable().ajax.reload();
                             }
