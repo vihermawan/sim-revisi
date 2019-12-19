@@ -7,11 +7,11 @@
 @section('content')
 <div class="card">
 	<div class="card-header header-elements-inline">
-		<h5 class="card-title">Basic datatable</h5>
+		<h5 class="card-title">Tabel User</h5>
 	</div>
 
 	<div class="card-header header-elements-inline">
-		@if($create)
+		@if(Auth::user()->id_role == "1")
 			<button type="button" class="btn bg-success btn-labeled btn-labeled-left" data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah User Baru</button>
 		@endif
 		

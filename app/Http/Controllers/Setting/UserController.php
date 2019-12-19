@@ -7,6 +7,7 @@ use App\Role;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\FunctionHelper;
 class UserController extends Controller
@@ -19,6 +20,8 @@ class UserController extends Controller
     public function index()
     {
         $menus = FunctionHelper::callMenu();
+
+        // $menus = MenuController::index();
 
         $users = User::with('role')->orderBy('nama_user', 'asc')->get();
         $roles = Role::orderBy('nama_role', 'asc')->get();
