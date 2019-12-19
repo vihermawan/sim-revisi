@@ -222,7 +222,7 @@
 
             </div>
             <div class="text-right">
-                <button type="button" class="btn btn-primary add_data">Simpan Data</button>
+                <button type="button" class="btn btn-primary edit_data">Simpan Data</button>
             </div>
         </form>
     </div>  
@@ -234,26 +234,27 @@
 
     //add pendaftaran
 
-    $(document).on('click', '.add_data', function(e){
+    $(document).on('click', '.edit_data', function(e){
         e.preventDefault();
-
-        $.ajax({
+         var id = $(this).attr("id");
+        
+         $.ajax({
             headers: {
                'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
             },
-            url: "{{ route('pendaftaran.addPendaftaran')}}",
+            url: "{{ route('pasien.editPasien')}}",
             method: "post",
-            data: {formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
+            data: {id: id, formData: JSON.parse(JSON.stringify($('#editForm').serializeArray())) },
             success: function(data){
-               console.log('data', data)
                Swal.fire({
                   type: 'success',
-                  title: 'Data berhasil di ditambah!',
-                  text: 'Data anda telah berhasil ditambahkan!',
+                  title: 'Pasien berhasil di ubah!',
+                  text: 'Pasien yang anda pilih telah diubah!',
                });
                window.location.href = "{{ route('pasien')}}";
             }
-         });  
+         });
+        
       });
 </script>
 
