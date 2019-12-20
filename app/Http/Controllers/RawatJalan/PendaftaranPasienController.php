@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RawatJalan;
 use DB;
 use App\Poli;
 use Response;
+use Validator;
 use App\Pasien;
 use App\Dokter;
 use App\Diagnosa;
@@ -39,6 +40,8 @@ class PendaftaranPasienController extends Controller
     }
 
     public function searchPasien(Request $req) {
+
+        
 
         $pasien = Pasien::where('nama_pasien','like','%'.$req['q'].'%')     
                         ->orWhere('id','like','%'.$req['q'].'%')    
@@ -81,17 +84,32 @@ class PendaftaranPasienController extends Controller
 
     public function daftar(Request $req) {
 
-        $daftar = new DaftarRawatJalan;
-        $daftar->id_pasien = $req->formData[0]["value"];
-        $daftar->id_diagnosa = $req->formData[1]["value"];
-        $daftar->id_poli = $req->formData[2]["value"];
-        $daftar->tanggal_kunjungan = date('Y-m-d');
-        $daftar->id_icd =  1;
-        $daftar->keterangan = $req->formData[3]["value"]; ;
-        $daftar->id_dokter = $req['idDokter'];
-        //TODO: auth
-        $daftar->id_user =  1;
-        $daftar->save();
+        $validator = Validator::make($req->all(), [
+            'pasien' => 'required',
+            'diagnosa' => 'required',
+            'poli' => 'required',
+            'keterangan' => 'required'
+        ]);
+        
+        if ($validator->passes()) {
+            $daftar = new DaftarRawatJalan;
+            $daftar->id_pasien = $req->formData[0]["value"];
+            $daftar->id_diagnosa = $req->formData[1]["value"];
+            $daftar->id_poli = $req->formData[2]["value"];
+            $daftar->tanggal_kunjungan = date('Y-m-d');
+            $daftar->id_icd =  1;
+            $daftar->keterangan = $req->formData[3]["value"]; ;
+            $daftar->id_dokter = $req['idDokter'];
+            //TODO: auth
+            $daftar->id_user =  1;
+            $daftar->save();
+            return response()->json(['success'=>'Added new records.']);
+        }else {
+            return response()->json(['error'=>$validator->errors()->all()]);
+        }
+
+
+    	
     }
 
     /**

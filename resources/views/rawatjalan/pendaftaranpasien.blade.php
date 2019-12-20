@@ -14,11 +14,15 @@
         <form id="addForm" name="addForm">
             <div class="row">
             	<div class="col-md-6">
+				<div class="alert alert-danger print-error-msg" style="display:none">
+					<ul></ul>
+				</div>
                     <fieldset>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Pasien </label>
                             <div class="col-lg-9">
                                 <input type="text" class="form-control search-pasien" placeholder="Masukkan Nama Pasien" name="pasien" id="searchPasien">
+								<div id="pasienValidation" style="color:red; margin-top:5px;"></div>
 							</div>
 						</div>
 						
@@ -37,7 +41,9 @@
                                     @foreach($diagnosa as $data)
 									<option value="{{$data->id}}">{{$data->alasan_diagnosa}}</option>
 									@endforeach
+									<div id="diagnosaValidation" style="color:red; margin-top:5px;"></div>
                                 </select>
+								
 							</div>
 						</div>
 						<div class="form-group row">
@@ -48,14 +54,17 @@
                                     @foreach($poli as $data)
 									<option value="{{$data->id}}">{{$data->nama_poli}}</option>
 									@endforeach
+									<div id="poliValidation" style="color:red; margin-top:5px;"></div>
                                 </select>
+								
 							</div>
 						</div>
 
 						<div class="form-group row">
                             <label class="col-lg-3 col-form-label">Keterangan </label>
                             <div class="col-lg-9">
-                                <textarea class="form-control" name="keterangan"></textarea> 
+                                <textarea id="ketket" class="form-control" name="keterangan"></textarea> 
+								<div id="ketValidation" style="color:red; margin-top:5px;"></div>
 							</div>
 						</div>
                     </fieldset>
@@ -234,21 +243,41 @@ $(document).ready(function(){
 					},
 					url: "{{ route('rawatJalan.daftar') }}",
 					method: "post",
-					data: {idDokter:idDokter, formData: JSON.parse(JSON.stringify($('#addForm').serializeArray())) },
+					data: {
+						idDokter:idDokter,
+						pasien: $("input[name='pasien']").val(),
+						diagnosa: $("select[name='diagnosa']").val(),
+						poli: $("select[name='poli']").val(),
+						keterangan: $("#ketket").val(),
+						formData: JSON.parse(JSON.stringify($('#addForm').serializeArray()))
+						
+					},
 					success: function(data){
 						console.log(data);
-						$("#addForm")[0].reset();
-						$('#namaPasien').html('');  
-						$('#detailPasien').html('');  
-						Swal.fire({
-							type: 'success',
-							title: 'Berhasil!',
-							text: 'Pasien berhasil di daftar!',
-						});
+						if($.isEmptyObject(data.error)){
+                        	
+							$("#addForm")[0].reset();
+							$('#namaPasien').html('');  
+							$('#detailPasien').html('');  
+							Swal.fire({
+								type: 'success',
+								title: 'Berhasil!',
+								text: 'Pasien berhasil di daftar!',
+							});
+						}else{
+							printErrorMsg(data.error);
+						}
 					}
 				});
 			}
-		})
+		});
+		function printErrorMsg (msg) {
+            $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display','block');
+            $.each( msg, function( key, value ) {
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+            });
+        }
     });
 
  });
