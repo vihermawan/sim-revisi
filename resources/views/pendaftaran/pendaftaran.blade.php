@@ -23,8 +23,10 @@
 				<th>Nama Pasien</th>
 				<th>Tanggal Kunjungan</th>
 				<th>No Identitas</th>
-				<th>Tanggal Lahir</th>
-				<th class="text-center">Actions</th>
+                <th>Tanggal Lahir</th>
+                
+                    <th class="text-center">Actions</th>
+                
 			</tr>
 		</thead>
 

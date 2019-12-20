@@ -11,8 +11,10 @@
     </div>
     
     <div class="card-header">
-        <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Dokter</button>
-    </div>
+        @if(Auth::user()->id_role == "1")
+            <button type="button" class="btn bg-success btn-labeled btn-labeled-left"  data-toggle="modal" data-target="#add-modal"><b><i class="icon-reading"></i></b> Tambah Dokter</button>
+        @endif
+        </div>
     
 	<table class="table datatable-basic" id="dokter-tables">
 		<thead>
@@ -22,8 +24,10 @@
 				<th>Waktu Buka</th>
                 <th>Waktu Tutup</th>
 				<th>Poli</th>
-				<th>Hari Buka</th>
-				<th class="text-center">Actions</th>
+                <th>Hari Buka</th>
+                @if(Auth::user()->id_role == "1")
+                    <th class="text-center">Actions</th>
+                @endif
 			</tr>
 		</thead>
     </table>
@@ -367,9 +371,15 @@
                prossessing: true,
                serverside: true,
                "bDestroy": true,
+               @if(Auth::user()->id_role == "1")
                "columnDefs": [
                     { className: "text-center", "targets": [ 6 ] }
                 ],
+                @endif
+               "columnDefs": [
+                    { className: "text-center", "targets": [ 5 ] }
+                ],
+                
                ajax: '{!! route('dokter.dataJSON') !!}',
                columns: [
                   { name: 'id', data: 'DT_RowIndex' },
@@ -393,10 +403,12 @@
                      name: 'hari_buka',
                      data: 'hari_buka',
                   },
+                  @if(Auth::user()->id_role == "1")
                   {
                      name: 'action',
                      data: 'action',
                   },
+                  @endif
 
                ]
             });
