@@ -47,23 +47,44 @@
 							<img src="https://indok3ll.com/wp-content/uploads/2018/12/kesehatan-icon.png" class="mb-4" width="120px">							
 								<h1 class="font-weight-semibold ">LOGIN SISTEM INFORMASI KLINIK</h1>
 								<div class="card-body">
-									<form action="#">
+									<form method="POST" action="{{ route('login') }}">
+										@csrf
 										<fieldset class="mb-0">
 											<div class="form-group">
 												<div class="form-group form-group-feedback form-group-feedback-left">
-													<input type="text" class="form-control form-control-lg" placeholder="Username">
+									
+													<input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus  placeholder="Username">
 													<div class="form-control-feedback form-control-feedback-lg">
 														<i class="icon-user"></i>
 													</div>
+													@error('email')
+													<span class="invalid-feedback" role="alert">
+														<strong>{{ $message }}</strong>
+													</span>
+												@enderror
 												</div>
 												<div class="form-group form-group-feedback form-group-feedback-left">
-													<input type="password" class="form-control form-control-lg" placeholder="Password">
+													<input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required autocomplete="current-password"  placeholder="Password">
 													<div class="form-control-feedback form-control-feedback-lg">
 															<i class="icon-lock	"></i>
 													</div>
+													@error('password')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
 												</div>
 												<a href="#"><p align="right"><i class="icon-unlocked small"></i> Lupa Password</p></a>
 												<button class="btn btn-primary btn-lg px-5 py-2 font-weight-bold">LOGIN</button><br><br>
+												<button type="submit" class="btn btn-primary btn-lg px-5 py-2 font-weight-bold">
+													{{ __('Login') }}
+												</button>
+
+												@if (Route::has('password.request'))
+													<a class="btn btn-link" href="{{ route('password.request') }}">
+														{{ __('Forgot Your Password?') }}
+													</a>
+												@endif
 												<button type="button" class="btn btn-outline btn-lg alpha-primary text-primary"><a href="{{'register'}}">Buat Akun Baru</a></button>
 												<br><br>
 												<p>KOMSI | Universitas Gadjah Mada 2019</p>
